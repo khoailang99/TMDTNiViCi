@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMDTNiViCi", "TMDTNiViCi\TMDTNiViCi.csproj", "{331B8010-44B4-45FA-AE1B-A1ECEB596807}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMDTNiViCi.Model", "TMDTNiViCi.Model\TMDTNiViCi.Model.csproj", "{5F5C6BD1-0199-4AE7-A9DF-2FB6DD38324B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{331B8010-44B4-45FA-AE1B-A1ECEB596807}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{331B8010-44B4-45FA-AE1B-A1ECEB596807}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{331B8010-44B4-45FA-AE1B-A1ECEB596807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5C6BD1-0199-4AE7-A9DF-2FB6DD38324B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5C6BD1-0199-4AE7-A9DF-2FB6DD38324B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5C6BD1-0199-4AE7-A9DF-2FB6DD38324B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5C6BD1-0199-4AE7-A9DF-2FB6DD38324B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
