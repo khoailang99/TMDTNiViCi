@@ -1,0 +1,43 @@
+﻿/*!
+    * Start Bootstrap - SB Admin v6.0.0 (https://startbootstrap.com/templates/sb-admin)
+    * Copyright 2013-2020 Start Bootstrap
+    * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
+    */
+(function ($) {
+    "use strict";
+
+    // Declare variables for tab jobs
+    var previousTab = 0;
+    var tabs = document.querySelectorAll(".tablinks");
+    var tabcontents = document.querySelectorAll(".NiViCi-tabs__tab-content");
+
+    // Add active state to sidbar nav links
+    var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+    $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function () {
+        if (this.href === path) {
+            $(this).addClass("active");
+        }
+    });
+
+    // Toggle the side navigation
+    $("#sidebarToggle").on("click", function (e) {
+        e.preventDefault();
+        $("body").toggleClass("sb-sidenav-toggled");
+    });
+
+    // Handle evevts on tabs
+    tabs.forEach((item, index) => {
+        (function (index) {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (index != previousTab) {
+                    tabs[previousTab].classList.remove("tabcontent-focusIn");
+                    tabcontents[previousTab].classList.remove("tabcontent-focusIn")
+                    previousTab = index;
+                    tabs[index].classList.add("tabcontent-focusIn");
+                    tabcontents[index].classList.add("tabcontent-focusIn");
+                }
+            });
+        })(index);
+    });
+})(jQuery);
