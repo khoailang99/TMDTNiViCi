@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+
+@model TMDTNiViCi.Areas.admin.Models.LoginModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Quản trị hệ thống</title>
+    <link href="~/Assets/admin/css/styles.css" rel="stylesheet" />
+    <link href="~/Assets/admin/css/Login/AdminLogin.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <a href="~/Areas/Admin/Views/Login/Index.cshtml">~/Areas/Admin/Views/Login/Index.cshtml</a>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light" style="margin: 0.5rem 0">Đăng Nhập</h3>
+                                </div>
+                                <div class="card-body">
+                                    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                                    {
+                                        @*@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })*@
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">Tên đăng nhập:</label>
+                                            @Html.TextBoxFor(model => model.AccountName, new { @class = "form-control py-4", @id = "inputAcc", @placeholder = "Tên tài khoản" })
+                                            <span class="width_common error_mess" id="login-account-sm-err"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputPassword">Mật khẩu:</label>
+                                            @Html.PasswordFor(model => model.PassWord, new { @class = "form-control py-4", @id = "inputPwd", @placeholder = "Mật khẩu" })
+                                            <span class="icon_eye_show_null icon_input ">
+                                                <svg class="icon eye-show">
+                                                    <use xlink:href="#eye-show" style="fill: #828282">
+                                                        <svg id="eye-show" viewBox="0 0 32 32">
+                                                            <title>eye-show</title>
+                                                            <path d="M31.631 15.023c-3.133-5.408-8.975-9.023-15.631-9.023-6.659 0-12.5 3.617-15.631 9.023-0.242 0.417-0.369 0.893-0.369 1.377s0.128 0.96 0.369 1.377c3.132 5.408 8.975 9.023 15.631 9.023 6.659 0 12.5-3.617 15.631-9.023 0.242-0.417 0.369-0.893 0.369-1.377s-0.127-0.96-0.369-1.377v0zM16 24.087c-4.176 0-7.556-3.438-7.556-7.687s3.379-7.687 7.556-7.687c4.176 0 7.556 3.438 7.556 7.687s-3.379 7.687-7.556 7.687zM21.778 16.4c0 3.247-2.587 5.878-5.778 5.878s-5.778-2.632-5.778-5.878c0-1.001 0.246-1.943 0.68-2.768l-0 0.002c0 1.337 1.065 2.42 2.379 2.42s2.379-1.084 2.379-2.42c0-1.337-1.065-2.42-2.379-2.42l-0.002 0c0.811-0.441 1.737-0.692 2.721-0.692 3.191 0 5.778 2.632 5.778 5.878z"></path>
+                                                        </svg>
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                            <span class="icon_eye_show icon_input" style="display: none;">
+                                                Hiện
+                                                <svg class="icon eye-show">
+                                                    <use xlink:href="#eye-show">
+                                                        <svg id="eye-show" viewBox="0 0 32 32">
+                                                            <title>eye-show</title>
+                                                            <path d="M31.631 15.023c-3.133-5.408-8.975-9.023-15.631-9.023-6.659 0-12.5 3.617-15.631 9.023-0.242 0.417-0.369 0.893-0.369 1.377s0.128 0.96 0.369 1.377c3.132 5.408 8.975 9.023 15.631 9.023 6.659 0 12.5-3.617 15.631-9.023 0.242-0.417 0.369-0.893 0.369-1.377s-0.127-0.96-0.369-1.377v0zM16 24.087c-4.176 0-7.556-3.438-7.556-7.687s3.379-7.687 7.556-7.687c4.176 0 7.556 3.438 7.556 7.687s-3.379 7.687-7.556 7.687zM21.778 16.4c0 3.247-2.587 5.878-5.778 5.878s-5.778-2.632-5.778-5.878c0-1.001 0.246-1.943 0.68-2.768l-0 0.002c0 1.337 1.065 2.42 2.379 2.42s2.379-1.084 2.379-2.42c0-1.337-1.065-2.42-2.379-2.42l-0.002 0c0.811-0.441 1.737-0.692 2.721-0.692 3.191 0 5.778 2.632 5.778 5.878z"></path>
+                                                        </svg>
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                            <span class="icon_eye_hide icon_input" style="display: none;">
+                                                Ẩn
+                                                <svg class="icon eye-hide">
+                                                    <use xlink:href="#eye-hide">
+                                                        <svg id="eye-hide" viewBox="0 0 32 32">
+                                                            <title>eye-hide</title>
+                                                            <path d="M15.927 24.049l1.81 2.618c-0.578 0.055-1.157 0.083-1.737 0.083-6.656 0-12.498-3.597-15.631-8.979-0.242-0.415-0.369-0.889-0.369-1.371s0.128-0.955 0.369-1.371c1.335-2.293 3.162-4.262 5.335-5.768l3.171 4.587c-0.278 0.798-0.43 1.657-0.43 2.552 0 4.204 3.341 7.61 7.483 7.649v0zM31.631 17.771c-1.759 3.023-4.375 5.482-7.51 7.058l0.001 0.001 2.304 3.33c0.422 0.611 0.276 1.452-0.328 1.88l-0.728 0.516c-0.603 0.428-1.434 0.279-1.857-0.332l-17.938-25.584c-0.422-0.611-0.276-1.452 0.328-1.88l0.728-0.516c0.603-0.427 1.434-0.279 1.857 0.332l2.835 4.085c1.493-0.398 3.061-0.611 4.677-0.611 6.656 0 12.498 3.597 15.631 8.979 0.242 0.415 0.369 0.889 0.369 1.371s-0.127 0.955-0.369 1.371zM23.556 16.4c0-4.229-3.38-7.65-7.556-7.65-0.997 0-1.948 0.195-2.818 0.55l1.072 1.522c1.437-0.46 3.058-0.347 4.467 0.417h-0.002c-1.314 0-2.379 1.078-2.379 2.409 0 1.329 1.064 2.409 2.379 2.409 1.314 0 2.379-1.078 2.379-2.409v-0.002c1.026 1.94 0.906 4.383-0.458 6.241v0.001l1.073 1.522c1.149-1.342 1.843-3.093 1.843-5.009zM14.556 22.066l-4.307-6.23c-0.279 2.947 1.629 5.532 4.307 6.23z"></path>
+                                                        </svg>
+                                                    </use>
+                                                </svg>
+                                            </span>
+                                            <span class="width_common error_mess" id="login-pw-sm-err"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                @Html.CheckBoxFor(model => model.RememberMe, new { @class = "custom-control-input", @id = "rememberAcc" })
+                                                <label class="custom-control-label" for="rememberPasswordCheck">Ghi nhớ tài khoản</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex align-items-center justify-content-between mb-0" style="margin-top: 0.7rem">
+                                            <a class="small" href="password.html">Quên mật khẩu?</a>
+                                            <button type="submit" class="btn btn-primary noselect-login-btn" id="login-btn-sm">Đăng nhập</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Assets/admin/js/scripts.js"></script>
+    <script src="~/Assets/admin/js/Login/AdminLogin.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿.card-body .form-group {
+    position: relative;
+}
+
+.card-body .icon {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+}
+
+.card-body .form-group .icon_input {
+    position: absolute;
+    top: 42px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #1B71B2;
+}
+
+.form-group .icon_input .icon {
+    fill: rgb(27, 113, 178);
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+}
+
+label.small {
+    font-size: 95%;
+}
+
+.error_mess {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #9F224E;
+}
+
+.noselect_login_btn {
+    -webkit-touch-callout: none; /*iOS Safari*/
+    -webkit-user-select: none; /*Safari*/
+    -khtml-user-select: none; /*Konqueror HTML*/
+    -moz-user-select: none; /*Old versions of Firefox*/
+    -ms-user-select: none; /*Internet Explorer/Edge*/
+    user-select: none; /*Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox*/
+}
+
+button#login-btn-sm {
+    box-shadow: none;
+    opacity: 0.4;
+}
