@@ -1,0 +1,473 @@
+﻿@using TMDTNiViCi.Common
+@using TMDTNiViCi.Model.EF
+@model TMDTNiViCi.Model.EF.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+@section cssHeader{
+    <link href="~/Assets/admin/css/Product/AddProducts.css" rel="stylesheet" />
+}
+@section jsHeader {
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script>
+        //Kiểm tra HTML element đã được chèn vào DOM chưa - 1.2
+        function inspectDOMInsertion(insertListener) {
+            document.addEventListener("animationstart", insertListener, false); // standard + firefox
+            document.addEventListener("MSAnimationStart", insertListener, false); // IE
+            document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
+        }
+    </script>
+}
+
+@section breadcrumb {
+    <nav class="menu-navigation">
+        <ul class="breadcrumb">
+            <li><a href="/Admin/Home">Trang chủ</a></li>
+            <li>Quản lý sản phẩm</li>
+            <li>Thêm sản phẩm</li>
+        </ul>
+    </nav>
+}
+
+<h2 class="PC-ac__title-add-product">Thêm sản phẩm</h2>
+
+@using (Ajax.BeginForm("Create", "Product", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessOkie", OnFailure = "OnFailure" }, new { @id = "PC-actionCreate__form-add-products" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="NiViCi-container-tabs">
+        <button class="tablinks tabcontent-focusIn"> Thông tin cần thiết </button>
+        <button class="tablinks"> Thông tin khác</button>
+    </div>
+    <div class="PC-ac__title-enter-parameters">
+        <h4 class="tep__title">Nhập các thông số</h4>
+    </div>
+    <div class="form-horizontal PC-ac__form-horizontal">
+        <div class="NiViCi-container-tabcontents">
+            <div id="tab-1" class="NiViCi-tabs__tab-content tabcontent-focusIn ">
+                <div class="tc__detail-info-product">
+                    <div class="PC-ac__grid-container">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.Name, "Tên sản phẩm " + "<span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @*@{ MvcHtmlString label = Html.LabelFor(model => model.Name, "Tên sản phẩm <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }); }*@
+                            @Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.Name, "Tên sản phẩm <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control PC-actionCreate__html-input-ele form-elem-tested", placeholder = "Laptop" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.Quantity, "Số lượng <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control PC-actionCreate__html-input-ele ip-contain-only-numb form-elem-tested", placeholder = "50" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.OriginalPrice, "Giá nhập <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.OriginalPrice, new { @class = "form-control PC-actionCreate__html-input-ele ip-contain-only-numb form-elem-tested", placeholder = "15.000.000đ" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.Price, "Giá bán <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.Price, new { @class = "form-control PC-actionCreate__html-input-ele ip-contain-only-numb form-elem-tested", placeholder = "18.000.000đ" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PromotionPrice, "Giá khuyến mại", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.PromotionPrice, new { @class = "form-control PC-actionCreate__html-input-ele ip-contain-only-numb", @placeholder = "17.990.000đ" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PromotionPackageID, "Gói khuyến mại", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.PromotionPackageID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html", @data_width = "100%", @title = "Chọn gói..." })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Supplier, "Nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.Supplier, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html", @data_width = "100%" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CategoryID, "Loại sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListForWithTag("CategoryID", new List<AttributeProductTypeDDL> {
+                                    new AttributeProductTypeDDL("class", "selectpicker selectpicker-constant PC-actionCreate__DDL-html"),
+                                    new AttributeProductTypeDDL("id","PC-ac__product-type-ddl"),
+                                    new AttributeProductTypeDDL("data-size", "10"),
+                                    new AttributeProductTypeDDL("data-live-search", "true"),
+                                    new AttributeProductTypeDDL("data-width", "100%"),
+                                }, (List<ProductCategory>)ViewBag.CategoryID, 1)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CreatedBy, "Người tạo", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.CreatedBy, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html", @data_width = "100%" })
+                            </div>
+                        </div>
+
+                        <div class="form-group flex-afe">
+                            <div class="col-md-10 dip__product-status">
+                                <h5 class="title-radio-toggle-display-state"> Trạng thái: </h5>
+                                <div class="NiViCi__contains-input-radio">
+
+                                    <div class="contains-input-radio__left-col">
+                                        @Html.RadioButtonFor(model => model.Status, 1, new { @id = "NiViCi__radio-display-status", @checked = "checked" })
+                                        <label for="NiViCi__radio-display-status">Hiển thị</label>
+                                    </div>
+                                    <div class="contains-input-radio__right-col">
+                                        @Html.RadioButtonFor(model => model.Status, 2, new { @id = "NiViCi__radio-hidden-status" })
+                                        <label for="NiViCi__radio-hidden-status">Ẩn</label>
+                                    </div>
+                                    <div class="contains-input-radio__right-col">
+                                        @Html.RadioButtonFor(model => model.Status, 3, new { @id = "NiViCi__radio-contact-status" })
+                                        <label for="NiViCi__radio-contact-status">Liên hệ</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Phần thông số kỹ thuật*@
+                    <div class="PC-ac__container-specification-category">
+                        @Html.Partial("PVSpecification", ViewData["VDCS"])
+                    </div>
+                    @*Kết thúc phần thông số kỹ thuật*@
+
+                    <div class="form-group">
+                        <div class="card" style="border: 1px solid #c17d7d;">
+                            <div class="card-header PC-ac__card-header">
+                                @Html.LabelFor(model => model.Description, "Miêu tả", htmlAttributes: new { @class = "control-label PC-ac__ch-label" })
+                            </div>
+                            <div class="card-body">
+                                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" }, @class = "PC-actionCreate__html-textarea-ele" })
+                                <span class="error_mess" id="PC-ac__em-description"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="card" style=" border: 1px solid #8dab8d;">
+                            <div class="card-header PC-ac__card-header">
+                                @Html.LabelFor(model => model.Content, "Nội dung chi tiết", htmlAttributes: new { @class = "control-label PC-ac__ch-label" })
+                            </div>
+                            <div class="card-body">
+                                @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" }, @class = "PC-actionCreate__html-textarea-ele" })
+                                <span class="error_mess" id="PC-ac__em-content"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-2" class="NiViCi-tabs__tab-content">
+                <div class="tc__orther-product-info">
+                    <div class="card opi__card-contain-seo-info" style=" border: 1px solid #8dab8d;">
+                        <div class="card-header PC-ac__card-header">
+                            <h3 class="PC-ac__ch-title ch__title-seo">
+                                Thông tin về SEO
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="PC-ac__grid-container">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Alias, "Alias", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MetaKeyword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MetaKeyword, "Meta key", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.MetaKeyword, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MetaKeyword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MetaDescription, "Meta des", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.MetaDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card opi__card-container-pro-img" style=" border: 1px solid #8dab8d;">
+                        <div class="card-header PC-ac__card-header">
+                            <h3 class="PC-ac__ch-title ch__seo-image-title">
+                                Hình ảnh sản phẩm
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="PC-ac__grid-container">
+                                <div class="form-group rps__product-image">
+                                    <div class="opi__main-image-section">
+                                        @Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.Image, "Hình ảnh chính: <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))
+                                        <div class="col-md-10" style="margin-bottom: 20px;">
+                                            @Html.TextBoxFor(model => model.Image, new { @class = "form-control d-none form-elem-tested", @id = "PC-ac__product-image" })
+                                            <div class="box__upload-image">
+                                                <div class="up__btn">
+                                                    <button class="btn-primary PC-ac__btn-select-image" onclick="ckfinderSelectImg(this)"> Tải ảnh </button>
+                                                </div>
+                                                <div class="ui__display-image"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group rps__product-image">
+                                    <div class="opi__related-images">
+                                        @Html.LabelFor(model => model.MoreImages, "Hình ảnh liên quan (Xóa: Click vào ảnh)", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10" style="display: flex;">
+                                            <div class="box__select-many-images">
+                                                @*@Html.TextBoxFor(model => model.MoreImages, new { @type = "file", @multiple = "multiple", @class = "form-control inputfile", @id = "PC-ac__ip-many-product-images", @onChange = "handleImageChanges()" })*@
+                                                @Html.TextBoxFor(model => model.MoreImages, new { @class = "d-none" })
+                                                <input type="file" name="moreImageSample" value="" multiple class="form-control inputfile" id="PC-ac__ip-many-product-images" onChange="handleImageChanges()" />
+                                                <label for="PC-ac__ip-many-product-images">
+                                                    <figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" /></svg></figure>
+                                                    <span class="impi__display-numb-image" data-numb-image="0" data-toggle="tooltip" data-placement="bottom" title="0 ảnh được chọn!">0 ảnh được chọn&hellip;</span>
+                                                    <script>$('[data-toggle="tooltip"]').tooltip();</script>
+                                                </label>
+                                            </div>
+                                            <div class="box__display-image-list" onclick="deleteUploadtedPhotos()"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group rps__product-image">
+                                    <div class="opi__seo-image-section">
+                                        @Html.LabelFor(model => model.SeoImage, "Hình ảnh seo:", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.SeoImage, new { @class = "form-control d-none dbrr", @id = "PC-ac__seo-image" })
+                                            <div class="box__upload-image">
+                                                <div class="up__btn">
+                                                    <button class="btn-primary PC-ac__btn-select-image" onclick="ckfinderSelectImg(this)"> Tải ảnh </button>
+                                                </div>
+                                                <div class="ui__display-image"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin: auto;">
+                <div class="btn-container__btn-reset-submit-back grid-gtc1auto-jc">
+                    <button type="reset" class="bsr__btn-reset btn-success"> Làm mới </button>
+                    <button type="submit" class="btn-primary bsr__btn-submit btn-submit"> Thêm sản phẩm </button>
+                    <button type="button" class="btn-secondary btn-back">Trở về</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@section jsFooter {
+    <script>
+        // Lấy html của các phần tử html mà hiển thị hình ảnh chính và các hình ảnh liên quan và thêm đến vị trí tg ứng trong responsive
+        let cardContainerProImgHTML = document.querySelector(".opi__card-container-pro-img .PC-ac__grid-container");
+        let arrElemDeleted = [], arrElemDeletedRps = [];
+
+        function rpsAddRemoveElemFromDom(wd) {
+            if (wd.matches) {
+                if (cardContainerProImgHTML.childElementCount == 0 && $(".tc__detail-info-product .rps__product-image").length > 0) {
+                    console.log(" > 450 roi em e!")
+                    arrElemDeleted.splice(0, arrElemDeleted.length);
+                    Array.prototype.forEach.call(document.querySelectorAll(".rps__product-image"), function (elem) {
+                        arrElemDeleted.push(elem.parentNode.removeChild(elem));
+                    });
+                    arrElemDeleted.forEach(elem => { cardContainerProImgHTML.appendChild(elem) })
+                }
+            } else {
+                if ($(".tc__detail-info-product .rps__product-image").length == 0 && cardContainerProImgHTML.childElementCount > 0) {
+                    arrElemDeletedRps.splice(0, arrElemDeletedRps.length);
+                    while (cardContainerProImgHTML.firstElementChild) {
+                        arrElemDeletedRps.push(cardContainerProImgHTML.removeChild(cardContainerProImgHTML.firstElementChild));
+                    }
+                    $(".tc__detail-info-product .PC-ac__grid-container").append(arrElemDeletedRps[0].outerHTML + arrElemDeletedRps[1].outerHTML);
+                    $(".tc__orther-product-info .opi__card-contain-seo-info .PC-ac__grid-container").append(arrElemDeletedRps[2]);
+                }
+            }
+        }
+        let browserWindow = window.matchMedia("(min-width: 450px)");
+        rpsAddRemoveElemFromDom(browserWindow);
+        browserWindow.addListener(rpsAddRemoveElemFromDom);
+
+        // Đánh dấu đây là phần bắt buộc
+        Array.prototype.forEach.call(document.querySelectorAll(".form-elem-tested"), function (elem) {
+            $(elem).parent().prev().children(".requied-fields").text("*");
+        });
+
+        // Lấy các giá trị ban đầu của select
+        let arrConstOriginalValueSelectTag = [];
+        document.querySelectorAll(".selectpicker-constant").forEach((elem) => {
+            $(elem).on('loaded.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                arrConstOriginalValueSelectTag.push(elem.value);
+            });
+        });
+    </script>
+    <script src="~/Scripts/ckfinder/ckfinder.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/alertify.min.js"></script>
+    <script src="~/Scripts/Common/common.js"></script>
+    <script>
+        //Xử lý sự kiện khi chọn ảnh chính và seo
+        function ckfinderSelectImg(btn) {
+            event.preventDefault();
+            let ckfilder = new CKFinder();
+            ckfilder.selectActionFunction = function (url) {
+                $(btn).parent().parent().prev().val(url);
+                $(btn).parent().next().html(`<img src="${url}" />`);
+            };
+            ckfilder.popup();
+        }
+
+        // Hiển thị số danh mục đc chọn
+        function showNumbSelectedCategories() {
+            let count = 0, listCategories = ',';
+            document.querySelectorAll(".cpc__list-prod-categories tbody input").forEach((elem) => {
+                if (elem.checked) {
+                    ++count;
+                    listCategories += elem.value + ',';
+                }
+            });
+
+            document.querySelector("#Category").value = listCategories == ',' ? "" : listCategories;
+            document.querySelector(".cpc__bcm__notice-selected-ctg").innerHTML = count + " danh mục được chọn";
+        }
+
+        //Xử lý khi người dùng upload nhiều ảnh lên
+        let formdata = new FormData();
+        let htmlBoxContaintManyPicture = "";
+        let numbPhoto = 0, numbOriginalImg = 0, len = 0;
+        function handleImageChanges() {
+            let e = event;
+            let ipHTML = e.target;
+            let uploadedPhotoList = "";
+            htmlBoxContaintManyPicture = $(e.target).parent().next();
+            numbOriginalImg = htmlBoxContaintManyPicture.children().length;
+            numbPhoto = numbOriginalImg + e.target.files.length;
+            len = (numbPhoto > 10) ? 10 - numbOriginalImg : e.target.files.length;
+            let promisePhotoDisplay = new Promise(resolve => {
+                for (let i = 0; i < len; i++) {
+                    formdata.append(ipHTML.files[i].name, ipHTML.files[i]);
+                    uploadedPhotoList += ipHTML.files[i].name + ",";
+                    let reader = new FileReader();
+                    reader.readAsDataURL(ipHTML.files[i]);
+                    reader.onload = function (e) {
+                        $(ipHTML).parent().next().append(`<img src="${e.target.result}" alt="${ipHTML.files[i].name}" />`);
+                        if (i == len - 1) { resolve(); }
+                    };
+                }
+            });
+            promisePhotoDisplay.then(() => {
+                if (numbPhoto > 10) {
+                    document.querySelector(".box__display-image-list").innerHTML += "<span style='font-size: 18px; font-weight: 600;'> .... </span>";
+                }
+            });
+            $("#MoreImages").val(uploadedPhotoList.substring(0, uploadedPhotoList.length - 1));
+            updateNotiAfterUploadPhoto(numbPhoto);
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        function updateNotiAfterUploadPhoto(numbPhoto) {
+            $('.box__select-many-images span').html(numbPhoto + " ảnh được chọn");
+            $(".impi__display-numb-image").attr("data-original-title", numbPhoto + " ảnh được chọn");
+            $(".impi__display-numb-image").attr("data-numb-image", numbPhoto);
+        }
+
+        // Xử lý xóa trên mỗi ảnh đc tải lên khi click
+        function deleteUploadtedPhotos() {
+            let e = event;
+            if (e.target !== e.currentTarget) {
+                let photoName = e.target.getAttribute("alt");
+                let numbImage = parseInt($(".impi__display-numb-image").attr("data-numb-image")) - 1;
+                e.currentTarget.removeChild(e.target);
+                updateNotiAfterUploadPhoto(numbImage);
+                if (formdata.has(photoName)) {
+                    formdata.delete(photoName);
+                }
+            }
+        }
+
+        // Thay đổi màu nền của select chứa các loại thông số kĩ thuật trên mỗi loại thông số khác nhau
+        function changeBackgroundSpeType() {
+            let backgrColor = "#ea9a3b";
+            let speType = Number(event.target.value);
+            backgrColor = (speType == 0) ? "#2a8397" : (speType == 1 ? "#46bc44" : (speType == 3 ? "#ea4949" : backgrColor));
+            $(event.target).next().css("background", backgrColor);
+        }
+
+        // Thêm thông số kỹ thuật vào db khi nhận đc ID của sản phẩm
+        function OnSuccessOkie(productID) {
+            if (productID == 0) {
+                activationOverloading("none");
+                showNotification("error", "Lỗi server");
+                return;
+            }
+            var arrSpecification = [];
+            function Specification(SpecificationID, ProductID, Value, Status, TypeSpecifications) {
+                this.SpecificationID = SpecificationID;
+                this.ProductID = ProductID;
+                this.Value = Value;
+                this.Status = Status;
+                this.IsDeleted = 0;
+                this.TypeSpecifications = TypeSpecifications;
+            }
+            $(".PC-ac__table-specifications tbody tr").each(function (index, el) {
+                let vs = $(this).find('.tbs__value-specification');
+                arrSpecification.push(new Specification(parseInt(vs.attr('data-specification-id')), productID, vs.html(), $(this).find('.tbs__cb-display-specification').is(':checked') ? 1 : 0, $(this).find(".ts__list-specifications-type").children("option:selected").val()));
+            });
+
+            let specificationListJson = JSON.stringify({ specificationListParam: arrSpecification });
+
+            console.log(arrSpecification)
+
+            $.ajax({
+                url: "/Product/AddSpecificationsPC",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'JSON',
+                data: specificationListJson,
+                traditional: true,
+                success: function (response) {
+                    activationOverloading("none");
+                    if (response) {
+                        showNotification("success", "Thành công và đang chuyển hướng");
+                    } else {
+                        showNotification("error", "Lỗi server");
+                    }
+                },
+                error: function (err) {
+                    activationOverloading("none");
+                    showNotification("error", "Lỗi đường dẫn!");
+                }
+            });
+            //Đọc thêm ở đây: https://www.codeproject.com/Questions/1139322/Javascript-array-to-MVC-controller
+        }
+        function OnFailure(data) {
+            activationOverloading("none");
+            showNotification("error", "Lỗi hệ thống");
+        }
+    </script>
+    <script src="~/Assets/admin/js/Product/ProductManegement.js"></script>
+}
