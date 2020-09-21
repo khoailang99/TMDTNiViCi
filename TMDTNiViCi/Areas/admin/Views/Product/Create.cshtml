@@ -13,7 +13,7 @@
 @section jsHeader {
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
-        //Kiểm tra HTML element đã được chèn vào DOM chưa - 1.2
+        /*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.3*/
         function inspectDOMInsertion(insertListener) {
             document.addEventListener("animationstart", insertListener, false); // standard + firefox
             document.addEventListener("MSAnimationStart", insertListener, false); // IE
