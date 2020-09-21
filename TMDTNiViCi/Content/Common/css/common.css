@@ -1,0 +1,298 @@
+﻿.grid {
+    display: grid;
+}
+
+.grid-grid2auto {
+    grid-template-columns: auto auto;
+}
+
+.grid-gtc3auto-jc {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+}
+
+.grid-gtc1auto-jc {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    grid-row-gap: 5px;
+    font-size: 15px;
+}
+
+.grid-grid2auto-cg50 {
+    grid-template-columns: auto auto;
+    grid-column-gap: 50px;
+}
+
+.grid-grid250 {
+    grid-template-columns: 50% 50%;
+}
+
+.pdi-top-5 {
+    padding-top: 5px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+    table th, table td {
+        padding: 5px;
+        text-align: center;
+    }
+
+/*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.1*/
+@keyframes nodeInserted {
+    from {
+        opacity: 0.99;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+/*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.2*/
+.PC-ac__container-specification-category > div {
+    animation-duration: 0.001s;
+    animation-name: nodeInserted;
+}
+
+/*Style button*/
+.disable-btn-default-bootstrap {
+    box-shadow: none !important;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    padding: 5px 20px;
+    transition: all 0.2s;
+}
+
+    .disable-btn-default-bootstrap:active {
+        box-shadow: 2px 2px 6px grey, -2px -2px 6px grey !important;
+    }
+
+/*Style price range input filter*/
+.acfi__filter-product-price {
+    grid-template-columns: 45% 10% 45%;
+}
+
+.lp__input, .hp__input {
+    border-radius: 25px !important;
+}
+
+/*Style overloading*/
+.backdrop__body-backdrop___1rvky {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1050;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.css-1272naz {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1000;
+}
+
+/*Style 1 cho radio button*/
+.fct__list-states {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    position: relative;
+    height: auto;
+}
+
+    .fct__list-states .fct__list-states {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+    }
+
+    .fct__list-states li {
+        display: block;
+        color: #000000;
+        position: relative;
+        float: left;
+        width: 100%;
+    }
+
+        .fct__list-states li input[type=radio] {
+            position: absolute;
+            display: none;
+        }
+
+        .fct__list-states li label {
+            display: block;
+            position: relative;
+            font-weight: 400;
+            font-size: .9rem;
+            padding: 5px 0px 0px 24px;
+            margin: 5px auto;
+            z-index: 9;
+            cursor: pointer;
+            -webkit-transition: all 0.25s linear;
+        }
+
+        .fct__list-states li:hover label {
+            /*font-size: 1.1rem;*/
+        }
+
+        .fct__list-states li .check {
+            display: block;
+            position: absolute;
+            border: 3px solid #8b8383;
+            border-radius: 100%;
+            height: 20px;
+            width: 20px;
+            top: 8px;
+            left: 0px;
+            z-index: 5;
+            cursor: pointer;
+            transition: border .25s linear;
+            -webkit-transition: border .25s linear;
+        }
+            /*.fct__list-states li:hover .check {
+    border: 5px solid rgba(0, 0, 0, 0.5);
+}*/
+            .fct__list-states li .check::before {
+                display: block;
+                position: absolute;
+                content: '';
+                border-radius: 100%;
+                height: 7px;
+                width: 7px;
+                top: 2.5px;
+                left: 2.5px;
+                margin: auto;
+                transition: background 0.25s linear;
+                -webkit-transition: background 0.25s linear;
+            }
+
+input[type=radio]:checked ~ .check {
+    border: 4px solid #60cb9b;
+}
+
+    input[type=radio]:checked ~ .check::before {
+        background: #07ae63;
+    }
+
+input[type=radio]:checked ~ label {
+    color: #0c5132;
+}
+
+/*Style 2 cho radio button*/
+.radio {
+    position: relative;
+    cursor: pointer;
+    line-height: 20px;
+    font-size: 14px;
+    margin: auto;
+}
+
+    .radio .label {
+        position: relative;
+        display: block;
+        float: left;
+        /*margin-right: 10px;*/
+        width: 20px;
+        height: 20px;
+        border: 2px solid #7a9f7a;
+        border-radius: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+        .radio .label:after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            background: #225cff;
+            transform: scale(0);
+            transition: all 0.2s ease;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+    .radio:hover .label:after {
+        transform: scale(3.6);
+    }
+
+input[type="radio"]:checked + .label {
+    border-color: #225cff;
+}
+
+    input[type="radio"]:checked + .label:after {
+        transform: scale(1);
+        transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
+        opacity: 1;
+    }
+
+.hidden {
+    display: none;
+}
+
+/*style for paging*/
+.pa__list-page-numbers {
+    display: flex;
+    justify-content: center;
+}
+
+    .pa__list-page-numbers li {
+        margin: 5px;
+    }
+
+    .pa__list-page-numbers button {
+        background: #d9d9d9;
+    }
+
+    .pa__list-page-numbers .active {
+        color: #fff;
+        border-color: #1435c3;
+        background: #1435c3;
+    }
+
+@media screen and (min-width: 450px) {
+    .fct__list-states li label {
+        font-size: 1rem;
+        padding: 5px 0px 0px 30px;
+    }
+
+    .fct__list-states li .check {
+        width: 25px;
+        height: 25px;
+    }
+
+        .fct__list-states li .check::before {
+            width: 10px;
+            height: 10px;
+            top: 3.5px;
+            left: 3.5px;
+        }
+}
