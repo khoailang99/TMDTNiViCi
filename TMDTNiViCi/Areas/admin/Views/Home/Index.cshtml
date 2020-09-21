@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <nav class="menu-navigation">
+        <ul class="breadcrumb">
+            <li><a href="/Admin/Home">Trang chủ</a></li>
+        </ul>
+    </nav>
+}
+
+<div class="cf-admin-homepage">
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__total-revenue-day">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Tổng doanh thu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__total-product-sold-day">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Tổng sản phẩm bán</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__total-post-day">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Tổng bài viết</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__current-datetime">
+                    <div class="widget__hms plugin-clock"></div>
+                    <div class="widget__dmy plugin-date"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd-total-order-day">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Số đơn hàng</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__total-order-canceled-day">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Số đơn hàng bị Hủy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__online-order-numb-day">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Số đơn hàng bán online</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-primary widget-item-icon" onclick="">
+                <div class="widget-data wd__total-order-sold-shop">
+                    <div class="widget-subtitle">Hôm nay</div>
+                    <div class="widget-int num-count">75,890,000 đ</div>
+                    <div class="widget-title">Số đơn hàng bán tại shop</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area mr-1"></i>
+                    Biểu đồ tổng doanh thu và hóa đơn trong tuần
+                </div>
+                <div class="card-body revenue-chart-and-invoices">
+                    <div id="myAreaChart" width="100%" height="40"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar mr-1"></i>
+                    Biểu đồ Top 10 sản phẩm bán chạy nhất trong ngày
+                </div>
+                <div class="card-body chart-best-selling-prod-day">
+                    <div id="myBarChart" width="100%" height="40"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section jsFooter {
+    <script>
+        f_show_hour_minute_dmy();
+        // Hiển thị ngày giờ trên admin
+        function f_show_hour_minute_dmy() {
+            let dayArr = ["hai", "ba", "bốn", "năm", "sáu", "bảy", "Chủ nhật"];
+            let wd_plugin_clock = document.querySelector(".wd__current-datetime .plugin-clock");
+            let wd_plugin_date = document.querySelector(".wd__current-datetime .plugin-date");
+            let day_of_the_week = (moment().day() == 0) ? dayArr[moment().day()] : "Thứ " + dayArr[moment().day()];
+            wd_plugin_clock.innerHTML = moment().format("HH : mm : ss");
+            wd_plugin_date.innerHTML = day_of_the_week + ", " + moment().format("DD-MM-YYYY");
+            f_setInter_display_hmdmy();
+        }
+        function f_setInter_display_hmdmy() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('f_show_hour_minute_dmy()', refresh)
+        }
+    </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/pareto.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Assets/admin/assets/demo/chart-area-demo.js"></script>
+    <script src="~/Assets/admin/assets/demo/chart-bar-demo.js"></script>
+}
