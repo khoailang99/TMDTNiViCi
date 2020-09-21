@@ -1,0 +1,410 @@
+﻿.menu-navigation, .menu-navigation .breadcrumb {
+    margin: 0;
+}
+
+.PC-ac__title-enter-parameters .tep__title {
+    text-align: center;
+    margin: 15px auto;
+}
+
+.NiViCi-container-tabs, .PC-ac__title-add-product {
+    display: none;
+    text-align: center;
+}
+
+label {
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: #212529;
+}
+
+.tc__detail-info-product {
+    padding: 5px 0;
+}
+
+    .tc__detail-info-product .PC-ac__grid-container {
+        grid-template-columns: auto;
+    }
+/*Style radio button*/
+.dip__product-status {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.contains-input-radio__left-col, .contains-input-radio__right-col {
+    margin: 0 auto;
+}
+
+.dip__product-status .title-radio-toggle-display-state {
+    margin: 0;
+}
+
+/*Style nút chọn ảnh*/
+.PC-ac__btn-select-image {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 3px;
+}
+
+.box__upload-image {
+    display: flex;
+    align-items: center;
+}
+
+    .box__upload-image .ui__display-image {
+        /*margin-left: 10px;*/
+        width: 40%;
+        height: 80px;
+        box-shadow: 2px 1px 6px grey, -2px 0px 6px grey;
+    }
+
+        .box__upload-image .ui__display-image img {
+            width: 100%;
+            height: 100%;
+        }
+
+.rps__product-seo-image .PC-ac__btn-select-image {
+    margin-right: 15px;
+}
+
+/*Style button to select multiple images*/
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+    .inputfile + label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        display: inline-block;
+        overflow: hidden;
+        /*padding: 0 1.25rem 0 0;*/
+        color: #2ca2e0;
+        outline: none !important;
+    }
+
+    .inputfile:focus + label,
+    .inputfile.has-focus + label {
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    .inputfile + label svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+        fill: currentColor;
+        margin-top: -0.25em; /* 4px */
+        margin-right: 0.25em;
+    }
+    /*.inputfile:focus + label,*/
+    .inputfile.has-focus + label,
+    .inputfile + label:hover {
+        color: #0a5075;
+    }
+
+    .inputfile + label figure {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #2ca2e0;
+        display: block;
+        padding: 16px;
+        margin: auto;
+    }
+    /*.inputfile:focus + label figure,*/
+    .inputfile.has-focus + label figure,
+    .inputfile + label:hover figure {
+        background-color: #0a5075;
+    }
+
+.impi__display-numb-image {
+    padding-left: 15px;
+}
+
+.inputfile + label svg {
+    width: 100%;
+    height: 100%;
+    fill: #f1e5e6;
+}
+
+.box__display-image-list img {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 10px 0;
+    box-shadow: 2px 1px 6px grey, -2px 0px 6px grey;
+    transition: 0.25s;
+}
+
+.box__display-image-list > img:hover {
+    cursor: pointer;
+    transform: rotate(5deg);
+}
+
+.box__display-image-list > img:active {
+    width: 55px;
+    height: 55px;
+}
+
+.up__btn, .box__select-many-images {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.box__display-image-list {
+    width: 60%;
+}
+
+/* Radio style visible, hidden and contact*/
+.dip__product-status {
+    grid-template-columns: auto;
+}
+
+.NiViCi__contains-input-radio {
+    grid-template-columns: auto auto;
+}
+
+
+/*Style product specification table*/
+.csc__part-specification {
+    overflow-x: scroll;
+    margin-bottom: 15px;
+}
+
+.cs__title-specification {
+    font-size: 17px;
+    color: #202020;
+    text-align: center;
+}
+
+.PC-ac__table-specifications {
+    min-width: 760px;
+    margin-bottom: 10px;
+}
+
+    .PC-ac__table-specifications th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .PC-ac__table-specifications th {
+        padding: 5px;
+    }
+
+    .PC-ac__table-specifications td label {
+        margin: 0 !important;
+    }
+
+    .PC-ac__table-specifications tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+.tbs__value-specification {
+    position: relative;
+    outline-color: #354e6c;
+    margin: 5px;
+}
+
+    .tbs__value-specification > p {
+        padding: 0 5px;
+        margin: 0 !important;
+        text-align: left;
+    }
+
+/*Style section fill in information about seo*/
+.NiViCi-container-tabcontents .NiViCi-tabs__tab-content {
+    display: block;
+}
+
+.tc__orther-product-info .card:last-child {
+    display: none;
+}
+
+.tc__orther-product-info .PC-ac__grid-container {
+    grid-template-columns: auto;
+}
+
+.tc__orther-product-info .card-body {
+    padding: 5px 0;
+}
+
+.tc__orther-product-info .card {
+    margin-bottom: 20px;
+}
+
+.tc__orther-product-info .ch__title-seo {
+    text-align: center;
+}
+
+/*Style cho dropdownlist loại sản phẩm*/
+.PC-ac__product-type-1-ddl {
+    color: black !important;
+    background: #ff5050 !important;
+}
+
+.PC-ac__product-type-2-ddl {
+    color: black !important;
+    background: #99ffcc !important;
+}
+
+.bs-searchbox .form-control {
+    box-shadow: none !important;
+    margin-bottom: 5px !important;
+}
+
+/*Style các card chứa các CKEditor*/
+.PC-ac__card-header {
+    padding: 5px 18px !important;
+}
+
+.PC-ac__ch-label {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+}
+
+/*Style btn submit - reset*/
+.btn-container__btn-reset-submit-back > button {
+    margin-right: 5px;
+    border: none !important;
+    padding: 5px 18px;
+    border-radius: 3px;
+    transition: 0.25s;
+}
+
+.bsr__btn-submit, .bsr__btn-reset {
+    box-shadow: none !important;
+}
+
+.btn-container__btn-reset-submit-back > button:active {
+    font-size: 18px;
+}
+
+@media screen and (min-width: 320px) {
+}
+
+@media screen and (min-width: 350px) {
+    .NiViCi__contains-input-radio {
+        grid-template-columns: auto auto auto;
+    }
+}
+
+@media screen and (min-width: 375px) {
+    .btn-container__btn-reset-submit-back.grid-gtc1auto-jc {
+        grid-template-columns: auto auto auto;
+    }
+}
+
+@media screen and (min-width: 430px) {
+    .dip__product-status {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media screen and (min-width: 450px) and (max-width: 570px) {
+}
+
+@media screen and (min-width: 450px) {
+    .dip__product-status {
+        grid-template-columns: auto;
+    }
+
+    .NiViCi__contains-input-radio {
+        grid-template-columns: auto auto;
+    }
+
+    .PC-ac__title-enter-parameters {
+        display: none;
+    }
+
+    .menu-navigation, .menu-navigation .breadcrumb {
+        margin-bottom: 5px;
+    }
+
+    .PC-ac__form-horizontal {
+        background: #fff;
+        padding: 15px;
+    }
+
+    .PC-ac__title-add-product, .tc__orther-product-info .card:last-child {
+        display: block;
+    }
+
+    .PC-ac__title-add-product {
+        margin-bottom: .7rem;
+    }
+
+    .NiViCi-container-tabs {
+        display: grid;
+    }
+
+    .NiViCi-container-tabcontents .NiViCi-tabs__tab-content {
+        display: none;
+    }
+
+    .tc__detail-info-product .PC-ac__grid-container, .tc__orther-product-info .PC-ac__grid-container {
+        grid-template-columns: 50% 50%;
+    }
+
+    .tc__orther-product-info .ch__title-seo {
+        text-align: left;
+    }
+
+    .tc__orther-product-info .up__btn {
+        width: auto;
+        margin-right: 0;
+    }
+
+    .box__upload-image .ui__display-image {
+        margin-left: 10px;
+    }
+
+    .inputfile + label figure {
+        width: 70px;
+        height: 70px;
+        padding: 17px;
+    }
+
+    .NiViCi-container-tabs {
+        border-bottom: 1px solid gray;
+    }
+
+        .NiViCi-container-tabs button {
+            outline: none !important;
+            box-shadow: none !important;
+            border: 1px solid gray;
+            margin-bottom: -1px;
+        }
+
+    .tc__orther-product-info label {
+        font-weight: 500;
+    }
+}
+
+@media screen and (min-width: 630px) {
+    .dip__product-status {
+        grid-template-columns: auto;
+    }
+
+    .NiViCi__contains-input-radio {
+        grid-template-columns: auto auto auto;
+    }
+}
+
+@media screen and (min-width: 760px) {
+    .csc__part-specification {
+        overflow-x: hidden;
+        margin-bottom: 5px;
+    }
+}
