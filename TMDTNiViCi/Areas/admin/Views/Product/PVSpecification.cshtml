@@ -137,7 +137,7 @@
     // Đánh dấu đây là phần bắt buộc
     $(".form-elem-tested").parent().prev().children(".requied-fields").text("*");
 
-    // Kiểm tra phần danh mục đã đc chèn vào DOM và Thêm caption cho bảng danh mục
+    // Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa (1.4) và Thêm caption cho bảng danh mục
     inspectDOMInsertion(function (event) {
         if (event.animationName == "nodeInserted") {
             isInserted = true;
