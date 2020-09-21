@@ -1,0 +1,208 @@
+﻿﻿.cas__add-product {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/*Style form the filter*/
+.Pc-ai__product-filter {
+    background: #ffffff;
+    border: 2px solid #dfdcdc;
+    border-radius: 3px;
+}
+
+.pf__filter-header-container {
+    display: flex;
+    justify-content: space-between;
+    background: #cfcfcf;
+    align-items: center;
+    padding: 2px 15px;
+}
+
+.fct__list-states li label {
+    font-size: .9rem;
+}
+
+.form__values-filter-ipSelectHtml {
+    grid-template-columns: auto;
+    padding: 20px 5px 10px;
+}
+
+/*Style form adding and searching*/
+.PC-ai__add-search-products {
+    margin: 15px 0;
+}
+
+.asp__container-add-search {
+    grid-template-columns: auto;
+}
+
+.adp__header {
+    display: none;
+}
+
+.cas__add-product .lsp__ad__btn {
+    margin: 0 5px 5px 0;
+}
+
+.adp__header .td__title, .adp__header .ts__title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.psf__label-search {
+    margin-bottom: 2px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #000000;
+    display: none;
+}
+
+.psf__container-input-btnSearch {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+}
+
+.admin__psf__input {
+    margin-bottom: 5px;
+}
+
+.admin__psf__btn-submit {
+    display: flex;
+}
+
+/*Style for product datalist display board*/
+#aap__wrap-prod-list {
+    overflow-x: scroll;
+}
+
+.adm__wpl__table-contain-products {
+    width: 100%;
+}
+
+    .adm__wpl__table-contain-products thead {
+        background: #cfcfcf;
+    }
+
+    .adm__wpl__table-contain-products .adm__tcp__image-container {
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+    }
+
+.adm__tcp__action {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+    .adm__tcp__action button {
+        margin-bottom: 5px;
+        background: #ffffff;
+        border: 2px solid;
+        border-radius: 25px;
+        text-align: center;
+    }
+
+.adm__tcp__prod-status > button {
+    padding: 2px 5px;
+    font-size: 14px;
+}
+
+.adm__activity-view .aav__btn-view {
+    border-color: #1C8C14;
+    color: #1C8C14;
+}
+
+.adm__delete-operation .aav__btn-delete {
+    border-color: #f42525;
+    color: #f42525;
+}
+
+.dpl__prod-numb-displayed {
+    margin: 10px 0px 5px;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+    .dpl__prod-numb-displayed .pnd__ip-prod-numb {
+        width: 50px;
+        padding: 0 5px;
+        border: 2px solid #d55353;
+        border-radius: 5px;
+    }
+
+    .dpl__prod-numb-displayed::after {
+        content: attr(data-pro-numb-displayed);
+        color: #d90303;
+        font-weight: 400;
+    }
+
+@media screen and (min-width: 320px) {
+    .psf__label-search {
+        display: block;
+    }
+
+    .psf__container-input-btnSearch {
+        grid-template-columns: auto auto;
+    }
+
+    .admin__psf__input {
+        margin: 0 5px 0 0;
+    }
+}
+
+@media screen and (min-width: 450px) {
+    .form__values-filter-ipSelectHtml, .asp__container-add-search {
+        grid-template-columns: 50% 50%;
+    }
+
+    .cas__add-product {
+        flex-direction: column;
+    }
+
+    .psf__label-search {
+        display: none;
+    }
+
+    .adp__header {
+        display: grid;
+    }
+
+    .psf__container-input-btnSearch {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media screen and (min-width: 450px) and (max-width: 550px) {
+    .psf__container-input-btnSearch {
+        grid-template-columns: auto;
+    }
+
+    .admin__psf__input {
+        margin: 0 0 5px;
+    }
+
+    .admin__psf__btn-submit .admin__bs__search-btn {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .adp__header .td__title, .adp__header .ts__title {
+        font-size: 1.6rem;
+        margin-bottom: 5px;
+    }
+
+    .cas__add-product {
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    #aap__wrap-prod-list {
+        overflow-x: hidden;
+    }
+}
