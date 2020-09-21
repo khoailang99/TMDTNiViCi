@@ -1,0 +1,171 @@
+﻿@model IEnumerable<TMDTNiViCi.Areas.admin.Models.CategorySpecificationModel>
+
+@{
+    foreach (var cs in Model)
+    {
+        if (cs.CSCategory.Count() > 0)
+        {
+            <div class="form-group dip__fg__prod-category">
+                <label class="control-label col-md-2" for="Category"> Danh mục <span class='requied-fields'></span> </label>
+                <div class="col-md-10">
+                    <input type="text" id="Category" name="Category" class="form-control PC-actionCreate__html-input-ele d-none form-elem-tested" value="" />
+                    @*Phần danh mục của loại sản phẩm*@
+                    <div class="PC-ac__container-prod-catalogs">
+                        <div class="cpc__btn-container-mess">
+                            <button type="button" class="cpc__bcm__category-select-btn disable-btn-default-bootstrap btn-primary" data-toggle="modal" data-target="#modal__prod-category"> Chọn danh mục </button>
+                            <span class="cpc__bcm__notice-selected-ctg"> 0 danh mục được chọn </span>
+                        </div>
+                        <div class="modal" id="modal__prod-category">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title"> Chọn một hoặc nhiều danh mục! </h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <h4 class="cpc__lpc__caption"></h4>
+                                        <table class="cpc__list-prod-categories">
+                                            @{
+                                                foreach (var pc in cs.CSCategory)
+                                                {
+                                                    var parentCategory = cs.CSCategory.FirstOrDefault(parentC => parentC.ID == pc.ParentID);
+                                                    <tr>
+                                                        @if (cs.CSCategory.FirstOrDefault(ctg => ctg.ParentID == pc.ID) != null)
+                                                        {
+                                                            <th colspan="2"> @pc.Name </th>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td> @pc.Name </td>
+                                                            <td>
+                                                                <div class="area-contain-checkbook-catalog">
+                                                                    @if (parentCategory != null && parentCategory.IsCategory == 2)
+                                                                    {
+                                                                        <input type="checkbox" value="@pc.ID" />
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        var ipNameCategories = (parentCategory != null) ? parentCategory.Name : "";
+                                                                        <label for="radio-category-@pc.ID" class="radio">
+                                                                            <input type="radio" name="@ipNameCategories" id="radio-category-@pc.ID" class="d-none" value="@pc.ID" />
+                                                                            <span class="label"></span>
+                                                                        </label>
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+                                            }
+                                        </table>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="reset" class="btn-success disable-btn-default-bootstrap"> Làm mới </button>
+                                        <button type="button" class="btn btn-danger disable-btn-default-bootstrap modal__btn-close-modal-pc" data-dismiss="modal" onclick="showNumbSelectedCategories()">Xong!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*Kết thúc phần danh mục của loại sản phẩm*@
+                </div>
+            </div>
+        }
+
+        <div class="csc__part-specification">
+            <h3 class="cs__title-specification"> Thông số kỹ thuật sản phẩm (<span class="specifications-display-filter">*</span> : Thông số hiển thị trong bộ lọc )</h3>
+            <table class="PC-ac__table-specifications">
+                <colgroup>
+                    <col span="1" style="width: 24%;">
+                    <col span="1" style="width: 58%;">
+                    <col span="1" style="width: 10%;">
+                    <col span="1" style="width: 8%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th> Tên thông số</th>
+                        <th> Giá trị </th>
+                        <th> Loại thông số </th>
+                        <th> Hiển thị </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pcs in cs.CSSpecification)
+                    {
+                        <tr>
+                            <td>
+                                @pcs.Name
+                                @if (pcs.IsFilter > 0)
+                                {
+                                    <span class="specifications-display-filter">*</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="tbs__value-specification" data-specification-id="@pcs.ID"></div>
+                            </td>
+                            <td>
+                                <div class="tbs__type-specifications">
+                                    <select class="selectpicker selectpicker-partialView ts__list-specifications-type" onchange="changeBackgroundSpeType()">
+                                        <option value="0"> Thông tin tổng quan </option>
+                                        <option value="1"> Thông tin chung </option>
+                                        <option value="2" selected> Cấu hình chi tiết </option>
+                                        <option value="3"> Thông tin khác </option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="checkbox" class="filled-in tbs__cb-display-specification" checked />
+                                    <span></span>
+                                </label>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
+
+<script type="text/javascript">
+    // Đánh dấu đây là phần bắt buộc
+    $(".form-elem-tested").parent().prev().children(".requied-fields").text("*");
+
+    // Kiểm tra phần danh mục đã đc chèn vào DOM và Thêm caption cho bảng danh mục
+    inspectDOMInsertion(function (event) {
+        if (event.animationName == "nodeInserted") {
+            isInserted = true;
+            // Sử dụng jquery để lấy text loại sản phẩm
+            $(".cpc__lpc__caption").text($("#PC-ac__product-type-ddl").children("option:selected").text());
+            // Ko sử dụng jquery
+            //var e = document.getElementById("Supplier");
+            //strUser = e.options[e.selectedIndex].value or .text;
+        }
+    });
+
+    $('.ts__list-specifications-type').selectpicker();
+    if (typeof arrOriginalValueSelectTagPV == 'undefined') {
+        var arrOriginalValueSelectTagPV = [];
+    }
+    arrOriginalValueSelectTagPV = [];
+    document.querySelectorAll(".selectpicker-partialView").forEach((elem) => {
+        $(elem).on('loaded.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+            arrOriginalValueSelectTagPV.push(elem.value);
+        });
+    });
+
+    tinymce.init({
+        selector: '.tbs__value-specification',
+        inline: true,
+        language: 'vi',
+        skin: 'oxide-dark',
+        plugins: 'advlist anchor autolink charmap code codesample directionality fullpage help hr image imagetools insertdatetime link lists media nonbreaking pagebreak preview print searchreplace table template textpattern toc visualblocks visualchars wordcount',
+        toolbar: 'undo redo | formatselect | bold italic strikethrough forecolor backcolor blockquote | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat'
+    });
+</script>
