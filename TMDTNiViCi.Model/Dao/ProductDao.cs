@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMDTNiViCi.Model.EF;
+using TMDTNiViCi.Model.Models;
 
 namespace TMDTNiViCi.Model.Dao
 {
@@ -32,9 +33,67 @@ namespace TMDTNiViCi.Model.Dao
 
         public bool InsertSpecification(Product_Specifications ps)
         {
+            db.Product_Specifications.Add(ps);
             try
             {
-                db.Product_Specifications.Add(ps);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public long Update(Product product)
+        {
+            var updatedProd = db.Products.SingleOrDefault(prod => prod.ID == product.ID);
+            try
+            {
+                // Cập nhật các thuộc tính của sản phẩm đc chọn
+                updatedProd.Name = product.Name;
+                updatedProd.Quantity = product.Quantity;
+                updatedProd.OriginalPrice = product.OriginalPrice;
+                updatedProd.Price = product.Price;
+                updatedProd.PromotionPrice = product.PromotionPrice;
+                updatedProd.SupplierID = product.SupplierID;
+                updatedProd.CreatedBy = product.CreatedBy;
+                updatedProd.PromotionPackageID = product.PromotionPackageID;
+                updatedProd.Category = product.Category;
+                updatedProd.Status = product.Status;
+                updatedProd.Description = product.Description;
+                updatedProd.Content = product.Content;
+                updatedProd.Alias = product.Alias;
+                updatedProd.MetaDescription = product.MetaDescription;
+                updatedProd.MetaKeyword = product.MetaKeyword;
+                updatedProd.Image = product.Image;
+                updatedProd.MoreImages = product.MoreImages;
+                updatedProd.SeoImage = product.SeoImage;
+
+                db.SaveChanges();
+                return updatedProd.ID;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+
+        public bool UpdateSpecification(Product_Specifications ps)
+        {
+            var sfc = db.Product_Specifications.SingleOrDefault(psu => psu.SpecificationID == ps.SpecificationID && psu.ProductID == ps.ProductID);
+            if(sfc == null)
+            {
+                return InsertSpecification(ps);
+            }
+
+            // Cập nhật nội dung thông số kĩ thuật của sản phẩm đc chọn        
+            try
+            {
+                sfc.Value = ps.Value;
+                sfc.Status = ps.Status;
+                sfc.TypeSpecifications = ps.TypeSpecifications;
+                sfc.IsDeleted = ps.IsDeleted;
                 db.SaveChanges();
                 return true;
             }
@@ -45,9 +104,29 @@ namespace TMDTNiViCi.Model.Dao
 
         }
 
-        public List<ProductCategory> GetProductTypeDao()
+        public bool SpecificationsInserted(int ProdId)
+        {
+            if(db.Product_Specifications.Count(ps => ps.ProductID == ProdId) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Product GetProductDao(int ProdID)
+        {
+            return db.Products.SingleOrDefault(prod => prod.ID == ProdID);
+        }
+
+        public List<ProductCategory> GetProductTypeDao(int PCId)
         {
             List<ProductCategory> productCategoryList = new List<ProductCategory>();
+            if (PCId > 0)
+            {
+                productCategoryList.Add(db.ProductCategories.SingleOrDefault(pc => pc.ID == PCId));
+                return productCategoryList;
+            }
+            
             var groupedResult = db.ProductCategories.ToList().GroupBy(pcl => pcl.ParentID);
             foreach (var gr in groupedResult)
             {
@@ -81,6 +160,46 @@ namespace TMDTNiViCi.Model.Dao
             return specificationList;
         }
 
+        public List<ProductCategoryS_ProductS_Model> GetProductCategoriesSDao(int PCId)
+        {
+            List<ProductCategoryS_ProductS_Model> List_PCS_PS;
+            if (db.PCSpecifications.Count(pcs => pcs.ProductCategoriesID == PCId) > 0)
+            {
+                List_PCS_PS = (from lsp in db.ProductCategories
+                                     where lsp.ID == PCId
+                                     from tskt in db.PCSpecifications
+                                     where lsp.Relationship.Contains("," + tskt.ProductCategoriesID.ToString() + ",") && tskt.IsGeneralInfo != 0 || tskt.ProductCategoriesID == PCId
+                                     select new ProductCategoryS_ProductS_Model { PCSModel = tskt, PSModel = null }).ToList();
+            }
+            else
+            {
+                List_PCS_PS = (from lsp in db.ProductCategories
+                                     where lsp.ID == PCId
+                                     from tskt in db.PCSpecifications
+                                     where lsp.Relationship.Contains("," + tskt.ProductCategoriesID.ToString() + ",")
+                                     select new ProductCategoryS_ProductS_Model { PCSModel = tskt, PSModel = null }).ToList();
+            }
+            return List_PCS_PS;
+        }
+
+        public List<ProductCategoryS_ProductS_Model> Get_PCS_PS_Dao(int PCId, int ProdID)
+        {
+            List<ProductCategoryS_ProductS_Model> List_PCS_PS = GetProductCategoriesSDao(PCId);
+            List<Product_Specifications> List_PS;
+
+            if(ProdID > 0)
+            {
+                List_PS = (db.Product_Specifications.Where(ps => ps.ProductID == ProdID)).ToList();
+                foreach (var pcs_ps in List_PCS_PS)
+                {
+                    pcs_ps.PSModel = List_PS.Find(ps => ps.SpecificationID == pcs_ps.PCSModel.ID);
+                }
+            }
+            
+            return List_PCS_PS;
+
+        }
+
         public List<Supplier> GetSuppliersDao()
         {
             return db.Suppliers.ToList();
@@ -98,6 +217,20 @@ namespace TMDTNiViCi.Model.Dao
                     on arg.UserID equals au.ID
                     where arg.GroupID == 1
                     select au).ToList();
+        }
+
+        public List<Product> GetProductListDao(int prodNumb, int pageNumb)
+        {
+            if(pageNumb == 0) // Đc thực thi khi không có phân trang nào đc click
+            {
+                return db.Products.Take(prodNumb).ToList();
+            }
+            return db.Products.Take(prodNumb * pageNumb).ToList().Skip((pageNumb - 1) * prodNumb).ToList();
+        }
+
+        public long GetTotalProductDao()
+        {
+            return db.Products.Count();
         }
     }
 }
