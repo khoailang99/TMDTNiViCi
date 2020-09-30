@@ -191,6 +191,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Common\css\common.css" />
+    <Content Include="Content\Common\css\reset.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -1629,7 +1630,6 @@
     <Content Include="Areas\admin\Views\Shared\_Header.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_SidebarLeft.cshtml" />
-    <Content Include="Areas\admin\Views\Product\Create.cshtml" />
     <Content Include="fonts\fontawesome\webfonts\fa-brands-400.eot" />
     <Content Include="fonts\fontawesome\webfonts\fa-brands-400.ttf" />
     <Content Include="fonts\fontawesome\webfonts\fa-brands-400.woff" />
@@ -1664,6 +1664,7 @@
     <Content Include="Areas\admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\admin\Views\Product\PVProductList.cshtml" />
+    <Content Include="Areas\admin\Views\Product\Create.cshtml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />

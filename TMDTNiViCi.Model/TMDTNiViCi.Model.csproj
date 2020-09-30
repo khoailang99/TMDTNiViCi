@@ -86,6 +86,7 @@
     <Compile Include="EF\Supplier.cs" />
     <Compile Include="EF\Tag.cs" />
     <Compile Include="EF\TMDTNiViCiDbContext.cs" />
+    <Compile Include="Models\ProductCategoryS_ProductS_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
