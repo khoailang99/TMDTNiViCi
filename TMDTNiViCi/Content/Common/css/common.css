@@ -1,4 +1,406 @@
-﻿.grid {
+﻿a {
+    display: block;
+    color: inherit!important;
+    text-decoration: none!important;
+}
+
+/*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.1*/
+/*Tham khảo ở: https://davidwalsh.name/detect-node-insertion*/
+@keyframes nodeInserted {
+    from {
+        opacity: 0.99;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+/*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.2*/
+.PC-ac__container-specification-category > div, #aap__wrap-prod-list .adm__wpl__table-contain-products {
+    animation-duration: 0.001s;
+    animation-name: nodeInserted;
+}
+
+/*Styles border và color khi nhập giá trị không thỏa mãn vào input*/
+.trigger-error-message {
+    border-color: rgb(221, 0, 0)!important;
+    color: red!important;
+}
+
+/*Styles cho hộp thông báo dạng tooltip*/
+.container__prodNumb-messBox {
+    width: 50px;
+    height: 30px;
+    position: relative;
+}
+
+.message-box {
+    visibility: hidden;
+    position: absolute;
+    top: 145%;
+    left: calc(50px/2 - 130px/2);
+    width: 130px;
+    transform: rotateX(90deg);
+    transform-origin: 50% 50%;
+    transition: transform 0.5s;
+}
+
+.mb-active__ms-tooltip {
+    visibility: visible;
+    transform: perspective(100px) rotateX(0deg);
+}
+
+.mb-active__ms-tooltip-close {
+    transform: perspective(1000px) rotateX(-270deg);
+}
+
+.message-box__tooltip {
+    width: inherit;
+    min-height: 30px;
+    border: 1.5px solid #5c5c5c;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 1px 1px 10px #b6b6b6, -1px -1px 10px #b6b6b6;
+    position: relative;
+    background: #fff;
+    color: #dd0101;
+    font-size: 14px;
+    text-align: center;
+}
+
+    .message-box__tooltip::after {
+        content: "";
+        display: block;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: -8.6px;
+        left: calc(130px/2 - 22px/2);
+        transform: rotate(45deg);
+        border-top: 1.5px solid #5c5c5c;
+        border-left: 1.5px solid #5c5c5c;
+        background: #fff;
+    }
+
+/*Style progress-bar*/
+@-webkit-keyframes loader {
+    0% {
+        width: 0;
+    }
+
+    5% {
+        width: 5%;
+    }
+
+    25% {
+        width: 24%;
+    }
+
+    43% {
+        width: 41%;
+    }
+
+    56% {
+        width: 50%;
+    }
+
+    66% {
+        width: 52%;
+    }
+
+    71% {
+        width: 60%;
+    }
+
+    75% {
+        width: 76%;
+    }
+
+    94% {
+        width: 86%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes loader {
+    0% {
+        width: 0;
+    }
+
+    10% {
+        width: 10%;
+    }
+
+    25% {
+        width: 24%;
+    }
+
+    43% {
+        width: 41%;
+    }
+
+    56% {
+        width: 50%;
+    }
+
+    66% {
+        width: 52%;
+    }
+
+    71% {
+        width: 60%;
+    }
+
+    75% {
+        width: 76%;
+    }
+
+    94% {
+        width: 86%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes cssload-width {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.progress-bar__advanced, .progress-bar__contain-stages, .progress__stage-one, .progress__stage-two {
+    width: 100%;
+}
+
+.progress-bar__advanced, .progress__stage-one, .progress__stage-two {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-bar__contain-stages {
+    position: relative;
+    height: 3px;
+}
+
+.progress__stage-one, .progress__stage-two {
+    height: 2px;
+}
+
+.progress__stage-one {
+    z-index: 2;
+}
+
+.progress__stage-two {
+    z-index: 1;
+}
+
+.progress__st__active {
+    -webkit-animation: loader 8s ease;
+    animation: loader 8s ease;
+    border-radius: 0;
+    background: #25b9c0;
+}
+
+.progress__first-phase-stop {
+    animation-play-state: paused;
+}
+
+.progress__run-second-stage {
+    background: #25b9c0;
+    animation: cssload-width 1s cubic-bezier(0.45, 0, 1, 1);
+    -o-animation: cssload-width 0.5s cubic-bezier(0.45, 0, 1, 1);
+    -ms-animation: cssload-width 0.5s cubic-bezier(0.45, 0, 1, 1);
+    -webkit-animation: cssload-width 1s cubic-bezier(0.45, 0, 1, 1);
+    -moz-animation: cssload-width 0.5s cubic-bezier(0.45, 0, 1, 1);
+}
+
+.progress-shadow {
+    height: 2px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    background-image: linear-gradient(to bottom, rgb(59 149 124), transparent);
+    background-image: -o-linear-gradient(to bottom, rgb(234,236,238), transparent);
+    background-image: -ms-linear-gradient(to bottom, rgb(234,236,238), transparent);
+    background-image: -webkit-linear-gradient(to bottom, rgb(234,236,238), transparent);
+    background-image: -moz-linear-gradient(to bottom, rgb(234,236,238), transparent);
+}
+
+/*Styles preloader*/
+.preloader-1 {
+    width: 100%;
+    height: 45px;
+    background: #e6e6e6;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul.p1__cssload-loader li {
+    background-color: rgb(76 62 62);
+    width: 5px;
+    height: 5px;
+    float: right;
+    margin-right: 3px !important;
+    box-shadow: 0px 8px 5px rgba(0,0,0,0.2);
+    -o-box-shadow: 0px 8px 5px rgba(0,0,0,0.2);
+    -ms-box-shadow: 0px 8px 5px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 8px 5px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 8px 5px rgba(0,0,0,0.2);
+}
+
+.p1__cssload-loader li:first-child {
+    animation: cssload-loadbars 1.15s cubic-bezier(0.645,0.045,0.355,1) infinite 0s;
+    -o-animation: cssload-loadbars 1.15s cubic-bezier(0.645,0.045,0.355,1) infinite 0s;
+    -ms-animation: cssload-loadbars 1.15s cubic-bezier(0.645,0.045,0.355,1) infinite 0s;
+    -webkit-animation: cssload-loadbars 1.15s cubic-bezier(0.645,0.045,0.355,1) infinite 0s;
+    -moz-animation: cssload-loadbars 1.15s cubic-bezier(0.645,0.045,0.355,1) infinite 0s;
+}
+
+.p1__cssload-loader li:nth-child(2) {
+    animation: cssload-loadbars 1.15s ease-in-out infinite -0.23s;
+    -o-animation: cssload-loadbars 1.15s ease-in-out infinite -0.23s;
+    -ms-animation: cssload-loadbars 1.15s ease-in-out infinite -0.23s;
+    -webkit-animation: cssload-loadbars 1.15s ease-in-out infinite -0.23s;
+    -moz-animation: cssload-loadbars 1.15s ease-in-out infinite -0.23s;
+}
+
+.p1__cssload-loader li:nth-child(3) {
+    animation: cssload-loadbars 1.15s ease-in-out infinite -0.46s;
+    -o-animation: cssload-loadbars 1.15s ease-in-out infinite -0.46s;
+    -ms-animation: cssload-loadbars 1.15s ease-in-out infinite -0.46s;
+    -webkit-animation: cssload-loadbars 1.15s ease-in-out infinite -0.46s;
+    -moz-animation: cssload-loadbars 1.15s ease-in-out infinite -0.46s;
+}
+
+.p1__cssload-loader li:nth-child(4) {
+    animation: cssload-loadbars 1.15s ease-in-out infinite -0.69s;
+    -o-animation: cssload-loadbars 1.15s ease-in-out infinite -0.69s;
+    -ms-animation: cssload-loadbars 1.15s ease-in-out infinite -0.69s;
+    -webkit-animation: cssload-loadbars 1.15s ease-in-out infinite -0.69s;
+    -moz-animation: cssload-loadbars 1.15s ease-in-out infinite -0.69s;
+}
+
+.p1__cssload-loader li:nth-child(5) {
+    animation: cssload-loadbars 1.15s ease-in-out infinite -0.92s;
+    -o-animation: cssload-loadbars 1.15s ease-in-out infinite -0.92s;
+    -ms-animation: cssload-loadbars 1.15s ease-in-out infinite -0.92s;
+    -webkit-animation: cssload-loadbars 1.15s ease-in-out infinite -0.92s;
+    -moz-animation: cssload-loadbars 1.15s ease-in-out infinite -0.92s;
+}
+
+.p1__cssload-loader li:nth-child(6) {
+    animation: cssload-loadbars 1.15s ease-in-out infinite -1.15s;
+    -o-animation: cssload-loadbars 1.15s ease-in-out infinite -1.15s;
+    -ms-animation: cssload-loadbars 1.15s ease-in-out infinite -1.15s;
+    -webkit-animation: cssload-loadbars 1.15s ease-in-out infinite -1.15s;
+    -moz-animation: cssload-loadbars 1.15s ease-in-out infinite -1.15s;
+}
+
+
+
+@keyframes cssload-loadbars {
+    0% {
+        height: 5px;
+        margin-top: 14px;
+    }
+
+    50% {
+        height: 27px;
+        margin-top: 0px;
+    }
+
+    100% {
+        height: 5px;
+        margin-top: 14px;
+    }
+}
+
+@-o-keyframes cssload-loadbars {
+    0% {
+        height: 5px;
+        margin-top: 14px;
+    }
+
+    50% {
+        height: 27px;
+        margin-top: 0px;
+    }
+
+    100% {
+        height: 5px;
+        margin-top: 14px;
+    }
+}
+
+@-ms-keyframes cssload-loadbars {
+    0% {
+        height: 5px;
+        margin-top: 14px;
+    }
+
+    50% {
+        height: 27px;
+        margin-top: 0px;
+    }
+
+    100% {
+        height: 5px;
+        margin-top: 14px;
+    }
+}
+
+@-webkit-keyframes cssload-loadbars {
+    0% {
+        height: 5px;
+        margin-top: 14px;
+    }
+
+    50% {
+        height: 27px;
+        margin-top: 0px;
+    }
+
+    100% {
+        height: 5px;
+        margin-top: 14px;
+    }
+}
+
+@-moz-keyframes cssload-loadbars {
+    0% {
+        height: 5px;
+        margin-top: 14px;
+    }
+
+    50% {
+        height: 27px;
+        margin-top: 0px;
+    }
+
+    100% {
+        height: 5px;
+        margin-top: 14px;
+    }
+}
+
+/*Styles grid*/
+.grid {
     display: grid;
 }
 
@@ -29,8 +431,27 @@
     grid-template-columns: 50% 50%;
 }
 
+/*Styles padding*/
 .pdi-top-5 {
     padding-top: 5px;
+}
+
+.padding-tb-lf-5-20 {
+    padding: 5px 20px;
+}
+
+/*Thêm style cho placeholder trong input*/
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: GrayText!important;
+    font-size: 15px;
+    opacity: 0.5!important;
+    font-weight: 500;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: red;
+}
+input::-ms-input-placeholder { /* Microsoft Edge */
+    color: red;
 }
 
 .mb-25 {
@@ -54,29 +475,13 @@ table, th, td {
         text-align: center;
     }
 
-/*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.1*/
-@keyframes nodeInserted {
-    from {
-        opacity: 0.99;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-/*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.2*/
-.PC-ac__container-specification-category > div {
-    animation-duration: 0.001s;
-    animation-name: nodeInserted;
-}
-
 /*Style button*/
 .disable-btn-default-bootstrap {
     box-shadow: none !important;
     border: none;
     outline: none;
     border-radius: 3px;
-    padding: 5px 20px;
+    /*padding: 5px 20px;*/
     transition: all 0.2s;
 }
 
