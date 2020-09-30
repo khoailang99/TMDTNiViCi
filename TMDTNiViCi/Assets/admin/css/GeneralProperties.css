@@ -1,4 +1,8 @@
-﻿.mr-25 {
+﻿/*body {
+    transition: 5s;
+}*/
+
+.mr-25 {
     margin-right: 25px;
 }
 
@@ -9,8 +13,8 @@ img {
 
 ul, ol {
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 0!important;
+    margin: 0!important;
 }
 
 .flex-alignment {
@@ -46,6 +50,24 @@ button {
     color: red;
     margin: 3px;
 }
+
+/*Style cho vùng chứa preloader và bootstrap select*/
+.container-preloader-bselect {
+    position: relative;
+    transition: height 5s;
+}
+.cpBs__preloader {
+    width: calc(100% - 30px);
+    position: absolute;
+    z-index: 2;
+}
+.cpBs__BSelect {
+    width: calc(100% - 30px);
+}
+.cpBs__BSelect.dropdown.bootstrap-select button.dropdown-toggle {
+    height: 45px;
+}
+
 
 /*Style cho modal chọn danh mục sản phẩm*/
 #modal__prod-category .modal-content {
@@ -153,10 +175,14 @@ input[type="checkbox"] {
         border-color: #0c5c51;
         background: #2fbaba;
     }
-
         input[type="checkbox"]:checked::before {
             opacity: 1;
         }
+    input.checkbox-delete:checked {
+        background: #ee5555;
+    }
+
+        
 /*Style tabs*/
 .NiViCi-container-tabs {
     padding: 0 15px;
@@ -202,6 +228,9 @@ input[type="text"], input[type="password"], input[type="number"] {
     border-radius: 2px;
     outline: none;
     transition: 0.5s;
+    color: #100f47;
+    font-weight: 600;
+    font-size: 17px;
 }
 
     input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus {
@@ -409,7 +438,6 @@ a#gp-upload-img-btn {
 .btn-submit {
     display: inline-block;
     position: relative;
-    padding: 6px 10px;
     display: flex !important;
     /*width: 90px;*/
     height: 40px;
@@ -444,6 +472,7 @@ a#gp-upload-img-btn {
         transform: rotate(1800deg);
     }
 }
+
 /*Style in the sidebarnav*/
 .sb-sidenav-menu .nav-link:hover {
     color: #fff;
@@ -454,6 +483,7 @@ a#gp-upload-img-btn {
     .sb-sidenav-menu .nav-link:hover .sb-nav-link-icon, .sb-sidenav-menu .nav-link:hover .sb-sidenav-collapse-arrow {
         color: inherit;
     }
+
 /* Style chart-area-demo*/
 .highcharts-root {
     font-family: "Lucida Grande", Arial, Helvetica, sans-serif !important;
@@ -491,10 +521,12 @@ a#gp-upload-img-btn {
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
+
 /*Style Card boostrap*/
 .card-body.revenue-chart-and-invoices, .card-body.chart-best-selling-prod-day {
     padding: 5px 0px 2px;
 }
+
 /*Style aleartjs*/
 .alertify-notifier .ajs-message.ajs-error {
     border: none;
@@ -513,9 +545,15 @@ a#gp-upload-img-btn {
     box-shadow: 5px 5px 10px grey, -5px 4px 10px grey;
     background: rgb(91,189,114) !important;
 }
-/*Style Dropdow*/
+
+/*Style Dropdown*/
 .dropdown.bootstrap-select button.dropdown-toggle {
     outline: none !important;
+}
+
+.bootstrap-select .dropdown-toggle .filter-option {
+    display: flex;
+    align-items: center;
 }
 
 @keyframes btn-add-new-user {
