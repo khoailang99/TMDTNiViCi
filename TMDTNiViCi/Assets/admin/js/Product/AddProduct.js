@@ -5,12 +5,14 @@
 
     // Hiển thị thông số kỹ thuật
     $("#PC-ac__product-type-ddl").change(function () {
+        activeProgressBar();
         $.ajax({
             url: '/Product/GetSpecificationsPC',
             type: "GET",
-            data: { PCId: $(this).children("option:selected").val() },
+            data: { PCId: $(this).children("option:selected").val(), ProdId : 0},
             success: function (partialViewResult) {
                 $(".PC-ac__container-specification-category").html(partialViewResult);
+                finishProgressBar();
             },
             error: function (err) {
                 console.log(err)
@@ -49,7 +51,6 @@
     });
 
     //Lưu danh sách ảnh đc tải lên vào server
-    //Lưu danh sách ảnh đc tải lên vào server
     $(".bsr__btn-submit").click((e) => {
         if (!validateFormElements()) {
             showNotification("error", "Bạn phải điền hoặc chọn các thông tin bắt buộc!", 5);
@@ -58,7 +59,7 @@
         }
 
         document.querySelectorAll(".ip-contain-only-numb").forEach((elem) => {
-            elem.value = elem.value.replace(/,/g, "");
+            elem.value = elem.value.replace(/\./g, "");
         });
 
         let pathFolderContainImg = $("#PC-ac__product-image").val().split("/");
