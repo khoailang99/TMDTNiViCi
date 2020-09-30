@@ -1,8 +1,9 @@
-﻿@using TMDTNiViCi.Common
+﻿ @using TMDTNiViCi.Common
 @using TMDTNiViCi.Model.EF
 @model TMDTNiViCi.Model.EF.Product
 
 @{
+    var txtBtnSubmit = "Thêm sản phẩm";
     ViewBag.Title = "Create";
     Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
 }
@@ -19,6 +20,14 @@
             document.addEventListener("MSAnimationStart", insertListener, false); // IE
             document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
         }
+
+        // Thay đổi màu nền của select chứa các loại thông số kĩ thuật trên mỗi loại thông số khác nhau
+        function changeBackgroundSpeType(elem) {
+            let backgrColor = "#ea9a3b";
+            let speType = Number(elem.value);
+            backgrColor = (speType == 0) ? "#2a8397" : (speType == 1 ? "#46bc44" : (speType == 3 ? "#ea4949" : backgrColor));
+            $(elem).next().css("background", backgrColor);
+        }
     </script>
 }
 
@@ -32,7 +41,7 @@
     </nav>
 }
 
-<h2 class="PC-ac__title-add-product">Thêm sản phẩm</h2>
+<h2 class="PC-ac__title-add-product">Thêm sản phẩm </h2>
 
 @using (Ajax.BeginForm("Create", "Product", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessOkie", OnFailure = "OnFailure" }, new { @id = "PC-actionCreate__form-add-products" }))
 {
@@ -49,9 +58,10 @@
             <div id="tab-1" class="NiViCi-tabs__tab-content tabcontent-focusIn ">
                 <div class="tc__detail-info-product">
                     <div class="PC-ac__grid-container">
+                        <div class="form-group d-none">
+                            @Html.TextBoxFor(model => model.ID, new { @class = "form-control d-none" })
+                        </div>
                         <div class="form-group">
-                            @*@Html.LabelFor(model => model.Name, "Tên sản phẩm " + "<span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" })*@
-                            @*@{ MvcHtmlString label = Html.LabelFor(model => model.Name, "Tên sản phẩm <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }); }*@
                             @Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.Name, "Tên sản phẩm <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))
                             <div class="col-md-10">
                                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control PC-actionCreate__html-input-ele form-elem-tested", placeholder = "Laptop" })
@@ -88,35 +98,76 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.PromotionPackageID, "Gói khuyến mại", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.PromotionPackageID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html", @data_width = "100%", @title = "Chọn gói..." })
+                            <div class="col-md-10 container-preloader-bselect">
+                                <div class="preloader-1 cpBs__preloader">
+                                    <ul class="p1__cssload-loader">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                @Html.DropDownListFor(model => model.PromotionPackageID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%", @title = "Chọn gói..." })
                             </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.SupplierID, "Nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.SupplierID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html", @data_width = "100%" })
+                            <div class="col-md-10 container-preloader-bselect">
+                                <div class="preloader-1 cpBs__preloader">
+                                    <ul class="p1__cssload-loader">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                @Html.DropDownListFor(model => model.SupplierID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%", @title = "Thêm nhà cung cấp..." })
                             </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.CategoryID, "Loại sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-10 container-preloader-bselect">
+                                <div class="preloader-1 cpBs__preloader">
+                                    <ul class="p1__cssload-loader">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
                                 @Html.DropDownListForWithTag("CategoryID", new List<AttributeProductTypeDDL> {
-                                    new AttributeProductTypeDDL("class", "selectpicker selectpicker-constant PC-actionCreate__DDL-html"),
+                                    new AttributeProductTypeDDL("class", "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect"),
                                     new AttributeProductTypeDDL("id","PC-ac__product-type-ddl"),
                                     new AttributeProductTypeDDL("data-size", "10"),
                                     new AttributeProductTypeDDL("data-live-search", "true"),
                                     new AttributeProductTypeDDL("data-width", "100%"),
-                                }, (List<ProductCategory>)ViewBag.CategoryID, 1)
+                                    new AttributeProductTypeDDL("title", "Chọn loại sản phẩm...")
+                                }, (List<ProductCategory>)ViewBag.CategoryID, (int)ViewBag.SelectedC)
                             </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.CreatedBy, "Người tạo", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.CreatedBy, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html", @data_width = "100%" })
+                            <div class="col-md-10 container-preloader-bselect">
+                                <div class="preloader-1 cpBs__preloader">
+                                    <ul class="p1__cssload-loader">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                @Html.DropDownListFor(model => model.CreatedBy, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%" })
                             </div>
                         </div>
 
@@ -140,6 +191,13 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group d-none" style="margin-bottom: 0;">
+                            @*@Html.Raw(HttpUtility.HtmlDecode(Html.LabelFor(model => model.Category, "Danh Mục <span class='requied-fields'></span>", htmlAttributes: new { @class = "control-label col-md-2" }).ToString()))*@
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.Category, null, new { @class = "form-control PC-actionCreate__html-input-ele d-none form-elem-tested" })
+                            </div>
+                        </div>
                     </div>
 
                     @*Phần thông số kỹ thuật*@
@@ -149,7 +207,7 @@
                     @*Kết thúc phần thông số kỹ thuật*@
 
                     <div class="form-group">
-                        <div class="card" style="border: 1px solid #c17d7d;">
+                        <div class="card" style="border: 1px solid #c17d7d; min-height:630px; transition: 1s;">
                             <div class="card-header PC-ac__card-header">
                                 @Html.LabelFor(model => model.Description, "Miêu tả", htmlAttributes: new { @class = "control-label PC-ac__ch-label" })
                             </div>
@@ -161,7 +219,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="card" style=" border: 1px solid #8dab8d;">
+                        <div class="card" style=" border: 1px solid #8dab8d; min-height: 630px; transition: 1s;">
                             <div class="card-header PC-ac__card-header">
                                 @Html.LabelFor(model => model.Content, "Nội dung chi tiết", htmlAttributes: new { @class = "control-label PC-ac__ch-label" })
                             </div>
@@ -272,9 +330,19 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10" style="margin: auto;">
                 <div class="btn-container__btn-reset-submit-back grid-gtc1auto-jc">
-                    <button type="reset" class="bsr__btn-reset btn-success"> Làm mới </button>
-                    <button type="submit" class="btn-primary bsr__btn-submit btn-submit"> Thêm sản phẩm </button>
-                    <button type="button" class="btn-secondary btn-back">Trở về</button>
+
+                    @if (Model != null)
+                    {
+                        txtBtnSubmit = "Cập nhật";
+                    }
+                    else
+                    {
+                        <button type="reset" class="disable-btn-default-bootstrap bsr__btn-reset btn-success padding-tb-lf-5-20"> Làm mới </button>
+                    }
+                    <button type="submit" class="btn-primary disable-btn-default-bootstrap bsr__btn-submit btn-submit padding-tb-lf-5-20"> @txtBtnSubmit </button>
+                    <button type="button" class="btn-secondary disable-btn-default-bootstrap btn-back">
+                        <a href="/Admin/Product/Index" class="padding-tb-lf-5-20"> Trở về </a>
+                    </button>
                 </div>
 
             </div>
@@ -320,16 +388,59 @@
 
         // Lấy các giá trị ban đầu của select
         let arrConstOriginalValueSelectTag = [];
-        document.querySelectorAll(".selectpicker-constant").forEach((elem) => {
+        let optionsContainDataDBLoaded = false;
+        document.querySelectorAll(".selectpicker-constant").forEach((elem, index) => {
             $(elem).on('loaded.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                $(elem).parent().prev().css({ "z-index": "0"});
                 arrConstOriginalValueSelectTag.push(elem.value);
+                if (index == 3) {
+                    finishProgressBar();
+                }
             });
+        });
+    </script>
+    <script src="~/Scripts/Common/common.js"></script>
+    <script>
+        // Xử lý những phần liên quan đến cập nhật sản phẩm.
+        $(document).ready(function () {
+            // Thêm checked cho các input danh mục đã được chọn từ trước
+            addCheckedToCategoryInput();
+            function addCheckedToCategoryInput() {
+                let strCategories = document.querySelector("#Category").value;
+                if (strCategories.trim() == "") { return; }
+                document.querySelector(".cpc__bcm__category-select-btn").addEventListener("click", (e) => {
+                    document.querySelectorAll(".cpc__list-prod-categories input").forEach((elem) => {
+                        if (elem.value != "" && strCategories.search(elem.value) > 0) {
+                            elem.setAttribute("checked", "checked");
+                        }
+                    });
+                }, false);
+                document.querySelector(".cpc__bcm__notice-selected-ctg").innerHTML = strCategories.split(",").length - 2 + " danh mục được chọn";
+            }
+
+            displayMainARelatedImg();
+            function displayMainARelatedImg() {
+                if ($("#PC-ac__product-image").val().trim() == "") { return; }
+                // Hiển thị hình ảnh chính
+                $("#PC-ac__product-image").next().find(".ui__display-image").html(`<img src= ${$("#PC-ac__product-image").val()} />`);
+                // Hiển thị hình ảnh seo
+                $("#PC-ac__seo-image").next().find(".ui__display-image").html($("#PC-ac__seo-image").val() == "" ? "":`<img src= ${$("#PC-ac__seo-image").val()} />`);
+
+                // Hiển thị các hình ảnh liên quan
+                let arrAssociatedImages = $("#MoreImages").val().split(',');
+                let photoPath = $("#PC-ac__product-image").val().split('/');
+                photoPath = photoPath.slice(1, photoPath.length - 1);
+                arrAssociatedImages.forEach((value) => {
+                    $("#MoreImages").parent().next().append(`<img src="${'/' + photoPath.join('/') + '/' + value}" alt="${value}" />`);
+                });
+                updateNotiAfterUploadPhoto(arrAssociatedImages.length);
+                $('[data-toggle="tooltip"]').tooltip();
+            }
         });
     </script>
     <script src="~/Scripts/ckfinder/ckfinder.js"></script>
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
     <script src="~/Scripts/alertify.min.js"></script>
-    <script src="~/Scripts/Common/common.js"></script>
     <script>
         //Xử lý sự kiện khi chọn ảnh chính và seo
         function ckfinderSelectImg(btn) {
@@ -385,7 +496,7 @@
                     document.querySelector(".box__display-image-list").innerHTML += "<span style='font-size: 18px; font-weight: 600;'> .... </span>";
                 }
             });
-            $("#MoreImages").val(uploadedPhotoList.substring(0, uploadedPhotoList.length - 1));
+            $("#MoreImages").val(($("#MoreImages").val() == "" ? "" : ($("#MoreImages").val() + ',')) + uploadedPhotoList.substring(0, uploadedPhotoList.length - 1));
             updateNotiAfterUploadPhoto(numbPhoto);
             $('[data-toggle="tooltip"]').tooltip();
         }
@@ -403,44 +514,44 @@
                 let numbImage = parseInt($(".impi__display-numb-image").attr("data-numb-image")) - 1;
                 e.currentTarget.removeChild(e.target);
                 updateNotiAfterUploadPhoto(numbImage);
+                let arrImages = $("#MoreImages").val().split(',');
+                arrImages.splice(arrImages.indexOf(photoName), 1);
+                $("#MoreImages").val(arrImages.join(","));
                 if (formdata.has(photoName)) {
                     formdata.delete(photoName);
                 }
             }
         }
 
-        // Thay đổi màu nền của select chứa các loại thông số kĩ thuật trên mỗi loại thông số khác nhau
-        function changeBackgroundSpeType() {
-            let backgrColor = "#ea9a3b";
-            let speType = Number(event.target.value);
-            backgrColor = (speType == 0) ? "#2a8397" : (speType == 1 ? "#46bc44" : (speType == 3 ? "#ea4949" : backgrColor));
-            $(event.target).next().css("background", backgrColor);
-        }
-
         // Thêm thông số kỹ thuật vào db khi nhận đc ID của sản phẩm
         function OnSuccessOkie(productID) {
             if (productID == 0) {
                 activationOverloading("none");
-                showNotification("error", "Lỗi server");
+                showNotification("error", "Lỗi khi thêm sản phẩm!");
                 return;
             }
             var arrSpecification = [];
-            function Specification(SpecificationID, ProductID, Value, Status, TypeSpecifications) {
+            function Specification(SpecificationID, ProductID, Value, Status, IsDeleted = 0,TypeSpecifications) {
                 this.SpecificationID = SpecificationID;
                 this.ProductID = ProductID;
                 this.Value = Value;
                 this.Status = Status;
-                this.IsDeleted = 0;
+                this.IsDeleted = IsDeleted;
                 this.TypeSpecifications = TypeSpecifications;
             }
             $(".PC-ac__table-specifications tbody tr").each(function (index, el) {
                 let vs = $(this).find('.tbs__value-specification');
-                arrSpecification.push(new Specification(parseInt(vs.attr('data-specification-id')), productID, vs.html(), $(this).find('.tbs__cb-display-specification').is(':checked') ? 1 : 0, $(this).find(".ts__list-specifications-type").children("option:selected").val()));
+                arrSpecification.push(new Specification(
+                    parseInt(vs.attr('data-specification-id')),
+                    productID,
+                    vs.html(),
+                    $(this).find('.tbs__cb-display-specification').is(':checked') ? 1 : 0,
+                    $(this).find('.tbs__cb-delete-specification').is(':checked') ? 1 : 0,
+                    $(this).find(".ts__list-specifications-type").children("option:selected").val())
+                );
             });
 
             let specificationListJson = JSON.stringify({ specificationListParam: arrSpecification });
-
-            console.log(arrSpecification)
 
             $.ajax({
                 url: "/Product/AddSpecificationsPC",
@@ -453,11 +564,15 @@
                     activationOverloading("none");
                     if (response) {
                         showNotification("success", "Thành công và đang chuyển hướng");
+                        setTimeout(() => {
+                            window.location.href = "/Admin/Product/Index";
+                        }, 2000)
                     } else {
-                        showNotification("error", "Lỗi server");
+                        showNotification("error", "Lỗi khi thêm thông số kĩ thuật!");
                     }
                 },
                 error: function (err) {
+                    console.log(err)
                     activationOverloading("none");
                     showNotification("error", "Lỗi đường dẫn!");
                 }
