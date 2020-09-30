@@ -18,13 +18,14 @@ label {
     color: #212529;
 }
 
-.tc__detail-info-product {
-    padding: 5px 0;
+.tc__detail-info-product > .PC-ac__grid-container > .form-group {
+    width: 100%;
+    min-height: 80px;
+}
+.tc__detail-info-product .PC-ac__grid-container {
+    grid-template-columns: auto;
 }
 
-    .tc__detail-info-product .PC-ac__grid-container {
-        grid-template-columns: auto;
-    }
 /*Style radio button*/
 .dip__product-status {
     display: grid;
@@ -212,9 +213,16 @@ label {
 
 .tbs__value-specification {
     position: relative;
+    border: 2px solid transparent;
+    border-radius: 3px;
     outline-color: #354e6c;
     margin: 5px;
 }
+
+    .tbs__value-specification:focus {
+        transition: 0.25s;
+        border: 2px solid #354e6c;
+    }
 
     .tbs__value-specification > p {
         padding: 0 5px;
@@ -278,17 +286,12 @@ label {
 .btn-container__btn-reset-submit-back > button {
     margin-right: 5px;
     border: none !important;
-    padding: 5px 18px;
     border-radius: 3px;
     transition: 0.25s;
 }
 
 .bsr__btn-submit, .bsr__btn-reset {
     box-shadow: none !important;
-}
-
-.btn-container__btn-reset-submit-back > button:active {
-    font-size: 18px;
 }
 
 @media screen and (min-width: 320px) {
