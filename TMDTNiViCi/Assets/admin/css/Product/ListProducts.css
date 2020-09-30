@@ -121,23 +121,40 @@
     color: #f42525;
 }
 
+
+.adm__repair-operations .aav__btn-edit {
+    padding: 0!important;
+}
+    .adm__repair-operations .aav__btn-edit a {
+        color: black;
+        display: block;
+        padding: 5px 20px;
+    }
+
 .dpl__prod-numb-displayed {
     margin: 10px 0px 5px;
     font-size: 17px;
     font-weight: 500;
+    display: flex;
 }
+
+    .dpl__prod-numb-displayed .container__prodNumb-messBox {
+        margin: 0 5px;
+    }
 
     .dpl__prod-numb-displayed .pnd__ip-prod-numb {
         width: 50px;
         padding: 0 5px;
-        border: 2px solid #d55353;
+        border: 2px solid #2366af;
         border-radius: 5px;
+        background: #e8f7ff;
     }
-
     .dpl__prod-numb-displayed::after {
         content: attr(data-pro-numb-displayed);
         color: #d90303;
-        font-weight: 400;
+        font-weight: 500;
+        margin-left: 5px;
+        transition: 0.25s;
     }
 
 @media screen and (min-width: 320px) {
