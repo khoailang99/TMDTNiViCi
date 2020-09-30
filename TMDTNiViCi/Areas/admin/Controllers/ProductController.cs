@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TMDTNiViCi.Areas.admin.Models;
 using TMDTNiViCi.Model.Dao;
 using TMDTNiViCi.Model.EF;
+using TMDTNiViCi.Model.Models;
 
 namespace TMDTNiViCi.Areas.admin.Controllers
 {
@@ -19,15 +20,37 @@ namespace TMDTNiViCi.Areas.admin.Controllers
         // Phần hiển thị tất cả sản phẩm
         public ActionResult Index()
         {
-            ViewBag.CategoryID = PCGetProductType();
+            ViewBag.CategoryID = PCGetProductType(0);
             ViewBag.Supplier = new SelectList(dao.GetSuppliersDao(), "ID", "Name", null);
+            ViewData["VDProductList"] = dao.GetProductListDao(8, 0);
+            ViewData["VDTotalProduct"] = dao.GetTotalProductDao();
             return View();
         }
 
-        // Phần thêm sản phẩm
-        public List<ProductCategory> PCGetProductType()
+        public ActionResult GetProductList(int numbProd, int pageNumb)
         {
-            List<ProductCategory> productCategoryListDb = dao.GetProductTypeDao();
+            ViewData["VDProductList"] = dao.GetProductListDao(numbProd, pageNumb);
+            return PartialView("~/Areas/admin/Views/Product/PVProductList.cshtml", ViewData["VDProductList"]);
+        }
+
+        // Sửa thông tin sản phẩm
+        [HttpGet]
+        public ActionResult ProductUpdates(int id)
+        {
+            var selectedPro = dao.GetProductDao(id);
+            setViewBag(selectedPro.CategoryID);
+            setViewData(selectedPro.CategoryID, id);
+            return View("~/Areas/admin/Views/Product/Create.cshtml", selectedPro);
+        }
+
+        // Phần thêm sản phẩm
+        public List<ProductCategory> PCGetProductType(int PCId)
+        {
+            List<ProductCategory> productCategoryListDb = dao.GetProductTypeDao(PCId);
+            if (PCId > 0)
+            {
+                return productCategoryListDb;
+            }
             List<ProductCategory> pcFirstLevel = new List<ProductCategory>();
             List<ProductCategory> pcSecondLevel = new List<ProductCategory>();
             List<ProductCategory> pcListSorted = new List<ProductCategory>();
@@ -76,32 +99,46 @@ namespace TMDTNiViCi.Areas.admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            setViewBag();
+            setViewBag(0);
             return View();
         }
 
         [HttpPost, ValidateInput(false)]
         public long Create(Product product)
         {
+            if(product.ID > 0)
+            {
+                return dao.Update(product);
+            }
             return dao.Insert(product);
-            //return 55;
         }
 
         [HttpGet]
-        public ActionResult GetSpecificationsPC(string PCId)
+        public ActionResult GetSpecificationsPC(string PCId, int ProdId)
         {
-            ViewData["VDCS"] = this.GetCategorySpecifications(Int32.Parse(PCId));
+            ViewData["VDCS"] = this.GetCategorySpecifications(Int32.Parse(PCId), ProdId);
             return PartialView("~/Areas/admin/Views/Product/PVSpecification.cshtml", ViewData["VDCS"]);
         }
 
         [HttpPost]
         public JsonResult AddSpecificationsPC(List<Product_Specifications> specificationListParam)
         {
+            var PSExists = dao.SpecificationsInserted(specificationListParam.First().ProductID); 
             foreach (var ps in specificationListParam)
             {
-                if (!dao.InsertSpecification(ps))
+                if(PSExists)
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    if (!dao.UpdateSpecification(ps))
+                    {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    if (!dao.InsertSpecification(ps))
+                    {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
                 }
             }
             return Json(true, JsonRequestBehavior.AllowGet);
@@ -132,11 +169,11 @@ namespace TMDTNiViCi.Areas.admin.Controllers
             return true;
         }
 
-        public IEnumerable<CategorySpecificationModel> GetCategorySpecifications(int PCId)
+        public IEnumerable<CategorySpecificationModel> GetCategorySpecifications(int PCId, int ProdId)
         {
             int parentCategoryID = 0;
             List<ProductCategory> prodCategories = new List<ProductCategory>();
-            foreach (var pc in this.PCGetProductType())
+            foreach (var pc in this.PCGetProductType(0))
             {
                 if (pc.ParentID == PCId && pc.IsCategory > 0 || pc.ParentID == parentCategoryID && pc.IsCategory > 0)
                 {
@@ -144,21 +181,26 @@ namespace TMDTNiViCi.Areas.admin.Controllers
                     parentCategoryID = (pc.ParentID == PCId) ? pc.ID : parentCategoryID;
                 }
             }
+
             CategorySpecificationModel[] listCS = new CategorySpecificationModel[]{
-                new CategorySpecificationModel{CSCategory = prodCategories, CSSpecification = dao.GetPCSpecificationsDao(PCId)}
+                new CategorySpecificationModel{CSCategory = prodCategories, PCS_PS_Model = dao.Get_PCS_PS_Dao(PCId,ProdId)}
             };
 
             return listCS;
         }
 
-        public void setViewBag()
+        public void setViewBag(int PCId)
         {
-            int selectedProductType = 1;
-            ViewData["VDCS"] = this.GetCategorySpecifications(selectedProductType);
-            ViewBag.CategoryID = PCGetProductType();
-            ViewBag.Supplier = new SelectList(dao.GetSuppliersDao(), "ID", "Name", selectedProductType.ToString());
+            ViewBag.SelectedC = PCId;
+            ViewBag.CategoryID = PCGetProductType(PCId);
+            ViewBag.SupplierID = new SelectList(dao.GetSuppliersDao(), "ID", "Name", null);
             ViewBag.PromotionPackageID = new SelectList(dao.GetPromotionPackagesDao(), "ID", "Name", null);
             ViewBag.CreatedBy = new SelectList(dao.GetCreatorDao(), "ID", "FullName", null);
+        }
+
+        public void setViewData(int PCId, int ProdId)
+        {
+            ViewData["VDCS"] = this.GetCategorySpecifications(PCId, ProdId);
         }
     }
 }
