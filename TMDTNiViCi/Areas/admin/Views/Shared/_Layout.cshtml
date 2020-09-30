@@ -12,6 +12,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
+    <link href="~/Content/Common/css/reset.css" rel="stylesheet" />
     <link href="~/Assets/admin/css/styles.css" rel="stylesheet" />
     <link href="~/Content/Common/css/common.css" rel="stylesheet" />
     <link href="~/Assets/admin/css/GeneralProperties.css" rel="stylesheet" />
@@ -55,13 +56,30 @@
         </div>
     </div>
 
+    <script>
+        function activeProgressBar() {
+            $(".progress__stage-one").addClass("progress__st__active");
+        }
+        function finishProgressBar() {
+            toggleClassOnProgressBar($(".progress__stage-one").css("width"));
+            setTimeout(() => {
+                $(".progress__stage-one").removeClass("progress__st__active");
+                toggleClassOnProgressBar('0px');
+            }, 1000);
+        }
+        function toggleClassOnProgressBar(left) {
+            $(".progress__stage-one").toggleClass("progress__first-phase-stop");
+            $(".progress__stage-two").css({ "left": `${left}` }).toggleClass("progress__run-second-stage");
+            //$(".st__progress-shadow, .so__progress-shadow").toggleClass("progress-shadow");
+        }
+    </script>
     <script src="~/Assets/admin/js/scripts.js"></script>
     @RenderSection("jsFooter", required: false)
 
     <div class="backdrop__body-backdrop___1rvky">
         <div class="css-1272naz"></div>
         <div class="icon-loading">
-            <img src="~/Data/images/IconLoading/sample.gif" alt="Alternate Text" style="width: 100px; height: 100px; border-radius: 50%;"/>
+            <img src="~/Data/images/IconLoading/sample.gif" alt="Alternate Text" style="width: 100px; height: 100px; border-radius: 50%;" />
         </div>
     </div>
 </body>
