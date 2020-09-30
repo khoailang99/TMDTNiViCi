@@ -1,1 +1,132 @@
-﻿
+﻿@model IEnumerable<TMDTNiViCi.Model.EF.Product>
+
+@{
+    var order = 0;
+}
+
+<table class="adm__wpl__table-contain-products">
+    <thead>
+        <tr>
+            <th class="tcp__thead__order"> STT </th>
+            <th class="tcp__thead__prod-image"> Hình </th>
+            <th class="tcp__thead__prod-name" style="width: 22%;"> Tên </th>
+            <th class="tcp__thead__original-price"> Giá nhập </th>
+            <th class="tcp__thead__price"> Giá bán </th>
+            <th class="tcp__thead__promotional-price"> Giá khuyến mãi</th>
+            <th class="tcp__thead__date-created"> Ngày tạo </th>
+            <th class="tcp__thead__update-day"> Ngày cập nhật </th>
+            <th class="tcp__thead__status"> Trạng thái </th>
+            <th class="tcp__thead__tasks"> Tác vụ </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model)
+        {
+            order += 1;
+            <tr>
+                <td> <span class="adm__tcp__prod-order" data-prodID="@prod.ID"> @prod.ID  </span> </td>
+                <td>
+                    <div class="adm__tcp__image-container">
+                        <img src="@prod.Image" class="adm__ic__main-image" />
+                    </div>
+                </td>
+                <td width="250px">
+                    <span class="adm__tcp__product-name"> @prod.Name </span>
+                </td>
+                <td>
+                    <span class="adm__tcp__original-price money"> @prod.OriginalPrice </span>
+                </td>
+                <td>
+                    <span class="adm__tcp__price is-number money"> @prod.Price </span>
+                </td>
+                <td>
+                    <span class="adm__tcp__promotional-price money"> @prod.PromotionPrice </span>
+                </td>
+                <td>
+                    <span class="adm__tcp__date-created datetime"> @prod.CreatedDate </span>
+                </td>
+                <td>
+                    <span class="adm__tcp__update-day datetime"> @prod.UpdatedDate </span>
+                </td>
+                <td>
+                    <div class="adm__tcp__prod-status">
+                        <button type="button" class="ps__btn-status btn-primary disable-btn-default-bootstrap"> Hiển thị </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="adm__tcp__action">
+                        <div class="adm__activity-view">
+                            <button type="button" class="aav__btn-view disable-btn-default-bootstrap padding-tb-lf-5-20" data-toggle="modal" data-target="#modal__view-product-detail" data-placement="bottom" title="Xem">
+                                <span class="aav__btn-icon"> <i class="far fa-eye"></i> </span>
+                            </button>
+                        </div>
+                        <div class="adm__repair-operations">
+                            <button type="button" class="aav__btn-edit disable-btn-default-bootstrap padding-tb-lf-5-20" data-toggle="tooltip" data-placement="bottom" title="Sửa">
+                                <a href="/Admin/Product/ProductUpdates/@prod.ID" style="color: black;"> <span class="aav__btn__icon"><i class="far fa-edit"></i></span>  </a>
+                            </button>
+                        </div>
+                        <div class="adm__delete-operation">
+                            <button type="button" class="aav__btn-delete disable-btn-default-bootstrap padding-tb-lf-5-20" data-toggle="tooltip" data-placement="bottom" title="Xóa">
+                                <span class="aav__btn__icon"> <i class="far fa-trash-alt"></i> </span>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- The Modal -->
+<div class="modal" id="modal__view-product-detail">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger disable-btn-default-bootstrap" data-dismiss="modal">Đóng!</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Kiểm tra phần danh mục đã đc chèn vào DOM và Thêm caption cho bảng danh mục
+        moment.defaultFormat = "MM/DD/YYYY HH:mm:ss a";
+        inspectDOMInsertion(function (event) {
+            if (event.animationName == "nodeInserted") {
+                document.querySelectorAll(".money").forEach((item) => {
+                    if (item.textContent.trim() == "") {
+                        item.textContent = "0đ";
+                        return;
+                    }
+                    let x = item.textContent.trim();
+                    let arrStr = parseInt(x).toString().split("");
+
+                    let len = arrStr.length - 1;
+                    for (let i = len - 1; i >= 0; i--) {
+                        arrStr[i] = ((len - i) % 3 == 0) ? arrStr[i] + "." : arrStr[i];
+                    }
+
+                    item.textContent = arrStr.join("") + "đ";
+                });
+                document.querySelectorAll(".datetime").forEach((item) => {
+                    item.textContent = moment(item.textContent.trim(), moment.defaultFormat).format("DD-MM-YYYY HH:mm:ss");
+                });
+            }
+        });
+    }, false)
+</script>
