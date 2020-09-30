@@ -16,7 +16,7 @@ namespace TMDTNiViCi.Areas.admin
         {
             context.MapRoute(
                 "admin_default",
-                "admin/{controller}/{action}/{id}",
+                "Admin/{controller}/{action}/{id}",
                 new { action = "Index", controller = "Home", id = UrlParameter.Optional },
                 namespaces: new string[] { "TMDTNiViCi.Areas.admin.Controllers" }
             );
