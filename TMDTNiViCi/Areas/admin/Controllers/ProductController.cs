@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,87 +14,25 @@ namespace TMDTNiViCi.Areas.admin.Controllers
 {
     public class ProductController : Controller
     {
-        ProductDao dao = new ProductDao();
+        ProductDao prodDao = new ProductDao();
+        PromotionDao promotionDao = new PromotionDao();
+        SupplierDao supplierDao = new SupplierDao();
+        ProductDetailsModel prodDetails = new ProductDetailsModel();
+
+        CategoryDao categoryDao = new CategoryDao();
+        CategoryController categoryCtl = new CategoryController();
+        
+
         char delimiter = char.Parse(",");
         string mulImgFileName = "";
 
-        // Phần hiển thị tất cả sản phẩm
         public ActionResult Index()
         {
-            ViewBag.CategoryID = PCGetProductType(0);
-            ViewBag.Supplier = new SelectList(dao.GetSuppliersDao(), "ID", "Name", null);
-            ViewData["VDProductList"] = dao.GetProductListDao(8, 0);
-            ViewData["VDTotalProduct"] = dao.GetTotalProductDao();
+            //ViewBag.CategoryID = categoryCtl.GetAllProdTypesAndCategoriesCC(true);
+            ViewBag.Supplier = new SelectList(prodDao.GetSuppliersDao(), "ID", "Name", null);
+            ViewData["VDProductList"] = prodDao.GetProductListDao(8, 0);
+            ViewData["VDTotalProduct"] = prodDao.GetTotalProductDao();
             return View();
-        }
-
-        public ActionResult GetProductList(int numbProd, int pageNumb)
-        {
-            ViewData["VDProductList"] = dao.GetProductListDao(numbProd, pageNumb);
-            return PartialView("~/Areas/admin/Views/Product/PVProductList.cshtml", ViewData["VDProductList"]);
-        }
-
-        // Sửa thông tin sản phẩm
-        [HttpGet]
-        public ActionResult ProductUpdates(int id)
-        {
-            var selectedPro = dao.GetProductDao(id);
-            setViewBag(selectedPro.CategoryID);
-            setViewData(selectedPro.CategoryID, id);
-            return View("~/Areas/admin/Views/Product/Create.cshtml", selectedPro);
-        }
-
-        // Phần thêm sản phẩm
-        public List<ProductCategory> PCGetProductType(int PCId)
-        {
-            List<ProductCategory> productCategoryListDb = dao.GetProductTypeDao(PCId);
-            if (PCId > 0)
-            {
-                return productCategoryListDb;
-            }
-            List<ProductCategory> pcFirstLevel = new List<ProductCategory>();
-            List<ProductCategory> pcSecondLevel = new List<ProductCategory>();
-            List<ProductCategory> pcListSorted = new List<ProductCategory>();
-            int relationshipNumb = 0;
-            foreach (var pc in productCategoryListDb)
-            {
-                relationshipNumb = pc.Relationship.Split(delimiter).Length;
-                if (relationshipNumb > 5)
-                {
-                    break;
-                }
-                switch (relationshipNumb)
-                {
-                    case 3:
-                        pcFirstLevel.Add(pc);
-                        break;
-                    case 4:
-                        pcSecondLevel.Add(pc);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            productCategoryListDb.RemoveRange(0, pcFirstLevel.Count() + pcSecondLevel.Count());
-            foreach (var pcfl in pcFirstLevel)
-            {
-                pcListSorted.Add(pcfl);
-                foreach (var pcsl in pcSecondLevel)
-                {
-                    if (pcsl.ParentID == pcfl.ID)
-                    {
-                        pcListSorted.Add(pcsl);
-                        foreach (var pctl in productCategoryListDb)
-                        {
-                            if (pctl.ParentID == pcsl.ID)
-                            {
-                                pcListSorted.Add(pctl);
-                            }
-                        }
-                    }
-                }
-            }
-            return pcListSorted;
         }
 
         [HttpGet]
@@ -106,45 +45,78 @@ namespace TMDTNiViCi.Areas.admin.Controllers
         [HttpPost, ValidateInput(false)]
         public long Create(Product product)
         {
-            if(product.ID > 0)
+            if (product.ID > 0)
             {
-                return dao.Update(product);
+                return prodDao.Update(product);
             }
-            return dao.Insert(product);
+            return prodDao.Insert(product);
         }
 
-        [HttpGet]
-        public ActionResult GetSpecificationsPC(string PCId, int ProdId)
+        // Lấy tất cả sản phẩm từ DB
+        public ActionResult GetProductList(int numbProd, int pageNumb)
         {
-            ViewData["VDCS"] = this.GetCategorySpecifications(Int32.Parse(PCId), ProdId);
+            ViewData["VDProductList"] = prodDao.GetProductListDao(numbProd, pageNumb);
+            return PartialView("~/Areas/admin/Views/Product/PVProductList.cshtml", ViewData["VDProductList"]);
+        }
+
+        // Lấy danh mục sản phẩm và các thông số kĩ thuật từ DB
+        public IEnumerable<CategorySpecificationModel> GetCategorySpecificationsPC(int PCId, int ProdId)
+        {
+            CategorySpecificationModel[] listCS = new CategorySpecificationModel[]{
+                new CategorySpecificationModel{CSCategory = categoryCtl.GetCategoriesCC(PCId), PCS_PS_Model = prodDao.Get_PCS_PS_Dao(PCId,ProdId)}
+            };
+
+            return listCS;
+        }
+
+        // Lấy Partial View chứa các danh mục của sản phẩm và các thông số kĩ thuật
+        [HttpGet]
+        public ActionResult GetPVCategorySpecificationsPC(string PCId, int ProdId)
+        {
+            ViewData["VDCS"] = this.GetCategorySpecificationsPC(Int32.Parse(PCId), ProdId);
             return PartialView("~/Areas/admin/Views/Product/PVSpecification.cshtml", ViewData["VDCS"]);
         }
 
-        [HttpPost]
-        public JsonResult AddSpecificationsPC(List<Product_Specifications> specificationListParam)
+        public ActionResult GetPVProductDetails(int prodId) // Xem thông tin sản phẩm
         {
-            var PSExists = dao.SpecificationsInserted(specificationListParam.First().ProductID); 
-            foreach (var ps in specificationListParam)
-            {
-                if(PSExists)
-                {
-                    if (!dao.UpdateSpecification(ps))
-                    {
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
-                }
-                else
-                {
-                    if (!dao.InsertSpecification(ps))
-                    {
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
-                }
-            }
-            return Json(true, JsonRequestBehavior.AllowGet);
+            List<String> images = new List<string>();
+
+            var prod = prodDao.GetProductDao(prodId);
+
+            images.Add(prod.Image);
+            prod.MoreImages.Split(delimiter).ForEach(delegate (String photoName) {
+                images.Add(prod.Image.Replace(prod.Image.Split(char.Parse("/")).Last(), photoName));
+            });
+
+            prodDetails.mainImages = images;
+            prodDetails.product = prod;
+            prodDetails.supplier = supplierDao.GetSupplierDao(prod.SupplierID ?? default (int));
+            prodDetails.productCategories = categoryCtl.GetCategoriesCC(prod.CategoryID, prod.Category);
+            prodDetails.pmtDetail_PmtPackage_Models = promotionDao.Get_PmtDetail_PmtPackage_Dao(prod.PromotionPackageID ?? default (int));
+            prodDetails.PCS_PS_Model = prodDao.Get_PCS_PS_Dao(prod.CategoryID, prod.ID);
+
+            List<ProductDetailsModel> listProd = new List<ProductDetailsModel>();
+            listProd.Add(prodDetails);
+            ViewData["VDProdDetail"] = listProd;
+            return PartialView("~/Areas/admin/Views/Product/PVProductDetails.cshtml", ViewData["VDProdDetail"]);
         }
 
-        public bool UploadFiles()
+       [HttpGet]
+        public ActionResult ProductUpdates(int id) // Sửa thông tin sản phẩm
+        {
+            var selectedPro = prodDao.GetProductDao(id);
+            setViewBag(selectedPro.CategoryID);
+            setViewData(selectedPro.CategoryID, id);
+            return View("~/Areas/admin/Views/Product/Create.cshtml", selectedPro);
+        }
+
+        
+        public void DeleteProduct(int prodId) // Xóa sản phẩm
+        {
+    
+        }
+
+        public bool UploadFiles() // Cập nhật các file ảnh đc tải lên từ máy người dùng
         {
             string directoryPath = Request["directoryPath"];
             HttpFileCollectionBase files = Request.Files;
@@ -169,38 +141,18 @@ namespace TMDTNiViCi.Areas.admin.Controllers
             return true;
         }
 
-        public IEnumerable<CategorySpecificationModel> GetCategorySpecifications(int PCId, int ProdId)
-        {
-            int parentCategoryID = 0;
-            List<ProductCategory> prodCategories = new List<ProductCategory>();
-            foreach (var pc in this.PCGetProductType(0))
-            {
-                if (pc.ParentID == PCId && pc.IsCategory > 0 || pc.ParentID == parentCategoryID && pc.IsCategory > 0)
-                {
-                    prodCategories.Add(pc);
-                    parentCategoryID = (pc.ParentID == PCId) ? pc.ID : parentCategoryID;
-                }
-            }
-
-            CategorySpecificationModel[] listCS = new CategorySpecificationModel[]{
-                new CategorySpecificationModel{CSCategory = prodCategories, PCS_PS_Model = dao.Get_PCS_PS_Dao(PCId,ProdId)}
-            };
-
-            return listCS;
-        }
-
         public void setViewBag(int PCId)
         {
             ViewBag.SelectedC = PCId;
-            ViewBag.CategoryID = PCGetProductType(PCId);
-            ViewBag.SupplierID = new SelectList(dao.GetSuppliersDao(), "ID", "Name", null);
-            ViewBag.PromotionPackageID = new SelectList(dao.GetPromotionPackagesDao(), "ID", "Name", null);
-            ViewBag.CreatedBy = new SelectList(dao.GetCreatorDao(), "ID", "FullName", null);
+            ViewBag.CategoryID = categoryCtl.GetAllProdTypesAndCategoriesCC(true);
+            ViewBag.SupplierID = new SelectList(prodDao.GetSuppliersDao(), "ID", "Name", null);
+            ViewBag.PromotionPackageID = new SelectList(prodDao.GetPromotionPackagesDao(), "ID", "Name", null);
+            ViewBag.CreatedBy = new SelectList(prodDao.GetCreatorDao(), "ID", "FullName", null);
         }
 
         public void setViewData(int PCId, int ProdId)
         {
-            ViewData["VDCS"] = this.GetCategorySpecifications(PCId, ProdId);
+            ViewData["VDCS"] = this.GetCategorySpecificationsPC(PCId, ProdId);
         }
     }
 }
