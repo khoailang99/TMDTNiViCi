@@ -18,6 +18,7 @@
     <link href="~/Assets/admin/css/GeneralProperties.css" rel="stylesheet" />
 
     @RenderSection("cssHeader", required: false)
+    <link href="~/fonts/fontawesome/css/all.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-grid.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-reboot.min.css" rel="stylesheet" />
@@ -39,7 +40,17 @@
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 </head>
-<body class="sb-nav-fixed">
+<body>
+    <div class="progress-bar__advanced">
+        <div class="progress-bar__contain-stages">
+            <div class="progress__stage-one progress__st__active">
+                @*<div class="so__progress-shadow"></div>*@
+            </div>
+            <div class="progress__stage-two">
+                @*<div class="st__progress-shadow"></div>*@
+            </div>
+        </div>
+    </div>
     @RenderPage("_Header.cshtml")
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -76,11 +87,12 @@
     <script src="~/Assets/admin/js/scripts.js"></script>
     @RenderSection("jsFooter", required: false)
 
-    <div class="backdrop__body-backdrop___1rvky">
+    <div class="backdrop__body-backdrop___1rvky fixed-viewport">
         <div class="css-1272naz"></div>
         <div class="icon-loading">
             <img src="~/Data/images/IconLoading/sample.gif" alt="Alternate Text" style="width: 100px; height: 100px; border-radius: 50%;" />
         </div>
     </div>
+    @RenderSection("ProductSpecifications", required: false)
 </body>
 </html>
