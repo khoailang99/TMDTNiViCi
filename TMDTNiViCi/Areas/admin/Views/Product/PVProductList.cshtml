@@ -24,7 +24,7 @@
         {
             order += 1;
             <tr>
-                <td> <span class="adm__tcp__prod-order" data-prodID="@prod.ID"> @prod.ID  </span> </td>
+                <td> <span class="adm__tcp__prod-order"> @prod.ID  </span> </td>
                 <td>
                     <div class="adm__tcp__image-container">
                         <img src="@prod.Image" class="adm__ic__main-image" />
@@ -56,9 +56,10 @@
                 <td>
                     <div class="adm__tcp__action">
                         <div class="adm__activity-view">
-                            <button type="button" class="aav__btn-view disable-btn-default-bootstrap padding-tb-lf-5-20" data-toggle="modal" data-target="#modal__view-product-detail" data-placement="bottom" title="Xem">
+                            <button type="button" class="aav__btn-view disable-btn-default-bootstrap padding-tb-lf-5-20" data-typeAc-prodID="s+@prod.ID.ToString()" data-toggle="modal" data-target="#modal__view-product-detail" data-placement="bottom" title="Xem">
                                 <span class="aav__btn-icon"> <i class="far fa-eye"></i> </span>
                             </button>
+                            @*onclick="activeModalShowPDetail()"*@
                         </div>
                         <div class="adm__repair-operations">
                             <button type="button" class="aav__btn-edit disable-btn-default-bootstrap padding-tb-lf-5-20" data-toggle="tooltip" data-placement="bottom" title="Sửa">
@@ -66,7 +67,7 @@
                             </button>
                         </div>
                         <div class="adm__delete-operation">
-                            <button type="button" class="aav__btn-delete disable-btn-default-bootstrap padding-tb-lf-5-20" data-toggle="tooltip" data-placement="bottom" title="Xóa">
+                            <button type="button" class="aav__btn-delete disable-btn-default-bootstrap padding-tb-lf-5-20" data-typeAc-prodID="d+@prod.ID.ToString()" data-toggle="tooltip" data-placement="bottom" title="Xóa">
                                 <span class="aav__btn__icon"> <i class="far fa-trash-alt"></i> </span>
                             </button>
                         </div>
@@ -90,7 +91,14 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                Modal body..
+                <div id="modal-body__prod-details-area">
+                    @if (ViewData["VDProdDetail"] != null)
+                    {
+                        @Html.Partial("PVProductDetails", ViewData["VDProdDetail"])
+                    }
+
+                    @*@Html.Partial("PVProductDetails")*@
+                </div>
             </div>
 
             <!-- Modal footer -->
@@ -101,32 +109,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Kiểm tra phần danh mục đã đc chèn vào DOM và Thêm caption cho bảng danh mục
-        moment.defaultFormat = "MM/DD/YYYY HH:mm:ss a";
-        inspectDOMInsertion(function (event) {
-            if (event.animationName == "nodeInserted") {
-                document.querySelectorAll(".money").forEach((item) => {
-                    if (item.textContent.trim() == "") {
-                        item.textContent = "0đ";
-                        return;
-                    }
-                    let x = item.textContent.trim();
-                    let arrStr = parseInt(x).toString().split("");
-
-                    let len = arrStr.length - 1;
-                    for (let i = len - 1; i >= 0; i--) {
-                        arrStr[i] = ((len - i) % 3 == 0) ? arrStr[i] + "." : arrStr[i];
-                    }
-
-                    item.textContent = arrStr.join("") + "đ";
-                });
-                document.querySelectorAll(".datetime").forEach((item) => {
-                    item.textContent = moment(item.textContent.trim(), moment.defaultFormat).format("DD-MM-YYYY HH:mm:ss");
-                });
-            }
-        });
-    }, false)
-</script>
