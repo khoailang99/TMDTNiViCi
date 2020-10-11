@@ -7,7 +7,7 @@
     $("#PC-ac__product-type-ddl").change(function () {
         activeProgressBar();
         $.ajax({
-            url: '/Product/GetSpecificationsPC',
+            url: '/Product/GetPVCategorySpecificationsPC',
             type: "GET",
             data: { PCId: $(this).children("option:selected").val(), ProdId : 0},
             success: function (partialViewResult) {
