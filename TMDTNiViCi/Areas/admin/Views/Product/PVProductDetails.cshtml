@@ -1,0 +1,224 @@
+﻿@model IEnumerable<TMDTNiViCi.Areas.admin.Models.ProductDetailsModel>
+
+@{
+    var typeCurrentSpecification = 0;
+    string[] arrTS = { "Thông tin tổng quan", "Thông tin chung", "Cấu hình chi tiết", "Thông tin khác" };
+}
+
+@foreach (var pdm in Model)
+{
+    <div class="pda__detail-info-prod">
+        <div class="dip__container-pp-mis">
+            <div class="pad__dip__part-pictures">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                        @foreach(var image in pdm.mainImages)
+                        {
+                            <div class="swiper-slide" style="background-image:url(@image)"></div>
+                        }
+                    </div>
+                </div>
+
+                <div class="swiper-container gallery-thumbs">
+                    <div class="swiper-wrapper">
+                        @foreach (var image in pdm.mainImages)
+                        {
+                            <div class="swiper-slide" style="background-image:url(@image)"></div>
+                        }
+                    </div>
+                    <div class="swiper-button-next swiper-button-white"></div>
+                    <div class="swiper-button-prev swiper-button-white"></div>
+                </div>
+            </div>
+            <div class="pad__dip__main-info-section">
+                <table class="mis__table-contain-main-info">
+                    <colgroup>
+                        <col style="width: 24%" class="tcmi__col-name-main-info">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th> Tên sản phẩm: </th>
+                            <td> @pdm.product.Name </td>
+                        </tr>
+                        <tr>
+                            <th> Lượt xem: </th>
+                            <td> @pdm.product.ViewCount </td>
+                        </tr>
+                        <tr>
+                            <th> Giá nhập: </th>
+                            <td> @pdm.product.OriginalPrice </td>
+                        </tr>
+                        <tr>
+                            <th> Giá bán: </th>
+                            <td> @pdm.product.Price </td>
+                        </tr>
+                        <tr>
+                            <th> Giá khuyến mãi: </th>
+                            <td> @pdm.product.PromotionPrice </td>
+                        </tr>
+                        <tr>
+                            <th> Số lượng: </th>
+                            <td>  @pdm.product.Quantity </td>
+                        </tr>
+                        <tr>
+                            <th> Nhà cung cấp: </th>
+                            <td> @pdm.supplier.Name </td>
+                        </tr>
+                        <tr>
+                            <th> Loại sản phẩm: </th>
+                            <td> @pdm.productCategories.First().Name </td>
+                        </tr>
+                        <tr>
+                            <th> Các danh mục: </th>
+                            <td>
+                                @foreach(var pc in pdm.productCategories.Skip(1))
+                                {
+                                    <p> @pc.Name </p>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Khuyến mãi: </th>
+                            <td>
+                                @foreach(var pp in pdm.pmtDetail_PmtPackage_Models)
+                                {
+                                    <h4> @pp.PmtPackage.Name: </h4>
+                                    <ol>
+                                        @foreach(var promotion in pp.PmtDetail)
+                                        {
+                                            <li> @promotion.Name </li>
+                                        }
+                                    </ol>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Trạng thái: </th>
+                            <td>
+                                @if (pdm.product.IsDeleted ?? default(bool))
+                                {
+                                    <button type="button" class="btn btn-danger disable-btn-default-bootstrap"> Xóa </button>
+                                }
+                                else if (pdm.product.Status == 1)
+                                {
+                                    <button type="button" class="btn btn-primary disable-btn-default-bootstrap"> Hiển thị </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-warning disable-btn-default-bootstrap"> Ẩn </button>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Ngày tạo: </th>
+                            <td> @pdm.product.CreatedDate </td>
+                        </tr>
+                        <tr>
+                            <th> Người tạo: </th>
+                            <td> @pdm.product.CreatedBy </td>
+                        </tr>
+                        <tr>
+                            <th> Ngày cập nhật: </th>
+                            <td> @pdm.product.UpdatedDate </td>
+                        </tr>
+                        <tr>
+                            <th> Người cập nhật: </th>
+                            <td> @pdm.product.UpdatedBy </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dip__container-ddc-ps clearfix">
+            <div class="pad__dip__desc-detail-contetn">
+                <div class="ddc__product-desc">
+                    <h3 class="ddc__pd__desc-label">Thông tin miêu tả</h3>
+                    <div class="ddc__pd__desc-txtValue">
+                        <p>
+                            @Html.Raw(pdm.product.Description)
+                        </p>
+                    </div>
+                </div>
+                <div class="ddc__detail-content">
+                    <h3 class="ddc__dc__detail-label"> Nội dung chi tiết </h3>
+                    <div class="ddc__dc__detail-txtValue">
+                        @Html.Raw(pdm.product.Content)
+                    </div>
+
+                    <div class="ddc__dc__detail-expand-collapse active-blur-prod_detail">
+                        <p class="dc__dec__expand-prod-cDetail active"> Xem thêm nội dung </p>
+                        <p class="dc__dec__collapse-prod-cDetail"> Thu gọn nội dung </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pad__dip__container-ps-saci">
+                <div class="pad__dip__part-specifications">
+                    <h3 class="ps__label-specifications">
+                        Thông Số Kĩ Thuật
+                    </h3>
+
+                    <div class="ps__box-contain-specifications">
+                        <table class="ps__list-specifications">
+                            <colgroup>
+                                <col style="width: 40%">
+                                <col>
+                            </colgroup>
+                            <tbody>
+
+                                @foreach(var pcs_ps in pdm.PCS_PS_Model)
+                                {
+                                    if(typeCurrentSpecification != pcs_ps.PSModel.TypeSpecifications)
+                                    {
+                                        typeCurrentSpecification = (int)pcs_ps.PSModel.TypeSpecifications;
+                                        <tr>
+                                            <th colspan="2"> @arrTS[typeCurrentSpecification] </th>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td> @Html.Raw(pcs_ps.PCSModel.Name) </td>
+                                        <td> @Html.Raw(pcs_ps.PSModel.Value) </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="ps__ls__expand-collapse-specifications active-blur-prod_specifications">
+                        <p class="ls__ecs__expand-table-specifications active"> Xem thêm nội dung </p>
+                        <p class="ls__ecs__collapse-table-specifications"> Thu gọn nội dung </p>
+                    </div>
+                </div>
+                <div class="dip__seo-area-contain-info">
+                    <h3 class="saci__gc__seo-title"> Thông tin về SEO </h3>
+                    <div class="saci__grid-container">
+                        <div class="saci__gc__alias-info">
+                            <h4 class="alias-info__label saci__label">Bí Danh (Alias): </h4>
+                            <span class="alias-info__value"> @pdm.product.Alias </span>
+                        </div>
+                        <div class="saci__gc__meta-key-info">
+                            <h4 class="meta-key-info__label saci__label"> Meta Key: </h4>
+                            <span class="meta-key-info__value"> @pdm.product.MetaKeyword </span>
+                        </div>
+                        <div class="saci__gc__meta-desc-info">
+                            <h4 class="meta-desc-info__label saci__label"> Meta Description: </h4>
+                            <span class="meta-desc-info__value"> @pdm.product.MetaDescription </span>
+                        </div>
+                        <div class="saci__gc__image-seo">
+                            <h4 class="image-seo__label saci__label">Hình Ảnh Seo: </h4>
+                            <div class="is__photo-frame">
+                                @if (pdm.product.SeoImage != null)
+                                {
+                                    <img src="@pdm.product.SeoImage" alt="@pdm.product.SeoImage">
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
