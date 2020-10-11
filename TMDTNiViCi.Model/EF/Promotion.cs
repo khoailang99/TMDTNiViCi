@@ -22,6 +22,11 @@ namespace TMDTNiViCi.Model.EF
 
         public decimal? Value { get; set; }
 
+        [StringLength(255)]
+        public string Image { get; set; }
+
+        public short? Amount { get; set; }
+
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(50)]
