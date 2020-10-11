@@ -138,11 +138,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\admin\Controllers\SpecificationController.cs" />
     <Compile Include="Areas\admin\Models\CategorySpecificationModel.cs" />
     <Compile Include="Areas\admin\Models\LoginModel.cs" />
+    <Compile Include="Areas\admin\Models\ProductDetailsModel.cs" />
     <Compile Include="Common\AttributeProductTypeDDL.cs" />
     <Compile Include="Common\CommonConstants.cs" />
     <Compile Include="Common\ProductTypeDDL.cs" />
@@ -161,6 +164,7 @@
     <Content Include="Assets\admin\css\Login\AdminLogin.css" />
     <Content Include="Assets\admin\css\Product\AddProduct.css" />
     <Content Include="Assets\admin\css\Product\ListProducts.css" />
+    <Content Include="Assets\admin\css\Product\ProductDetails.css" />
     <Content Include="Assets\admin\css\styles.css" />
     <Content Include="Assets\admin\js\Login\AdminLogin.js" />
     <Content Include="Assets\admin\js\Product\ListProducts.js" />
@@ -351,6 +355,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\swiper-bundle.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontawesome\css\all.css" />
@@ -1665,6 +1670,9 @@
     <Content Include="Areas\admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\admin\Views\Product\PVProductList.cshtml" />
     <Content Include="Areas\admin\Views\Product\Create.cshtml" />
+    <Content Include="Areas\admin\Views\Product\PVProductDetails.cshtml" />
+    <Content Include="Areas\admin\Views\Product\GetPVProductDetails.cshtml" />
+    <Content Include="Areas\admin\Views\Category\Index.cshtml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -1751,6 +1759,7 @@
     <Content Include="Scripts\src\utils\setAttributes.js" />
     <Content Include="Scripts\src\utils\setStyles.js" />
     <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\swiper-bundle.min.js" />
     <Content Include="Scripts\tinymce\icons\default\icons.js" />
     <Content Include="Scripts\tinymce\icons\default\icons.min.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
@@ -1913,6 +1922,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Data\" />
     <Folder Include="Areas\admin\Views\Base\" />
+    <Folder Include="Areas\admin\Views\Specification\" />
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="Models\" />

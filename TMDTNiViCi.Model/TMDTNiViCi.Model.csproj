@@ -53,7 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\CategoryDao.cs" />
     <Compile Include="Dao\ProductDao.cs" />
+    <Compile Include="Dao\PromotionDao.cs" />
+    <Compile Include="Dao\SpecificationDao.cs" />
+    <Compile Include="Dao\SupplierDao.cs" />
     <Compile Include="Dao\UserDao.cs" />
     <Compile Include="EF\ApplicationGroup.cs" />
     <Compile Include="EF\ApplicationRole.cs" />
@@ -87,6 +91,7 @@
     <Compile Include="EF\Tag.cs" />
     <Compile Include="EF\TMDTNiViCiDbContext.cs" />
     <Compile Include="Models\ProductCategoryS_ProductS_Model.cs" />
+    <Compile Include="Models\PmtDetail_PmtPackage_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
