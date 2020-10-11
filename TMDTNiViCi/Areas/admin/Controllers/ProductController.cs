@@ -15,11 +15,10 @@ namespace TMDTNiViCi.Areas.admin.Controllers
     public class ProductController : Controller
     {
         ProductDao prodDao = new ProductDao();
-        PromotionDao promotionDao = new PromotionDao();
-        SupplierDao supplierDao = new SupplierDao();
         ProductDetailsModel prodDetails = new ProductDetailsModel();
 
-        CategoryDao categoryDao = new CategoryDao();
+        PromotionController promotionCtl = new PromotionController();
+        SupplierController supplierCtl = new SupplierController();
         CategoryController categoryCtl = new CategoryController();
         
 
@@ -28,7 +27,7 @@ namespace TMDTNiViCi.Areas.admin.Controllers
 
         public ActionResult Index()
         {
-            //ViewBag.CategoryID = categoryCtl.GetAllProdTypesAndCategoriesCC(true);
+            ViewBag.CategoryID = categoryCtl.GetAllProdTypesAndCategoriesCC(true);
             ViewBag.Supplier = new SelectList(prodDao.GetSuppliersDao(), "ID", "Name", null);
             ViewData["VDProductList"] = prodDao.GetProductListDao(8, 0);
             ViewData["VDTotalProduct"] = prodDao.GetTotalProductDao();
@@ -90,9 +89,9 @@ namespace TMDTNiViCi.Areas.admin.Controllers
 
             prodDetails.mainImages = images;
             prodDetails.product = prod;
-            prodDetails.supplier = supplierDao.GetSupplierDao(prod.SupplierID ?? default (int));
+            prodDetails.supplier = supplierCtl.GetSupplierSC(prod.SupplierID ?? default (int));
             prodDetails.productCategories = categoryCtl.GetCategoriesCC(prod.CategoryID, prod.Category);
-            prodDetails.pmtDetail_PmtPackage_Models = promotionDao.Get_PmtDetail_PmtPackage_Dao(prod.PromotionPackageID ?? default (int));
+            prodDetails.pmtDetail_PmtPackage_Models = promotionCtl.Get_PmtDetail_PmtPackage_PC(prod.PromotionPackageID ?? default (int));
             prodDetails.PCS_PS_Model = prodDao.Get_PCS_PS_Dao(prod.CategoryID, prod.ID);
 
             List<ProductDetailsModel> listProd = new List<ProductDetailsModel>();
