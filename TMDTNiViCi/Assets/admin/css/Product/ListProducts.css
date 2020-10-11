@@ -78,6 +78,15 @@
     overflow-x: scroll;
 }
 
+#modal__view-product-detail {
+    padding-right: 0!important;
+}
+
+#modal__view-product-detail .modal-dialog {
+    border-radius: 5px;
+    box-shadow: 1px 2px 8px #ffffff, -1px -2px 8px #ffffff;
+}
+
 .adm__wpl__table-contain-products {
     width: 100%;
 }
@@ -221,5 +230,9 @@
 @media screen and (min-width: 800px) {
     #aap__wrap-prod-list {
         overflow-x: hidden;
+    }
+
+    #modal__view-product-detail {
+        padding-right: 16px !important;
     }
 }
