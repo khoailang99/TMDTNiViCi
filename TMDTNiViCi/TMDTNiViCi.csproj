@@ -142,7 +142,9 @@
     <Compile Include="Areas\admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\admin\Controllers\PromotionController.cs" />
     <Compile Include="Areas\admin\Controllers\SpecificationController.cs" />
+    <Compile Include="Areas\admin\Controllers\SupplierController.cs" />
     <Compile Include="Areas\admin\Models\CategorySpecificationModel.cs" />
     <Compile Include="Areas\admin\Models\LoginModel.cs" />
     <Compile Include="Areas\admin\Models\ProductDetailsModel.cs" />
@@ -1922,7 +1924,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Data\" />
     <Folder Include="Areas\admin\Views\Base\" />
+    <Folder Include="Areas\admin\Views\Promotion\" />
     <Folder Include="Areas\admin\Views\Specification\" />
+    <Folder Include="Areas\admin\Views\Supplier\" />
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="Models\" />
