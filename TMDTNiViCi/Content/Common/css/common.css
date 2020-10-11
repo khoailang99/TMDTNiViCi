@@ -1,7 +1,25 @@
-﻿a {
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+a {
     display: block;
     color: inherit!important;
     text-decoration: none!important;
+}
+
+.fixed-viewport {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1050;
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
 
 /*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.1*/
@@ -16,7 +34,7 @@
     }
 }
 /*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.2*/
-.PC-ac__container-specification-category > div, #aap__wrap-prod-list .adm__wpl__table-contain-products {
+.PC-ac__container-specification-category > div, #aap__wrap-prod-list .adm__wpl__table-contain-products tbody tr {
     animation-duration: 0.001s;
     animation-name: nodeInserted;
 }
@@ -181,9 +199,10 @@
 }
 
 .progress-bar__advanced, .progress__stage-one, .progress__stage-two {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+    z-index: 1100;
 }
 
 .progress-bar__contain-stages {
@@ -500,16 +519,11 @@ table, th, td {
 
 /*Style overloading*/
 .backdrop__body-backdrop___1rvky {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    z-index: 1050;
-    display: none;
-    justify-content: center;
-    align-items: center;
     background: rgba(0, 0, 0, 0.1);
+}
+
+.backdrop__body-backdrop__dark-bgColor {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .css-1272naz {
