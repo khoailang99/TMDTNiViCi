@@ -1,0 +1,11 @@
+﻿@model TMDTNiViCi.Areas.admin.Models.ProductDetailsModel
+
+@{
+    var typeCurrentSpecification = 0;
+    string[] arrTS = { "Thông tin tổng quan", "Thông tin chung", "Cấu hình chi tiết", "Thông tin khác" };
+}
+
+<h3 class="ddc__dc__detail-label"> Nội dung chi tiết </h3>
+<div class="ddc__dc__detail-txtValue">
+    @Html.Raw(Model.product.Content)
+</div>
