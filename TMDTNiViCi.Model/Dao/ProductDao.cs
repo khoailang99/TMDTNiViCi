@@ -189,11 +189,13 @@ namespace TMDTNiViCi.Model.Dao
 
             if(ProdID > 0)
             {
-                List_PS = (db.Product_Specifications.Where(ps => ps.ProductID == ProdID)).ToList();
+                List_PS = (db.Product_Specifications.Where(ps => ps.ProductID == ProdID).Select(ps => ps)).ToList();
                 foreach (var pcs_ps in List_PCS_PS)
                 {
                     pcs_ps.PSModel = List_PS.Find(ps => ps.SpecificationID == pcs_ps.PCSModel.ID);
                 }
+
+                List_PCS_PS.OrderBy(pcs_ps => pcs_ps.PSModel.TypeSpecifications).ToList();
             }
             
             return List_PCS_PS;
