@@ -31,20 +31,6 @@ namespace TMDTNiViCi.Model.Dao
             }
         }
 
-        public bool InsertSpecification(Product_Specifications ps)
-        {
-            db.Product_Specifications.Add(ps);
-            try
-            {
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
         public long Update(Product product)
         {
             var updatedProd = db.Products.SingleOrDefault(prod => prod.ID == product.ID);
@@ -77,40 +63,6 @@ namespace TMDTNiViCi.Model.Dao
             {
                 return 0;
             }
-        }
-
-        public bool UpdateSpecification(Product_Specifications ps)
-        {
-            var sfc = db.Product_Specifications.SingleOrDefault(psu => psu.SpecificationID == ps.SpecificationID && psu.ProductID == ps.ProductID);
-            if(sfc == null)
-            {
-                return InsertSpecification(ps);
-            }
-
-            // Cập nhật nội dung thông số kĩ thuật của sản phẩm đc chọn        
-            try
-            {
-                sfc.Value = ps.Value;
-                sfc.Status = ps.Status;
-                sfc.TypeSpecifications = ps.TypeSpecifications;
-                sfc.IsDeleted = ps.IsDeleted;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-        }
-
-        public bool SpecificationsInserted(int ProdId)
-        {
-            if(db.Product_Specifications.Count(ps => ps.ProductID == ProdId) > 0)
-            {
-                return true;
-            }
-            return false;
         }
 
         public Product GetProductDao(int ProdID)
@@ -195,7 +147,7 @@ namespace TMDTNiViCi.Model.Dao
                     pcs_ps.PSModel = List_PS.Find(ps => ps.SpecificationID == pcs_ps.PCSModel.ID);
                 }
 
-                List_PCS_PS.OrderBy(pcs_ps => pcs_ps.PSModel.TypeSpecifications).ToList();
+                List_PCS_PS = List_PCS_PS.OrderBy(pcs_ps => pcs_ps.PCSModel.TypeSpecifications).ToList();
             }
             
             return List_PCS_PS;
