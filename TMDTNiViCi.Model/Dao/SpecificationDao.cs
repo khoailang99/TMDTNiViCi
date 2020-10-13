@@ -51,7 +51,6 @@ namespace TMDTNiViCi.Model.Dao
             {
                 sfc.Value = ps.Value;
                 sfc.Status = ps.Status;
-                sfc.TypeSpecifications = ps.TypeSpecifications;
                 sfc.IsDeleted = ps.IsDeleted;
                 db.SaveChanges();
                 return true;
