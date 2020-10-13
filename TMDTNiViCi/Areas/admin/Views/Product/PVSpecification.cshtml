@@ -145,13 +145,9 @@
                                         <select class="selectpicker selectpicker-partialView ts__list-specifications-type" onchange="changeBackgroundSpeType(this)">
                                             @foreach (var ts in arrTS)
                                             {
-                                                if ((pcs.PSModel != null && Array.IndexOf(arrTS, ts) == pcs.PSModel.TypeSpecifications) || pcs.PSModel == null && Array.IndexOf(arrTS, ts) == 2)
+                                                if (Array.IndexOf(arrTS, ts) == pcs.PCSModel.TypeSpecifications)
                                                 {
                                                     <option value="@Array.IndexOf(arrTS, ts)" selected> @ts </option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@Array.IndexOf(arrTS, ts)"> @ts  </option>
                                                 }
                                             }
                                         </select>
