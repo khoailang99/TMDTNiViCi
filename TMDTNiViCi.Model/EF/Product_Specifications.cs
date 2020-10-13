@@ -25,8 +25,6 @@ namespace TMDTNiViCi.Model.EF
 
         public bool IsDeleted { get; set; }
 
-        public byte? TypeSpecifications { get; set; }
-
         public virtual PCSpecification PCSpecification { get; set; }
 
         public virtual Product Product { get; set; }
