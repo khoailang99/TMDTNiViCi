@@ -32,6 +32,8 @@ namespace TMDTNiViCi.Model.EF
 
         public int? ParentID { get; set; }
 
+        public byte? TypeSpecifications { get; set; }
+
         public virtual ProductCategory ProductCategory { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
