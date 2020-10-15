@@ -33,58 +33,68 @@
             <div class="pad__dip__main-info-section">
                 <table class="mis__table-contain-main-info">
                     <colgroup>
-                        <col style="width: 24%" class="tcmi__col-name-main-info">
+                        <col style="width: 30%" class="tcmi__col-name-main-info">
                         <col>
                     </colgroup>
                     <tbody>
                         <tr>
-                            <th> Tên sản phẩm: </th>
+                            <th> Tên sản phẩm </th>
                             <td> @pdm.product.Name </td>
                         </tr>
                         <tr>
-                            <th> Lượt xem: </th>
+                            <th> Lượt xem </th>
                             <td> @pdm.product.ViewCount </td>
                         </tr>
                         <tr>
-                            <th> Giá nhập: </th>
-                            <td> @pdm.product.OriginalPrice </td>
+                            <th> Giá nhập </th>
+                            <td class="money"> @pdm.product.OriginalPrice </td>
                         </tr>
                         <tr>
-                            <th> Giá bán: </th>
-                            <td> @pdm.product.Price </td>
+                            <th> Giá bán </th>
+                            <td class="money"> @pdm.product.Price </td>
                         </tr>
                         <tr>
-                            <th> Giá khuyến mãi: </th>
-                            <td> @pdm.product.PromotionPrice </td>
+                            <th> Giá khuyến mãi </th>
+                            <td class="money"> @pdm.product.PromotionPrice </td>
                         </tr>
                         <tr>
-                            <th> Số lượng: </th>
+                            <th> Số lượng </th>
                             <td>  @pdm.product.Quantity </td>
                         </tr>
                         <tr>
-                            <th> Nhà cung cấp: </th>
-                            <td> @pdm.supplier.Name </td>
+                            <th> Nhà cung cấp </th>
+                            <td> @ViewData["Supplier"] </td>
                         </tr>
                         <tr>
-                            <th> Loại sản phẩm: </th>
-                            <td> @pdm.productCategories.First().Name </td>
+                            <th> Loại sản phẩm </th>
+                            <td> @ViewData["ProdType"] </td>
                         </tr>
                         <tr>
-                            <th> Các danh mục: </th>
+                            <th> Các danh mục </th>
                             <td>
-                                @foreach(var pc in pdm.productCategories.Skip(1))
+                                @if (pdm.product.Category != null)
                                 {
-                                    <p> @pc.Name </p>
+                                    foreach (var pc in pdm.productCategories)
+                                    {
+                                        if (pc.ParentID == pdm.product.CategoryID)
+                                        {
+                                            <h6> @pc.Name: </h6>
+                                        }
+                                        else
+                                        {
+                                            <p> @pc.Name </p>
+                                        }
+                                    }
                                 }
                             </td>
                         </tr>
                         <tr>
-                            <th> Khuyến mãi: </th>
+                            <th> Khuyến mãi </th>
                             <td>
                                 @foreach(var pp in pdm.pmtDetail_PmtPackage_Models)
                                 {
-                                    <h4> @pp.PmtPackage.Name: </h4>
-                                    <ol>
+                                    <h6> @pp.PmtPackage.Name: </h6>
+                                    <ol style="list-style: circle;">
                                         @foreach(var promotion in pp.PmtDetail)
                                         {
                                             <li> @promotion.Name </li>
@@ -94,7 +104,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th> Trạng thái: </th>
+                            <th> Trạng thái </th>
                             <td>
                                 @if (pdm.product.IsDeleted ?? default(bool))
                                 {
@@ -111,19 +121,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <th> Ngày tạo: </th>
-                            <td> @pdm.product.CreatedDate </td>
+                            <th> Ngày tạo </th>
+                            <td class="datetime"> @pdm.product.CreatedDate </td>
                         </tr>
                         <tr>
-                            <th> Người tạo: </th>
+                            <th> Người tạo </th>
                             <td> @pdm.product.CreatedBy </td>
                         </tr>
                         <tr>
-                            <th> Ngày cập nhật: </th>
-                            <td> @pdm.product.UpdatedDate </td>
+                            <th> Ngày cập nhật </th>
+                            <td class="datetime"> @pdm.product.UpdatedDate </td>
                         </tr>
                         <tr>
-                            <th> Người cập nhật: </th>
+                            <th> Người cập nhật </th>
                             <td> @pdm.product.UpdatedBy </td>
                         </tr>
                     </tbody>
@@ -169,19 +179,27 @@
                             </colgroup>
                             <tbody>
 
-                                @foreach(var pcs_ps in pdm.PCS_PS_Model)
+                                @foreach (var pcs_ps in pdm.PCS_PS_Model)
                                 {
-                                    if(typeCurrentSpecification != pcs_ps.PSModel.TypeSpecifications)
+                                    if (!(pcs_ps.PCSModel.IsFilter > 0 && pcs_ps.PCSModel.ParentID > 0))
                                     {
-                                        typeCurrentSpecification = (int)pcs_ps.PSModel.TypeSpecifications;
+                                        if (typeCurrentSpecification != pcs_ps.PCSModel.TypeSpecifications)
+                                        {
+                                            typeCurrentSpecification = (int)pcs_ps.PCSModel.TypeSpecifications;
+                                            <tr>
+                                                <th colspan="2"> @arrTS[typeCurrentSpecification] </th>
+                                            </tr>
+                                        }
                                         <tr>
-                                            <th colspan="2"> @arrTS[typeCurrentSpecification] </th>
+                                            <td> @Html.Raw(pcs_ps.PCSModel.Name) </td>
+                                            <td>
+                                                @if (pcs_ps.PSModel != null)
+                                                {
+                                                    @Html.Raw(pcs_ps.PSModel.Value)
+                                                }
+                                            </td>
                                         </tr>
                                     }
-                                    <tr>
-                                        <td> @Html.Raw(pcs_ps.PCSModel.Name) </td>
-                                        <td> @Html.Raw(pcs_ps.PSModel.Value) </td>
-                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -209,12 +227,12 @@
                         </div>
                         <div class="saci__gc__image-seo">
                             <h4 class="image-seo__label saci__label">Hình Ảnh Seo: </h4>
-                            <div class="is__photo-frame">
-                                @if (pdm.product.SeoImage != null)
-                                {
+                            @if (pdm.product.SeoImage != null)
+                            {
+                                <div class="is__photo-frame">
                                     <img src="@pdm.product.SeoImage" alt="@pdm.product.SeoImage">
-                                }
-                            </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
