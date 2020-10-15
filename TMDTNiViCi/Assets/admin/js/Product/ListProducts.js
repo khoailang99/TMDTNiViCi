@@ -144,12 +144,15 @@
 
         triggerShownEOnModalProdDetail() {
             $('#modal__view-product-detail').on('shown.bs.modal', function (e) {
+                console.log(1)
                 if ($(".ddc__dc__detail-txtValue").outerHeight() - Number($('.ddc__dc__detail-txtValue').css("padding-bottom").slice(0, -2)) > this.maxHeightDContentS) {
                     this.controlMaxHContainer_PD_PS($(".ddc__dc__detail-txtValue"));
                 }
                 if ($('.ps__box-contain-specifications').outerHeight() - Number($('.ps__box-contain-specifications').css("padding-bottom").slice(0, -2)) > this.maxHeightDContentS) {
                     this.controlMaxHContainer_PD_PS($('.ps__box-contain-specifications'));
                 }
+
+                this.activeModalShowPDetail();
 
                 this.triggerClickEOnProdDEB();
                 this.triggerClickEOnExpandBPS();
@@ -211,9 +214,36 @@
             $(".modal__prod-specificationis").css("display", `${vDisplay}`).find(".ps__list-specifications").css({ "overflow": (vDisplay == "block" ? "initial" : "hidden") });
             $(".ps__ls__expand-collapse-specifications").css("display", (vDisplay == "block" ? "none" : "block"));
         }
+
+        activeModalShowPDetail() {
+            let galleryThumbs = new Swiper('.gallery-thumbs', {
+                spaceBetween: 10,
+                slidesPerView: 'auto',
+                freeMode: true,
+                watchSlidesVisibility: true,
+                watchSlidesProgress: true,
+                slideToClickedSlide: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                watchOverflow: true,
+            });
+            let galleryTop = new Swiper('.gallery-top', {
+                spaceBetween: 10,
+                mousewheel: true,
+                thumbs: {
+                    swiper: galleryThumbs
+                }
+            });
+
+            $('.gallery-thumbs .swiper-wrapper .swiper-slide').mouseenter(function () {
+                galleryTop.slideTo($(this).index());
+            });
+        }
     }
 
     let pDetail_pSpecification = new PDetail_PSpecification(objListProduct.maxHeight_PD_PS);
-    //pDetail_pSpecification.triggerShownEOnModalProdDetail();
+    pDetail_pSpecification.triggerShownEOnModalProdDetail();
 
 }, false)
