@@ -61,8 +61,11 @@ namespace TMDTNiViCi.Model.Dao
             List<ProductCategory> categories = new List<ProductCategory>();
             foreach(var category in categoriesLinq) 
             {
-                categories.Add(category.secondaryC);
-                categories.AddRange(category.tertiaryC.ToList());
+                if(category.tertiaryC.Count() > 0)
+                {
+                    categories.Add(category.secondaryC);
+                    categories.AddRange(category.tertiaryC.ToList());
+                }
             }
             return categories;
         }
