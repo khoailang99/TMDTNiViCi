@@ -256,20 +256,27 @@
     width: 28%;
 }
 
+.mis__table-contain-main-info tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
 .mis__table-contain-main-info th, .mis__table-contain-main-info td, .ps__list-specifications th, .ps__list-specifications td {
     text-align: left;
 }
 
 .mis__table-contain-main-info th, .mis__table-contain-main-info td {
-    font-size: 17px;
     vertical-align: middle;
-    padding: 5px;
+    padding: 12px 15px;
 }
 
 .mis__table-contain-main-info th {
+    font-size: 17px;
     font-weight: 600;
 }
 
+.mis__table-contain-main-info button {
+    padding: 0 5px;
+}
 
 /*Style cho phần miêu tả, nội dung chi tiết sản phẩm và thông số kĩ thuật*/
 .dip__container-ddc-ps .pad__dip__desc-detail-contetn {
