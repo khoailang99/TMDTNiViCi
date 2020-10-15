@@ -12,8 +12,6 @@ namespace TMDTNiViCi.Areas.admin.Models
         public List<String> mainImages { get; set; }
         public Product product { get; set; }
 
-        public Supplier supplier { get; set; }
-
         public List<ProductCategory> productCategories { get; set; }
 
         public List<PmtDetail_PmtPackage_Model> pmtDetail_PmtPackage_Models { get; set; }
