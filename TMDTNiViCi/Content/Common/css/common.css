@@ -34,7 +34,9 @@ a {
     }
 }
 /*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.2*/
-.PC-ac__container-specification-category > div, #aap__wrap-prod-list .adm__wpl__table-contain-products tbody tr {
+.PC-ac__container-specification-category > div,
+#aap__wrap-prod-list .adm__wpl__table-contain-products tbody tr,
+.mis__table-contain-main-info tbody tr {
     animation-duration: 0.001s;
     animation-name: nodeInserted;
 }
