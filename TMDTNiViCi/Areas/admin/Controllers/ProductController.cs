@@ -17,6 +17,7 @@ namespace TMDTNiViCi.Areas.admin.Controllers
         ProductDao prodDao = new ProductDao();
         ProductDetailsModel prodDetails = new ProductDetailsModel();
 
+        UserController userCtl = new UserController();
         PromotionController promotionCtl = new PromotionController();
         SupplierController supplierCtl = new SupplierController();
         CategoryController categoryCtl = new CategoryController();
@@ -83,20 +84,26 @@ namespace TMDTNiViCi.Areas.admin.Controllers
             var prod = prodDao.GetProductDao(prodId);
 
             images.Add(prod.Image);
-            prod.MoreImages.Split(delimiter).ForEach(delegate (String photoName) {
-                images.Add(prod.Image.Replace(prod.Image.Split(char.Parse("/")).Last(), photoName));
-            });
+            if(!(prod.MoreImages == null))
+            {
+                prod.MoreImages.Split(delimiter).ForEach(delegate (String photoName) {
+                    images.Add(prod.Image.Replace(prod.Image.Split(char.Parse("/")).Last(), photoName));
+                });
+            }
 
             prodDetails.mainImages = images;
             prodDetails.product = prod;
-            prodDetails.supplier = supplierCtl.GetSupplierSC(prod.SupplierID ?? default (int));
-            prodDetails.productCategories = categoryCtl.GetCategoriesCC(prod.CategoryID, prod.Category);
+            prodDetails.productCategories = prod.Category == null ? null : categoryCtl.GetCategoriesCC(prod.CategoryID, prod.Category);
             prodDetails.pmtDetail_PmtPackage_Models = promotionCtl.Get_PmtDetail_PmtPackage_PC(prod.PromotionPackageID ?? default (int));
             prodDetails.PCS_PS_Model = prodDao.Get_PCS_PS_Dao(prod.CategoryID, prod.ID);
 
             List<ProductDetailsModel> listProd = new List<ProductDetailsModel>();
             listProd.Add(prodDetails);
+
+            ViewData["ProdType"] = categoryCtl.GetProductTypeCC(prod.CategoryID).Name;
+            ViewData["Supplier"] = supplierCtl.GetSupplierSC(prod.SupplierID ?? default(int)).Name;
             ViewData["VDProdDetail"] = listProd;
+
             return PartialView("~/Areas/admin/Views/Product/PVProductDetails.cshtml", ViewData["VDProdDetail"]);
         }
 
