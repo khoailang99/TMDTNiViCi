@@ -64,42 +64,14 @@
                 data: { prodId },
                 success: function (partialViewResult) {
                     $("#modal-body__prod-details-area").html(partialViewResult);
-                    finishProgressBar();
+                    $("#modal__view-product-detail").modal('toggle');
+                    finishProgressBar(); 
                 },
                 error: function (err) {
                     console.log(err);
                     showNotification("error", "Lỗi hiển thị sản phẩm!");
                 }
             });
-        }
-
-        function activeModalShowPDetail() {
-            setTimeout(() => {
-                var galleryThumbs = new Swiper('.gallery-thumbs', {
-                    spaceBetween: 10,
-                    slidesPerView: 'auto',
-                    freeMode: true,
-                    watchSlidesVisibility: true,
-                    watchSlidesProgress: true,
-                    slideToClickedSlide: true,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    watchOverflow: true,
-                });
-                var galleryTop = new Swiper('.gallery-top', {
-                    spaceBetween: 10,
-                    mousewheel: true,
-                    thumbs: {
-                        swiper: galleryThumbs
-                    }
-                });
-
-                $('.gallery-thumbs .swiper-wrapper .swiper-slide').mouseenter(function () {
-                    galleryTop.slideTo($(this).index());
-                });
-            }, 100)
         }
     </script>
     <script src="~/Scripts/alertify.min.js"></script>
