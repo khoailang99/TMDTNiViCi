@@ -37,5 +37,10 @@ namespace TMDTNiViCi.Model.Dao
             db.SaveChanges();
             return entity.ID;
         }
+
+        public ApplicationUser GetAUserInfoDao(int id)
+        {
+            return db.ApplicationUsers.SingleOrDefault(user => user.ID == id);
+        }
     }
 }
