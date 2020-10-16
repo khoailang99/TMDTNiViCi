@@ -2,6 +2,7 @@
 
 @{
     var order = 0;
+    var prodStatus = 1; // 1: Hiển thị, 2: Ẩn, 3: Xóa, 4: Liên hệ
 }
 
 <table class="adm__wpl__table-contain-products">
@@ -50,7 +51,26 @@
                 </td>
                 <td>
                     <div class="adm__tcp__prod-status">
-                        <button type="button" class="ps__btn-status btn-primary disable-btn-default-bootstrap"> Hiển thị </button>
+                        @if (prod.Status == 1)
+                        {
+                            prodStatus = 1;
+                            <button type="button" class="ps__btn-status btn-primary disable-btn-default-bootstrap"> Hiển thị </button>
+                        }
+                        else if (prod.Status == 2)
+                        {
+                            prodStatus = 2;
+                            <button type="button" class="ps__btn-status btn-warning disable-btn-default-bootstrap"> Ẩn </button>
+                        }
+                        else if (prod.Status == 3)
+                        {
+                            prodStatus = 3;
+                            <button type="button" class="ps__btn-status btn-danger disable-btn-default-bootstrap"> Xóa</button>
+                        }
+                        else
+                        {
+                            prodStatus = 4;
+                            <button type="button" class="ps__btn-status btn-primary disable-btn-default-bootstrap"> Liên hệ </button>
+                        }
                     </div>
                 </td>
                 <td>
@@ -67,7 +87,7 @@
                             </button>
                         </div>
                         <div class="adm__delete-operation">
-                            <button type="button" class="aav__btn-delete disable-btn-default-bootstrap padding-tb-lf-5-20" data-typeAc-prodID="d+@prod.ID.ToString()" data-toggle="tooltip" data-placement="bottom" title="Xóa">
+                            <button type="button" class="aav__btn-delete disable-btn-default-bootstrap padding-tb-lf-5-20" data-typeAc-prodID="d+@prod.ID.ToString()" data-status="@prodStatus" data-toggle="tooltip" data-placement="bottom" title="Xóa">
                                 <span class="aav__btn__icon"> <i class="far fa-trash-alt"></i> </span>
                             </button>
                         </div>
