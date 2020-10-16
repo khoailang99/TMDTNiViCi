@@ -65,6 +65,13 @@ namespace TMDTNiViCi.Model.Dao
             }
         }
 
+        public long Delete(int prodId)
+        {
+            db.Products.SingleOrDefault(prod => prod.ID == prodId).Status = 3;
+            db.SaveChanges();
+            return prodId;
+        }
+
         public Product GetProductDao(int ProdID)
         {
             return db.Products.SingleOrDefault(prod => prod.ID == ProdID);
