@@ -117,9 +117,10 @@ namespace TMDTNiViCi.Areas.admin.Controllers
         }
 
         
-        public void DeleteProduct(int prodId) // Xóa sản phẩm
+        public ActionResult DeleteProduct(int prodId, int numbProd, int pageNumb) // Xóa sản phẩm
         {
-    
+            prodDao.Delete(prodId);
+            return GetProductList(numbProd, pageNumb);
         }
 
         public bool UploadFiles() // Cập nhật các file ảnh đc tải lên từ máy người dùng
