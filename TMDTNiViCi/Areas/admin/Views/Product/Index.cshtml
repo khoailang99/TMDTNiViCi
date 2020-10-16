@@ -247,6 +247,38 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- The Modal -->
+            <div class="modal" id="modal__view-product-detail">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modal Heading</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div id="modal-body__prod-details-area">
+                                @if (ViewData["VDProdDetail"] != null)
+                                {
+                                    @Html.Partial("PVProductDetails", ViewData["VDProdDetail"])
+                                }
+
+                                @*@Html.Partial("PVProductDetails")*@
+                            </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger disable-btn-default-bootstrap" data-dismiss="modal">Đóng!</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
