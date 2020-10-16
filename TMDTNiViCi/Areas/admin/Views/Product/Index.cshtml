@@ -39,14 +39,15 @@
                     $(elem).text(moment($(elem).text().trim(), moment.defaultFormat).format("DD-MM-YYYY HH:mm:ss"));
                 });
                 $(event.target).find(".adm__tcp__action button").each((index, elem) => {
+                    if (Number($(elem).attr("data-status")) == 3) { $(elem).addClass("aav__btn-disabled") }
                     elem.addEventListener("click", function () {
                         let typeAc_prodId = $(this).attr("data-typeAc-prodID");
-                        if (typeAc_prodId == null) { return; }
+                        if (Number($(elem).attr("data-status")) == 3 || typeAc_prodId == null) { return; }
                         activeProgressBar();
                         if (typeAc_prodId[0] == "s") {
                             ajaxViewProdInfo(Number(typeAc_prodId.slice(1)));
                         } else if (typeAc_prodId[0] == "d") {
-                            console.log("xoa")
+                            ajaxDeleteProd(Number(typeAc_prodId.slice(1)), Number(document.querySelector('.pnd__ip-prod-numb').value.trim()), Number($(".pa__list-page-numbers .active").attr("data-page")))
                         }
                     });
                 });
@@ -70,6 +71,23 @@
                 error: function (err) {
                     console.log(err);
                     showNotification("error", "Lỗi hiển thị sản phẩm!");
+                }
+            });
+        }
+
+        function ajaxDeleteProd(prodId, numbProd, pageNumb) {
+            $.ajax({
+                url: '/Product/DeleteProduct',
+                type: "GET",
+                data: { prodId, numbProd, pageNumb},
+                success: function (partialViewResult) {
+                    showNotification("success", "Xóa thành công!", 1);
+                    $("#aap__wrap-prod-list").html(partialViewResult);
+                    finishProgressBar();
+                },
+                error: function (err) {
+                    console.log(err);
+                    showNotification("error", "Lỗi xóa sản phẩm!");
                 }
             });
         }
@@ -158,6 +176,12 @@
                                     <li class="ls__filter-delition-status f__status-item">
                                         <input type="radio" id="si__radio-delete" name="selector" value="1">
                                         <label for="si__radio-delete" class="si__label">Xóa</label>
+                                        <div class="check"><div class="inside"></div></div>
+                                    </li>
+
+                                    <li class="ls__filter-delition-status f__status-item">
+                                        <input type="radio" id="si__radio-contact" name="selector" value="1">
+                                        <label for="si__radio-contact" class="si__label">Liên hệ</label>
                                         <div class="check"><div class="inside"></div></div>
                                     </li>
                                 </ul>
