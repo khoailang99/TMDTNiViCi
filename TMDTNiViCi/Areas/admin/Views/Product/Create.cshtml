@@ -185,7 +185,11 @@
                                         <label for="NiViCi__radio-hidden-status">Ẩn</label>
                                     </div>
                                     <div class="contains-input-radio__right-col">
-                                        @Html.RadioButtonFor(model => model.Status, 3, new { @id = "NiViCi__radio-contact-status" })
+                                        @Html.RadioButtonFor(model => model.Status, 3, new { @id = "NiViCi__radio-delete-status" })
+                                        <label for="NiViCi__radio-delete-status">Xóa</label>
+                                    </div>
+                                    <div class="contains-input-radio__right-col">
+                                        @Html.RadioButtonFor(model => model.Status, 4, new { @id = "NiViCi__radio-contact-status" })
                                         <label for="NiViCi__radio-contact-status">Liên hệ</label>
                                     </div>
                                 </div>
