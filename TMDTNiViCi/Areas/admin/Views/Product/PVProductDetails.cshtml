@@ -106,17 +106,21 @@
                         <tr>
                             <th> Trạng thái </th>
                             <td>
-                                @if (pdm.product.IsDeleted ?? default(bool))
+                                @if (pdm.product.Status == 1)
                                 {
-                                    <button type="button" class="btn btn-danger disable-btn-default-bootstrap"> Xóa </button>
+                                    <button type="button" class="ps__btn-status btn-primary disable-btn-default-bootstrap"> Hiển thị </button>
                                 }
-                                else if (pdm.product.Status == 1)
+                                else if (pdm.product.Status == 2)
                                 {
-                                    <button type="button" class="btn btn-primary disable-btn-default-bootstrap"> Hiển thị </button>
+                                    <button type="button" class="ps__btn-status btn-warning disable-btn-default-bootstrap"> Ẩn </button>
+                                }
+                                else if (pdm.product.Status == 3)
+                                {
+                                    <button type="button" class="ps__btn-status btn-danger disable-btn-default-bootstrap"> Xóa</button>
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-warning disable-btn-default-bootstrap"> Ẩn </button>
+                                    <button type="button" class="ps__btn-status btn-primary disable-btn-default-bootstrap"> Liên hệ </button>
                                 }
                             </td>
                         </tr>
