@@ -32,9 +32,9 @@ label {
     grid-template-columns: auto;
 }
 
-.contains-input-radio__left-col, .contains-input-radio__right-col {
+/*.contains-input-radio__left-col, .contains-input-radio__right-col {
     margin: 0 auto;
-}
+}*/
 
 .dip__product-status .title-radio-toggle-display-state {
     margin: 0;
@@ -299,7 +299,7 @@ label {
 
 @media screen and (min-width: 350px) {
     .NiViCi__contains-input-radio {
-        grid-template-columns: auto auto auto;
+        grid-template-columns: auto auto;
     }
 }
 
@@ -356,9 +356,9 @@ label {
         display: none;
     }
 
-    .tc__detail-info-product .PC-ac__grid-container, .tc__orther-product-info .PC-ac__grid-container {
+    /*.tc__detail-info-product .PC-ac__grid-container, .tc__orther-product-info .PC-ac__grid-container {
         grid-template-columns: 50% 50%;
-    }
+    }*/
 
     .tc__orther-product-info .ch__title-seo {
         text-align: left;
@@ -395,6 +395,12 @@ label {
     }
 }
 
+@media screen and (min-width: 500px) {
+    .tc__detail-info-product .PC-ac__grid-container, .tc__orther-product-info .PC-ac__grid-container {
+        grid-template-columns: 50% 50%;
+    }
+}
+
 @media screen and (min-width: 630px) {
     .dip__product-status {
         grid-template-columns: auto;
@@ -409,5 +415,11 @@ label {
     .csc__part-specification {
         overflow-x: hidden;
         margin-bottom: 5px;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .NiViCi__contains-input-radio {
+        grid-template-columns: auto auto auto auto;
     }
 }

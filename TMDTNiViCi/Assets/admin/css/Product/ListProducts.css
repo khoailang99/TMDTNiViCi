@@ -115,6 +115,10 @@
         text-align: center;
     }
 
+    .adm__tcp__action .aav__btn-disabled {
+        opacity: 0.4;
+    }
+
 .adm__tcp__prod-status > button {
     padding: 2px 5px;
     font-size: 14px;
@@ -234,5 +238,11 @@
 
     #modal__view-product-detail {
         padding-right: 16px !important;
+    }
+}
+
+@media screen and (min-width: 950px) {
+    .fct__list-states {
+        grid-template-columns: auto auto auto auto;
     }
 }
