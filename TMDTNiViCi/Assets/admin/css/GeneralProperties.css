@@ -2,44 +2,10 @@
     transition: 5s;
 }*/
 
-.mr-25 {
-    margin-right: 25px;
-}
-
-img {
-    width: 100%;
-    height: auto;
-}
-
 ul, ol {
     list-style: none;
     padding: 0!important;
     margin: 0!important;
-}
-
-.flex-alignment {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-button {
-    outline: none !important;
-}
-
-.flex-jc {
-    display: flex;
-    justify-content: center;
-}
-
-.flex-aic {
-    display: flex;
-    align-items: center;
-}
-
-.flex-afe {
-    display: flex;
-    align-items: flex-end;
 }
 
 #layoutSidenav_content, .NiViCi-container-tabs {
