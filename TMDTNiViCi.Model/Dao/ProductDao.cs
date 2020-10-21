@@ -43,7 +43,8 @@ namespace TMDTNiViCi.Model.Dao
                 updatedProd.Price = product.Price;
                 updatedProd.PromotionPrice = product.PromotionPrice;
                 updatedProd.SupplierID = product.SupplierID;
-                updatedProd.CreatedBy = product.CreatedBy;
+                updatedProd.UpdatedBy = product.UpdatedBy;
+                updatedProd.UpdatedDate = product.UpdatedDate;
                 updatedProd.PromotionPackageID = product.PromotionPackageID;
                 updatedProd.Category = product.Category;
                 updatedProd.Status = product.Status;
@@ -153,10 +154,9 @@ namespace TMDTNiViCi.Model.Dao
                 {
                     pcs_ps.PSModel = List_PS.Find(ps => ps.SpecificationID == pcs_ps.PCSModel.ID);
                 }
-
-                List_PCS_PS = List_PCS_PS.OrderBy(pcs_ps => pcs_ps.PCSModel.TypeSpecifications).ToList();
             }
 
+            List_PCS_PS = List_PCS_PS.OrderBy(pcs_ps => pcs_ps.PCSModel.TypeSpecifications).ToList();
             return List_PCS_PS;
 
         }
@@ -171,7 +171,7 @@ namespace TMDTNiViCi.Model.Dao
             return db.PromotionPackages.ToList();
         }
 
-        public List<ApplicationUser> GetCreatorDao()
+        public List<ApplicationUser> GetCreatorAUpdateDao()
         {
             return (from arg in db.ApplicationUserGroups
                     join au in db.ApplicationUsers
@@ -180,18 +180,82 @@ namespace TMDTNiViCi.Model.Dao
                     select au).ToList();
         }
 
-        public List<Product> GetProductListDao(int prodNumb, int pageNumb)
+        public IQueryable<Product> GetProductListDao(string firstFV, string filterValue)
         {
-            if(pageNumb == 0) // Đc thực thi khi không có phân trang nào đc click
+            IQueryable<Product> products = (!String.IsNullOrEmpty(firstFV) && String.IsNullOrEmpty(filterValue)) ? filterProductsByTypePC(firstFV) :
+                filterValue.Split(char.Parse(",")).Aggregate(filterProductsByTypePC(firstFV), (result, item) => result.Join(
+                filterProductsByTypePC(item),
+                prevProd => prevProd.ID,
+                nextProd => nextProd.ID,
+                (prevProd, nextProd) => prevProd));
+            return products;
+        }
+
+        // Lọc sản phẩm trên 1 trường cụ thể
+        public IQueryable<Product> filterProductsByTypePC(string filterValue)
+        {
+            int orderFilterType = int.Parse(filterValue[0].ToString());
+            string valFilterType = filterValue.Substring(2);
+
+            IQueryable<Product> products = Enumerable.Empty<Product>().AsQueryable();
+
+            switch (orderFilterType)
             {
-                return db.Products.Take(prodNumb).ToList();
+                case 1: // Lọc theo loại sản phẩm
+                    products = getProductsByTypeDao(int.Parse(valFilterType));
+                    break;
+                case 2: // Lọc theo nhà cung cấp
+                    products = getProductsBySupplierDao(int.Parse(valFilterType));
+                    break;
+                case 3: // Lọc theo giá tiền
+                    var priceRange = valFilterType.Split(char.Parse("-"));
+                    products = getProductsByPriceRangeDao(decimal.Parse(priceRange[0]), decimal.Parse(priceRange[1]));
+                    break;
+                case 4: // Lọc theo trạng thái
+                    products = getProductsByStatusDao(int.Parse(valFilterType));
+                    break;
+                case 5: // Lọc sản phẩm theo tên
+                    products = getProductsByNameDao(valFilterType);
+                    break;
+                default:
+                    break;
             }
-            return db.Products.Take(prodNumb * pageNumb).ToList().Skip((pageNumb - 1) * prodNumb).ToList();
+            return products;
         }
 
         public long GetTotalProductDao()
         {
             return db.Products.Count();
+        }
+
+        // Lấy danh sách sản phẩm theo loại sản phẩm
+        public IQueryable<Product> getProductsByTypeDao(int id)
+        {
+            return db.Products.Where(prod => prod.CategoryID == id);
+        }
+
+        // Lấy danh sách sản phẩm theo nhà cung cấp
+        public IQueryable<Product> getProductsBySupplierDao(int id)
+        {
+            return db.Products.Where(prod => prod.SupplierID == id);
+        }
+
+        // Lấy các sản phẩm theo khoảng giá
+        public IQueryable<Product> getProductsByPriceRangeDao(decimal lowestPrice, decimal highestPrice)
+        {
+            return db.Products.Where(prod => prod.Price >= lowestPrice && prod.Price <= highestPrice || prod.Price <= highestPrice && lowestPrice == 0 || prod.Price >= lowestPrice && highestPrice == 0);
+        }
+
+        // Lấy các sản phẩm theo trạng thái
+        public IQueryable<Product> getProductsByStatusDao(int typeStatus)
+        {
+            return db.Products.Where(prod => prod.Status == typeStatus);
+        }
+
+        // Lấy các sản phẩm theo tên sản phẩm
+        public IQueryable<Product> getProductsByNameDao(string prodName)
+        {
+            return db.Products.Where(prod => prod.Name.ToLower().Contains(prodName.ToLower()));
         }
     }
 }
