@@ -38,59 +38,12 @@
                 $(event.target).find(".datetime").each((index, elem) => {
                     $(elem).text(moment($(elem).text().trim(), moment.defaultFormat).format("DD-MM-YYYY HH:mm:ss"));
                 });
-                $(event.target).find(".adm__tcp__action button").each((index, elem) => {
-                    if (Number($(elem).attr("data-status")) == 3) { $(elem).addClass("aav__btn-disabled") }
-                    elem.addEventListener("click", function () {
-                        let typeAc_prodId = $(this).attr("data-typeAc-prodID");
-                        if (Number($(elem).attr("data-status")) == 3 || typeAc_prodId == null) { return; }
-                        activeProgressBar();
-                        if (typeAc_prodId[0] == "s") {
-                            ajaxViewProdInfo(Number(typeAc_prodId.slice(1)));
-                        } else if (typeAc_prodId[0] == "d") {
-                            ajaxDeleteProd(Number(typeAc_prodId.slice(1)), Number(document.querySelector('.pnd__ip-prod-numb').value.trim()), Number($(".pa__list-page-numbers .active").attr("data-page")))
-                        }
-                    });
-                });
             }
         };
 
         document.addEventListener("animationstart", insertListener, false); // standard + firefox
         document.addEventListener("MSAnimationStart", insertListener, false); // IE
         document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
-
-        function ajaxViewProdInfo(prodId) {
-            $.ajax({
-                url: '/Product/GetPVProductDetails',
-                type: "GET",
-                data: { prodId },
-                success: function (partialViewResult) {
-                    $("#modal-body__prod-details-area").html(partialViewResult);
-                    $("#modal__view-product-detail").modal('toggle');
-                    finishProgressBar(); 
-                },
-                error: function (err) {
-                    console.log(err);
-                    showNotification("error", "Lỗi hiển thị sản phẩm!");
-                }
-            });
-        }
-
-        function ajaxDeleteProd(prodId, numbProd, pageNumb) {
-            $.ajax({
-                url: '/Product/DeleteProduct',
-                type: "GET",
-                data: { prodId, numbProd, pageNumb},
-                success: function (partialViewResult) {
-                    showNotification("success", "Xóa thành công!", 1);
-                    $("#aap__wrap-prod-list").html(partialViewResult);
-                    finishProgressBar();
-                },
-                error: function (err) {
-                    console.log(err);
-                    showNotification("error", "Lỗi xóa sản phẩm!");
-                }
-            });
-        }
     </script>
     <script src="~/Scripts/alertify.min.js"></script>
 }
@@ -108,14 +61,19 @@
 <div class="PC-ai__list-products">
     <div class="Pc-ai__product-filter">
         <div class="pf__filter-header-container">
-            <h3 class="fhc__filter-title"> Bộ lọc </h3>
+            <div class="fhc__ft-filter_result flex-aic">
+                <h3 class="fhc__filter-title"> Bộ lọc </h3>
+                <span class="search-filter-result"></span>
+            </div>
             <div class="btn-container__btn-submit">
-                <button type="submit" class="filter-btn btn-primary disable-btn-default-bootstrap padding-tb-lf-5-20" form="PC-ai__product-filter-form"> Lọc </button>
+                <button type="reset" class="disable-btn-default-bootstrap fhc__btn-reset btn-success padding-tb-lf-5-20" form="PC-ai__product-filter-form"> Làm mới </button>
+                @*<button type="submit" class="filter-btn btn-primary disable-btn-default-bootstrap padding-tb-lf-5-20" form="PC-ai__product-filter-form"> Lọc </button>*@
+                <button type="submit" class="filter-btn btn-primary disable-btn-default-bootstrap padding-tb-lf-5-20"> Lọc </button>
             </div>
         </div>
         <div class="pf__area-contain-filter-input">
             <div class="acfi__form">
-                @using (Ajax.BeginForm("Create", "Product", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessOkie", OnFailure = "OnFailure" }, new { @id = "PC-ai__product-filter-form", @class = "grid form__values-filter-ipSelectHtml" }))
+                @using (Ajax.BeginForm("filterProductsPC", "Product", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "aap__wrap-prod-list", InsertionMode = InsertionMode.Replace }, new { @id = "PC-ai__product-filter-form", @class = "grid form__values-filter-ipSelectHtml" }))
                 {
                     <div class="form-group">
                         <label class="control-label col-md-2"> Nhóm sản phẩm </label>
@@ -125,6 +83,8 @@
                                 new AttributeProductTypeDDL("id","PC-ac__product-type-ddl"),
                                 new AttributeProductTypeDDL("data-size", "10"),
                                 new AttributeProductTypeDDL("data-live-search", "true"),
+                                new AttributeProductTypeDDL("data-max-options", "1"),
+                                new AttributeProductTypeDDL("multiple", "multiple"),
                                 new AttributeProductTypeDDL("data-width", "100%"),
                                 new AttributeProductTypeDDL("title", "Chọn loại sản phẩm"),
                             }, (List<ProductCategory>)ViewBag.CategoryID, 0)
@@ -134,7 +94,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2"> Nhà cung cấp </label>
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Supplier, null, new { @class = "selectpicker PC-actionCreate__DDL-html", @data_width = "100%", @title = "Chọn nhà cung cấp..." })
+                            @Html.DropDownListFor(model => model.Supplier, null, new { @class = "selectpicker PC-actionCreate__DDL-html", @multiple= "multiple", @data_max_options = 1, @data_width = "100%", @title = "Chọn nhà cung cấp..." })
                         </div>
                     </div>
 
@@ -144,13 +104,13 @@
                             <div class="acfi__filter-product-price grid">
                                 <div class="fpp__lowest-price">
                                     @*<label class="pf__product-filter-title-price"></label>*@
-                                    <input type="text" name="lowest_price" value="" placeholder="Giá thấp nhất" class="lp__input" />
+                                    <input type="text" name="lowest_price" value="" placeholder="Giá bán thấp nhất" class="lp__input ip-contain-only-numb" />
                                 </div>
                                 <div class="fpp__separation-lowest-highest-price text-align-center">
                                     <div class="slhp__dash pdi-top-5"><i class="fas fa-minus"></i></div>
                                 </div>
                                 <div class="fpp__highest-price">
-                                    <input type="text" name="highest-price" value="" placeholder="Giá cao nhất" class="hp__input" />
+                                    <input type="text" name="highest-price" value="" placeholder="Giá bán cao nhất" class="hp__input ip-contain-only-numb" />
                                 </div>
                             </div>
                         </div>
@@ -162,25 +122,25 @@
                             <div class="filter-container-state">
                                 <ul class="fct__list-states">
                                     <li class="ls__filter-display-status f__status-item">
-                                        <input type="radio" id="si__radio-display" name="selector" value="1" checked="checked">
+                                        <input type="radio" id="si__radio-display" name="Status" value="1" checked="checked">
                                         <label for="si__radio-display" class="si__label"> Hiển thị </label>
                                         <div class="check"></div>
                                     </li>
 
                                     <li class="ls__filter-hidden-state f__status-item">
-                                        <input type="radio" id="si__radio-hidden" name="selector" value="0">
+                                        <input type="radio" id="si__radio-hidden" name="Status" value="2">
                                         <label for="si__radio-hidden" class="si__label">Ẩn</label>
                                         <div class="check"><div class="inside"></div></div>
                                     </li>
 
                                     <li class="ls__filter-delition-status f__status-item">
-                                        <input type="radio" id="si__radio-delete" name="selector" value="1">
+                                        <input type="radio" id="si__radio-delete" name="Status" value="3">
                                         <label for="si__radio-delete" class="si__label">Xóa</label>
                                         <div class="check"><div class="inside"></div></div>
                                     </li>
 
                                     <li class="ls__filter-delition-status f__status-item">
-                                        <input type="radio" id="si__radio-contact" name="selector" value="1">
+                                        <input type="radio" id="si__radio-contact" name="Status" value="4">
                                         <label for="si__radio-contact" class="si__label">Liên hệ</label>
                                         <div class="check"><div class="inside"></div></div>
                                     </li>
@@ -197,8 +157,9 @@
             <div class="header__title-add">
                 <h3 class="td__title"> Thêm </h3>
             </div>
-            <div class="header__title-search">
+            <div class="header__title-search flex-aic">
                 <h3 class="ts__title"> Tìm kiếm </h3>
+                <span class="search-filter-result"></span>
             </div>
         </div>
         <div class="grid asp__container-add-search">
@@ -213,7 +174,7 @@
                     </button>
                 </div>
                 <div class="ad__product-numb">
-                    <span class="lsp__pn__text" data-total-product="@ViewData["VDTotalProduct"]">Sản phẩm hiện có là @ViewData["VDTotalProduct"]</span>
+                    <span class="lsp__pn__text" data-numbProdSatisFilterCond="@ViewData["VDNumbProdSatisFilterCond"]">Sản phẩm hiện có là @ViewData["VDTotalProduct"]</span>
                 </div>
             </div>
 
@@ -223,7 +184,7 @@
                     <label class="psf__label-search"> Tìm kiếm </label>
                     <div class="psf__container-input-btnSearch">
                         <div class="admin__psf__input">
-                            <input type="text" name="productName" value="" placeholder="Tên sản phẩm..." />
+                            <input type="text" name="productName" class="filter-prod-name" value="" placeholder="Tên sản phẩm..." />
                         </div>
                         <div class="admin__psf__btn-submit">
                             <button class="disable-btn-default-bootstrap admin__bs__search-btn btn-primary padding-tb-lf-5-20">
@@ -240,6 +201,10 @@
         <div class="dpl__all-availabel-products">
             <div id="aap__wrap-prod-list" class="">
                 @Html.Partial("PVProductList", ViewData["VDProductList"])
+            </div>
+
+            <div class="prod-filter-notice">
+                <p class="pfn__prod-announcement"> Không có sản phẩm nào được tìm thấy! </p>
             </div>
 
             <div class="dpl__prod-numb-displayed">
@@ -310,7 +275,7 @@
 @section jsFooter {
     <script src="~/Scripts/swiper-bundle.min.js"></script>
     <script src="~/Scripts/Common/common.js"></script>
-    <script src="~/Assets/admin/js/Product/ListProducts.js"></script>
+    <script type="module" src="~/Assets/admin/js/Product/ShowAllProducts/Index.js"></script>
 }
 
 @section ProductSpecifications {
