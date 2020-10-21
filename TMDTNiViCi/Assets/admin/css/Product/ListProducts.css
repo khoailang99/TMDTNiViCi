@@ -51,6 +51,10 @@
     margin-bottom: 5px;
 }
 
+.fhc__filter-title, .adp__header .ts__title {
+    margin-right: 10px;
+}
+
 .psf__label-search {
     margin-bottom: 2px;
     font-size: 17px;
@@ -79,7 +83,7 @@
 }
 
 #modal__view-product-detail {
-    padding-right: 0!important;
+    padding-right: 0 !important;
 }
 
 #modal__view-product-detail .modal-dialog {
