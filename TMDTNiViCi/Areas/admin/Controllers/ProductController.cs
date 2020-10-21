@@ -25,12 +25,16 @@ namespace TMDTNiViCi.Areas.admin.Controllers
 
         char delimiter = char.Parse(",");
         string mulImgFileName = "";
+        int originalDisplayProdNumb = 8;
+        int firstPage = 1;
 
         public ActionResult Index()
         {
+            IQueryable<Product> products = prodDao.GetProductListDao("4/1", null); // 4: Lọc sản phẩm theo trạng thái, 1: trạng thái hiển thị
             ViewBag.CategoryID = categoryCtl.GetAllProdTypesAndCategoriesCC(true);
             ViewBag.Supplier = new SelectList(prodDao.GetSuppliersDao(), "ID", "Name", null);
-            ViewData["VDProductList"] = prodDao.GetProductListDao(8, 0);
+            ViewData["VDProductList"] = products.Take(originalDisplayProdNumb * firstPage).OrderBy(prod => prod.ID).ToList();
+            ViewData["VDNumbProdSatisFilterCond"] = products.Count();
             ViewData["VDTotalProduct"] = prodDao.GetTotalProductDao();
             return View();
         }
@@ -45,17 +49,22 @@ namespace TMDTNiViCi.Areas.admin.Controllers
         [HttpPost, ValidateInput(false)]
         public long Create(Product product)
         {
+            product.UpdatedDate = DateTime.Now;
             if (product.ID > 0)
             {
                 return prodDao.Update(product);
             }
+
+            product.CreatedDate = DateTime.Now;
             return prodDao.Insert(product);
         }
 
         // Lấy tất cả sản phẩm từ DB
-        public ActionResult GetProductList(int numbProd, int pageNumb)
+        public ActionResult GetProductList(string firstFV, string filterValue, int numbProdDisplayed, int page)
         {
-            ViewData["VDProductList"] = prodDao.GetProductListDao(numbProd, pageNumb);
+            IQueryable<Product> products = prodDao.GetProductListDao(firstFV, filterValue);
+            ViewData["VDNumbProdSatisFilterCond"] = products.Count();
+            ViewData["VDProductList"] = products.Take(numbProdDisplayed * page).OrderBy(prod => prod.ID).Skip((page - 1) * numbProdDisplayed).ToList();
             return PartialView("~/Areas/admin/Views/Product/PVProductList.cshtml", ViewData["VDProductList"]);
         }
 
@@ -116,11 +125,10 @@ namespace TMDTNiViCi.Areas.admin.Controllers
             return View("~/Areas/admin/Views/Product/Create.cshtml", selectedPro);
         }
 
-        
-        public ActionResult DeleteProduct(int prodId, int numbProd, int pageNumb) // Xóa sản phẩm
+
+        public long DeleteProduct(int prodId) // Xóa sản phẩm
         {
-            prodDao.Delete(prodId);
-            return GetProductList(numbProd, pageNumb);
+            return prodDao.Delete(prodId);
         }
 
         public bool UploadFiles() // Cập nhật các file ảnh đc tải lên từ máy người dùng
@@ -154,7 +162,8 @@ namespace TMDTNiViCi.Areas.admin.Controllers
             ViewBag.CategoryID = categoryCtl.GetAllProdTypesAndCategoriesCC(true);
             ViewBag.SupplierID = new SelectList(prodDao.GetSuppliersDao(), "ID", "Name", null);
             ViewBag.PromotionPackageID = new SelectList(prodDao.GetPromotionPackagesDao(), "ID", "Name", null);
-            ViewBag.CreatedBy = new SelectList(prodDao.GetCreatorDao(), "ID", "FullName", null);
+            ViewBag.CreatedBy = new SelectList(prodDao.GetCreatorAUpdateDao(), "ID", "FullName", null);
+            ViewBag.UpdatedBy = new SelectList(prodDao.GetCreatorAUpdateDao(), "ID", "FullName", null);
         }
 
         public void setViewData(int PCId, int ProdId)
