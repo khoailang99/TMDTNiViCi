@@ -1,4 +1,4 @@
-﻿ @using TMDTNiViCi.Common
+﻿@using TMDTNiViCi.Common
 @using TMDTNiViCi.Model.EF
 @model TMDTNiViCi.Model.EF.Product
 
@@ -14,13 +14,6 @@
 @section jsHeader {
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
-        /*Dùng để kiểm tra xem tag html đã đc insert đến DOM chưa 1.3*/
-        function inspectDOMInsertion(insertListener) {
-            document.addEventListener("animationstart", insertListener, false); // standard + firefox
-            document.addEventListener("MSAnimationStart", insertListener, false); // IE
-            document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
-        }
-
         // Thay đổi màu nền của select chứa các loại thông số kĩ thuật trên mỗi loại thông số khác nhau
         function changeBackgroundSpeType(elem) {
             let backgrColor = "#ea9a3b";
@@ -43,7 +36,7 @@
 
 <h2 class="PC-ac__title-add-product">Thêm sản phẩm </h2>
 
-@using (Ajax.BeginForm("Create", "Product", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessOkie", OnFailure = "OnFailure" }, new { @id = "PC-actionCreate__form-add-products" }))
+@using (Ajax.BeginForm("Create", "Product", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccessWAddProdKeyInfo", OnFailure = "onFailureWAddProdKeyInfo" }, new { @id = "PC-actionCreate__form-add-products" }))
 {
     @Html.AntiForgeryToken()
     <div class="NiViCi-container-tabs">
@@ -99,16 +92,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.PromotionPackageID, "Gói khuyến mại", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10 container-preloader-bselect">
-                                <div class="preloader-1 cpBs__preloader">
-                                    <ul class="p1__cssload-loader">
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
+                                @Html.Partial("PVPreloaderFirst")
                                 @Html.DropDownListFor(model => model.PromotionPackageID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%", @title = "Chọn gói..." })
                             </div>
                         </div>
@@ -116,16 +100,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.SupplierID, "Nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10 container-preloader-bselect">
-                                <div class="preloader-1 cpBs__preloader">
-                                    <ul class="p1__cssload-loader">
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
+                                @Html.Partial("PVPreloaderFirst")
                                 @Html.DropDownListFor(model => model.SupplierID, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%", @title = "Thêm nhà cung cấp..." })
                             </div>
                         </div>
@@ -133,16 +108,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.CategoryID, "Loại sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10 container-preloader-bselect">
-                                <div class="preloader-1 cpBs__preloader">
-                                    <ul class="p1__cssload-loader">
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
+                                @Html.Partial("PVPreloaderFirst")
                                 @Html.DropDownListForWithTag("CategoryID", new List<AttributeProductTypeDDL> {
                                     new AttributeProductTypeDDL("class", "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect"),
                                     new AttributeProductTypeDDL("id","PC-ac__product-type-ddl"),
@@ -154,22 +120,26 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.CreatedBy, "Người tạo", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10 container-preloader-bselect">
-                                <div class="preloader-1 cpBs__preloader">
-                                    <ul class="p1__cssload-loader">
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
+                        @if (Model != null)
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UpdatedBy, "Người cập nhật", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10 container-preloader-bselect">
+                                    @Html.Partial("PVPreloaderFirst")
+                                    @Html.DropDownListFor(model => model.UpdatedBy, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%" })
                                 </div>
-                                @Html.DropDownListFor(model => model.CreatedBy, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%" })
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CreatedBy, "Người tạo", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10 container-preloader-bselect">
+                                    @Html.Partial("PVPreloaderFirst")
+                                    @Html.DropDownListFor(model => model.CreatedBy, null, new { @class = "selectpicker selectpicker-constant PC-actionCreate__DDL-html cpBs__BSelect", @data_width = "100%" })
+                                </div>
+                            </div>
+                        }
 
                         <div class="form-group flex-afe">
                             <div class="col-md-10 dip__product-status">
@@ -285,7 +255,7 @@
                                             @Html.TextBoxFor(model => model.Image, new { @class = "form-control d-none form-elem-tested", @id = "PC-ac__product-image" })
                                             <div class="box__upload-image">
                                                 <div class="up__btn">
-                                                    <button class="btn-primary PC-ac__btn-select-image" onclick="ckfinderSelectImg(this)"> Tải ảnh </button>
+                                                    <button class="btn-primary PC-ac__btn-select-image"> Tải ảnh </button>
                                                 </div>
                                                 <div class="ui__display-image"></div>
                                             </div>
@@ -299,14 +269,14 @@
                                             <div class="box__select-many-images">
                                                 @*@Html.TextBoxFor(model => model.MoreImages, new { @type = "file", @multiple = "multiple", @class = "form-control inputfile", @id = "PC-ac__ip-many-product-images", @onChange = "handleImageChanges()" })*@
                                                 @Html.TextBoxFor(model => model.MoreImages, new { @class = "d-none" })
-                                                <input type="file" name="moreImageSample" value="" multiple class="form-control inputfile" id="PC-ac__ip-many-product-images" onChange="handleImageChanges()" />
+                                                <input type="file" name="moreImageSample" value="" multiple class="form-control inputfile" id="PC-ac__ip-many-product-images" />
                                                 <label for="PC-ac__ip-many-product-images">
                                                     <figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" /></svg></figure>
                                                     <span class="impi__display-numb-image" data-numb-image="0" data-toggle="tooltip" data-placement="bottom" title="0 ảnh được chọn!">0 ảnh được chọn&hellip;</span>
                                                     <script>$('[data-toggle="tooltip"]').tooltip();</script>
                                                 </label>
                                             </div>
-                                            <div class="box__display-image-list" onclick="deleteUploadtedPhotos()"></div>
+                                            <div class="box__display-image-list"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -317,7 +287,7 @@
                                             @Html.TextBoxFor(model => model.SeoImage, new { @class = "form-control d-none dbrr", @id = "PC-ac__seo-image" })
                                             <div class="box__upload-image">
                                                 <div class="up__btn">
-                                                    <button class="btn-primary PC-ac__btn-select-image" onclick="ckfinderSelectImg(this)"> Tải ảnh </button>
+                                                    <button class="btn-primary PC-ac__btn-select-image"> Tải ảnh </button>
                                                 </div>
                                                 <div class="ui__display-image"></div>
                                             </div>
@@ -355,238 +325,14 @@
 }
 
 @section jsFooter {
-    <script>
-        // Lấy html của các phần tử html mà hiển thị hình ảnh chính và các hình ảnh liên quan và thêm đến vị trí tg ứng trong responsive
-        let cardContainerProImgHTML = document.querySelector(".opi__card-container-pro-img .PC-ac__grid-container");
-        let arrElemDeleted = [], arrElemDeletedRps = [];
-
-        function rpsAddRemoveElemFromDom(wd) {
-            if (wd.matches) {
-                if (cardContainerProImgHTML.childElementCount == 0 && $(".tc__detail-info-product .rps__product-image").length > 0) {
-                    console.log(" > 450 roi em e!")
-                    arrElemDeleted.splice(0, arrElemDeleted.length);
-                    Array.prototype.forEach.call(document.querySelectorAll(".rps__product-image"), function (elem) {
-                        arrElemDeleted.push(elem.parentNode.removeChild(elem));
-                    });
-                    arrElemDeleted.forEach(elem => { cardContainerProImgHTML.appendChild(elem) })
-                }
-            } else {
-                if ($(".tc__detail-info-product .rps__product-image").length == 0 && cardContainerProImgHTML.childElementCount > 0) {
-                    arrElemDeletedRps.splice(0, arrElemDeletedRps.length);
-                    while (cardContainerProImgHTML.firstElementChild) {
-                        arrElemDeletedRps.push(cardContainerProImgHTML.removeChild(cardContainerProImgHTML.firstElementChild));
-                    }
-                    $(".tc__detail-info-product .PC-ac__grid-container").append(arrElemDeletedRps[0].outerHTML + arrElemDeletedRps[1].outerHTML);
-                    $(".tc__orther-product-info .opi__card-contain-seo-info .PC-ac__grid-container").append(arrElemDeletedRps[2]);
-                }
-            }
-        }
-        let browserWindow = window.matchMedia("(min-width: 450px)");
-        rpsAddRemoveElemFromDom(browserWindow);
-        browserWindow.addListener(rpsAddRemoveElemFromDom);
-
-        // Đánh dấu đây là phần bắt buộc
-        Array.prototype.forEach.call(document.querySelectorAll(".form-elem-tested"), function (elem) {
-            $(elem).parent().prev().children(".requied-fields").text("*");
-        });
-
-        // Lấy các giá trị ban đầu của select
-        let arrConstOriginalValueSelectTag = [];
-        let optionsContainDataDBLoaded = false;
-        document.querySelectorAll(".selectpicker-constant").forEach((elem, index) => {
-            $(elem).on('loaded.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-                $(elem).parent().prev().css({ "z-index": "0"});
-                arrConstOriginalValueSelectTag.push(elem.value);
-                if (index == 3) {
-                    finishProgressBar();
-                }
-            });
-        });
-    </script>
     <script src="~/Scripts/Common/common.js"></script>
-    <script>
-        // Xử lý những phần liên quan đến cập nhật sản phẩm.
-        $(document).ready(function () {
-            // Thêm checked cho các input danh mục đã được chọn từ trước
-            addCheckedToCategoryInput();
-            function addCheckedToCategoryInput() {
-                let strCategories = document.querySelector("#Category").value;
-                if (strCategories.trim() == "") { return; }
-                document.querySelector(".cpc__bcm__category-select-btn").addEventListener("click", (e) => {
-                    document.querySelectorAll(".cpc__list-prod-categories input").forEach((elem) => {
-                        if (elem.value != "" && strCategories.search(elem.value) > 0) {
-                            elem.setAttribute("checked", "checked");
-                        }
-                    });
-                }, false);
-                document.querySelector(".cpc__bcm__notice-selected-ctg").innerHTML = strCategories.split(",").length - 2 + " danh mục được chọn";
-            }
-
-            displayMainARelatedImg();
-            function displayMainARelatedImg() {
-                if ($("#PC-ac__product-image").val().trim() == "") { return; }
-                // Hiển thị hình ảnh chính
-                $("#PC-ac__product-image").next().find(".ui__display-image").html(`<img src= ${$("#PC-ac__product-image").val()} />`);
-                // Hiển thị hình ảnh seo
-                $("#PC-ac__seo-image").next().find(".ui__display-image").html($("#PC-ac__seo-image").val() == "" ? "":`<img src= ${$("#PC-ac__seo-image").val()} />`);
-
-                // Hiển thị các hình ảnh liên quan
-                let arrAssociatedImages = $("#MoreImages").val().split(',');
-                let photoPath = $("#PC-ac__product-image").val().split('/');
-                photoPath = photoPath.slice(1, photoPath.length - 1);
-                arrAssociatedImages.forEach((value) => {
-                    $("#MoreImages").parent().next().append(`<img src="${'/' + photoPath.join('/') + '/' + value}" alt="${value}" />`);
-                });
-                updateNotiAfterUploadPhoto(arrAssociatedImages.length);
-                $('[data-toggle="tooltip"]').tooltip();
-            }
-        });
-    </script>
+    <script type="module" src="~/Assets/admin/js/Product/Create/Index.js"></script>
     <script src="~/Scripts/ckfinder/ckfinder.js"></script>
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
-    <script src="~/Scripts/alertify.min.js"></script>
     <script>
-        //Xử lý sự kiện khi chọn ảnh chính và seo
-        function ckfinderSelectImg(btn) {
-            event.preventDefault();
-            let ckfilder = new CKFinder();
-            ckfilder.selectActionFunction = function (url) {
-                $(btn).parent().parent().prev().val(url);
-                $(btn).parent().next().html(`<img src="${url}" />`);
-            };
-            ckfilder.popup();
-        }
-
-        // Hiển thị số danh mục đc chọn
-        function showNumbSelectedCategories() {
-            let count = 0, listCategories = ',';
-            document.querySelectorAll(".cpc__list-prod-categories tbody input").forEach((elem) => {
-                if (elem.checked) {
-                    ++count;
-                    listCategories += elem.value + ',';
-                }
-            });
-
-            document.querySelector("#Category").value = listCategories == ',' ? "" : listCategories;
-            document.querySelector(".cpc__bcm__notice-selected-ctg").innerHTML = count + " danh mục được chọn";
-        }
-
-        //Xử lý khi người dùng upload nhiều ảnh lên
-        let formdata = new FormData();
-        let htmlBoxContaintManyPicture = "";
-        let numbPhoto = 0, numbOriginalImg = 0, len = 0;
-        function handleImageChanges() {
-            let e = event;
-            let ipHTML = e.target;
-            let uploadedPhotoList = "";
-            htmlBoxContaintManyPicture = $(e.target).parent().next();
-            numbOriginalImg = htmlBoxContaintManyPicture.children().length;
-            numbPhoto = numbOriginalImg + e.target.files.length;
-            len = (numbPhoto > 10) ? 10 - numbOriginalImg : e.target.files.length;
-            let promisePhotoDisplay = new Promise(resolve => {
-                for (let i = 0; i < len; i++) {
-                    formdata.append(ipHTML.files[i].name, ipHTML.files[i]);
-                    uploadedPhotoList += ipHTML.files[i].name + ",";
-                    let reader = new FileReader();
-                    reader.readAsDataURL(ipHTML.files[i]);
-                    reader.onload = function (e) {
-                        $(ipHTML).parent().next().append(`<img src="${e.target.result}" alt="${ipHTML.files[i].name}" />`);
-                        if (i == len - 1) { resolve(); }
-                    };
-                }
-            });
-            promisePhotoDisplay.then(() => {
-                if (numbPhoto > 10) {
-                    document.querySelector(".box__display-image-list").innerHTML += "<span style='font-size: 18px; font-weight: 600;'> .... </span>";
-                }
-            });
-            $("#MoreImages").val(($("#MoreImages").val() == "" ? "" : ($("#MoreImages").val() + ',')) + uploadedPhotoList.substring(0, uploadedPhotoList.length - 1));
-            updateNotiAfterUploadPhoto(numbPhoto);
-            $('[data-toggle="tooltip"]').tooltip();
-        }
-        function updateNotiAfterUploadPhoto(numbPhoto) {
-            $('.box__select-many-images span').html(numbPhoto + " ảnh được chọn");
-            $(".impi__display-numb-image").attr("data-original-title", numbPhoto + " ảnh được chọn");
-            $(".impi__display-numb-image").attr("data-numb-image", numbPhoto);
-        }
-
-        // Xử lý xóa trên mỗi ảnh đc tải lên khi click
-        function deleteUploadtedPhotos() {
-            let e = event;
-            if (e.target !== e.currentTarget) {
-                let photoName = e.target.getAttribute("alt");
-                let numbImage = parseInt($(".impi__display-numb-image").attr("data-numb-image")) - 1;
-                e.currentTarget.removeChild(e.target);
-                updateNotiAfterUploadPhoto(numbImage);
-                let arrImages = $("#MoreImages").val().split(',');
-                arrImages.splice(arrImages.indexOf(photoName), 1);
-                $("#MoreImages").val(arrImages.join(","));
-                if (formdata.has(photoName)) {
-                    formdata.delete(photoName);
-                }
-            }
-        }
-
-        // Thêm thông số kỹ thuật vào db khi nhận đc ID của sản phẩm
-        function OnSuccessOkie(productID) {
-            if (productID == 0) {
-                activationOverloading("none");
-                showNotification("error", "Lỗi khi thêm sản phẩm!");
-                return;
-            }
-            var arrSpecification = [];
-            function Specification(SpecificationID, ProductID, Value, Status, IsDeleted = 0,TypeSpecifications) {
-                this.SpecificationID = SpecificationID;
-                this.ProductID = ProductID;
-                this.Value = Value;
-                this.Status = Status;
-                this.IsDeleted = IsDeleted;
-                this.TypeSpecifications = TypeSpecifications;
-            }
-            $(".PC-ac__table-specifications tbody tr").each(function (index, el) {
-                let vs = $(this).find('.tbs__value-specification');
-                arrSpecification.push(new Specification(
-                    parseInt(vs.attr('data-specification-id')),
-                    productID,
-                    vs.html(),
-                    $(this).find('.tbs__cb-display-specification').is(':checked') ? 1 : 0,
-                    $(this).find('.tbs__cb-delete-specification').is(':checked') ? 1 : 0,
-                    $(this).find(".ts__list-specifications-type").children("option:selected").val())
-                );
-            });
-
-            let specificationListJson = JSON.stringify({ specificationListParam: arrSpecification });
-
-            $.ajax({
-                url: "/Specification/InsertSpecificationsSC",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                dataType: 'JSON',
-                data: specificationListJson,
-                traditional: true,
-                success: function (response) {
-                    activationOverloading("none");
-                    if (response) {
-                        showNotification("success", "Thành công và đang chuyển hướng");
-                        setTimeout(() => {
-                            window.location.href = "/Admin/Product/Index";
-                        }, 2000)
-                    } else {
-                        showNotification("error", "Lỗi khi thêm thông số kĩ thuật!");
-                    }
-                },
-                error: function (err) {
-                    console.log(err)
-                    activationOverloading("none");
-                    showNotification("error", "Lỗi đường dẫn!");
-                }
-            });
-            //Đọc thêm ở đây: https://www.codeproject.com/Questions/1139322/Javascript-array-to-MVC-controller
-        }
-        function OnFailure(data) {
-            activationOverloading("none");
-            showNotification("error", "Lỗi hệ thống");
-        }
+        //Hiển thị các textarea thông qua CKEditor
+        CKEDITOR.replace("Description");
+        CKEDITOR.replace("Content");
     </script>
-    <script src="~/Assets/admin/js/Product/AddProduct.js"></script>
+    <script src="~/Scripts/alertify.min.js"></script>
 }
