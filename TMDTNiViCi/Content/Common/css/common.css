@@ -4,10 +4,53 @@
     position: relative;
 }
 
+.wh-100Percent {
+    width: 100%;
+    height: 100%;
+}
+
 a {
     display: block;
     color: inherit!important;
     text-decoration: none!important;
+}
+
+button {
+    outline: none !important;
+}
+
+.mr-25 {
+    margin-right: 25px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-alignment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-jc {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-aic {
+    display: flex;
+    align-items: center;
+}
+
+.flex-afe {
+    display: flex;
+    align-items: flex-end;
 }
 
 .fixed-viewport {
@@ -45,6 +88,17 @@ a {
 .trigger-error-message {
     border-color: rgb(221, 0, 0)!important;
     color: red!important;
+}
+
+/*Styles cho thông báo tìm kiếm sản phẩm*/
+.prod-filter-notice {
+    display: none;
+}
+.prod-filter-notice .pfn__prod-announcement {
+    text-align: center;
+    padding: 10px;
+    font-size: 17px;
+    font-weight: 500;
 }
 
 /*Styles cho hộp thông báo dạng tooltip*/
@@ -237,11 +291,11 @@ a {
 
 .progress__run-second-stage {
     background: #25b9c0;
-    animation: cssload-width 1s cubic-bezier(0.45, 0, 1, 1);
-    -o-animation: cssload-width 0.5s cubic-bezier(0.45, 0, 1, 1);
-    -ms-animation: cssload-width 0.5s cubic-bezier(0.45, 0, 1, 1);
-    -webkit-animation: cssload-width 1s cubic-bezier(0.45, 0, 1, 1);
-    -moz-animation: cssload-width 0.5s cubic-bezier(0.45, 0, 1, 1);
+    animation: cssload-width 0.7s cubic-bezier(0.45, 0, 1, 1);
+    -o-animation: cssload-width 0.7s cubic-bezier(0.45, 0, 1, 1);
+    -ms-animation: cssload-width 0.7s cubic-bezier(0.45, 0, 1, 1);
+    -webkit-animation: cssload-width 0.7s cubic-bezier(0.45, 0, 1, 1);
+    -moz-animation: cssload-width 0.7s cubic-bezier(0.45, 0, 1, 1);
 }
 
 .progress-shadow {
