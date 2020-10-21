@@ -170,8 +170,11 @@
     <Content Include="Assets\admin\css\Product\ProductDetails.css" />
     <Content Include="Assets\admin\css\styles.css" />
     <Content Include="Assets\admin\js\Login\AdminLogin.js" />
-    <Content Include="Assets\admin\js\Product\ListProducts.js" />
-    <Content Include="Assets\admin\js\Product\AddProduct.js" />
+    <Content Include="Assets\admin\js\Product\Create\Index.js" />
+    <Content Include="Assets\admin\js\Product\ShowAllProducts\Index.js" />
+    <Content Include="Assets\admin\js\Product\ShowAllProducts\ListProducts.js" />
+    <Content Include="Assets\admin\js\Product\Create\AddProduct.js" />
+    <Content Include="Assets\admin\js\Product\ShowAllProducts\ProductDetail.js" />
     <Content Include="Assets\admin\js\scripts.js" />
     <Content Include="Content\alertifyjs\alertify.css" />
     <Content Include="Content\alertifyjs\alertify.min.css" />
@@ -1406,6 +1409,7 @@
     <Content Include="Scripts\ckfinder\_samples\standalone.html" />
     <Content Include="Scripts\ckfinder\_samples\standalone_v1.html" />
     <Content Include="Scripts\Common\common.js" />
+    <Content Include="Scripts\Common\Pagination\Pagination.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
@@ -1676,6 +1680,7 @@
     <Content Include="Areas\admin\Views\Product\PVProductDetails.cshtml" />
     <Content Include="Areas\admin\Views\Product\GetPVProductDetails.cshtml" />
     <Content Include="Areas\admin\Views\Category\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\PVPreloaderFirst.cshtml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -1932,6 +1937,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Scripts\DemoEI\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
