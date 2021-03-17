@@ -62,4 +62,4 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-*.C linguist-detectable=true
+*.html linguist-detectable=false
