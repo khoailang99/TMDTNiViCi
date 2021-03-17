@@ -64,4 +64,5 @@
 
 
 
-*.js linguist-detectable=true
+*.css linguist-language=csharp
+
